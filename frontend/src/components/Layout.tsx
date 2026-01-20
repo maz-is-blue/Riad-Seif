@@ -29,37 +29,6 @@ export default function Layout({ children, lang, setLang, content }) {
         .font-cairo { font-family: 'Cairo', sans-serif; line-height: 1.8; }
       `}</style>
 
-      {/* Top Utility Bar */}
-      <div className="bg-[#1c3944] text-white py-2 text-xs uppercase tracking-widest">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
-          <div className="hidden sm:flex items-center gap-6">
-            <a href="mailto:info@riadseiflb.org" className="hover:text-[#f7c20e] transition-colors flex items-center gap-2">
-              <Mail size={14} /> <span className="pt-0.5">info@riadseiflb.org</span>
-            </a>
-            <span className="text-slate-500">|</span>
-            <span className="flex items-center gap-2">
-              <MapPin size={14} /> <span className="pt-0.5">{t.topBar.location}</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-4 ms-auto">
-            <div className="flex gap-3 border-e border-slate-600 pe-4 me-4">
-              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Facebook size={14} /></a>
-              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Twitter size={14} /></a>
-              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Linkedin size={14} /></a>
-            </div>
-            <div 
-              className="flex items-center gap-2 cursor-pointer hover:text-[#f7c20e] transition-colors"
-              onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
-            >
-              <Globe size={14} />
-              <span className={`font-semibold ${lang === 'en' ? 'text-[#f7c20e]' : ''}`}>EN</span>
-              <span className="text-slate-500">/</span>
-              <span className={`font-semibold ${lang === 'ar' ? 'text-[#f7c20e]' : ''}`}>AR</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navigation Header */}
       <header className="bg-white border-b-4 border-[#1c3944] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -82,6 +51,17 @@ export default function Layout({ children, lang, setLang, content }) {
                   </span>
                 </Link>
               ))}
+              
+              {/* Language Switcher */}
+              <div 
+                className="flex items-center gap-2 cursor-pointer hover:text-[#f7c20e] transition-colors text-xs font-semibold text-[#1c3944]"
+                onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+              >
+                <Globe size={16} />
+                <span className={lang === 'en' ? 'text-[#f7c20e]' : ''}>EN</span>
+                <span>/</span>
+                <span className={lang === 'ar' ? 'text-[#f7c20e]' : ''}>AR</span>
+              </div>
             </nav>
 
             {/* Mobile Menu Button */}
