@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export const content = {
@@ -15,7 +15,7 @@ export const content = {
     nav: {
       home: "Home",
       about: "About Us",
-      founder: "The Founder",
+      founder: "About Riad Seif",
       center: "Human Rights Center",
       forum: "Dialogue Forum",
       publications: "Publications",
@@ -191,7 +191,7 @@ export const content = {
     nav: {
       home: "الرئيسية",
       about: "عن المؤسسة",
-      founder: "المؤسس",
+      founder: "عن رياض سيف",
       center: "مركز حقوق الإنسان",
       forum: "منتدى الحوار",
       publications: "الإصدارات",

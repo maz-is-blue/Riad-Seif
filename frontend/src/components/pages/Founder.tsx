@@ -20,7 +20,7 @@ export default function Founder({ lang, content }) {
                   {/* Placeholder for Riad Seif Portrait */}
                   <div className="absolute inset-0 flex items-center justify-center text-slate-400 text-sm">Portrait</div>
               </div>
-              <div className="text-center text-xs text-slate-500 mt-2 italic">{isRTL ? 'رياض سيف، المؤسس' : 'Riad Seif, Founder'}</div>
+              <div className="text-center text-xs text-slate-500 mt-2 italic">{isRTL ? 'رياض سيف' : 'Riad Seif'}</div>
             </div>
             
             <p className="lead text-xl font-light text-[#1c3944] mb-8">
