@@ -1,7 +1,7 @@
 
-  # Revise Website Design
+  # Read GitHub Repository
 
-  This is a code bundle for Revise Website Design. The original project is available at https://www.figma.com/design/TOfZXVWXAaGJVtnxAHQaRK/Revise-Website-Design.
+  This is a code bundle for Read GitHub Repository. The original project is available at https://www.figma.com/design/lcVfrLiRyqpaWc9btO4CuG/Read-GitHub-Repository.
 
   ## Running the code
 
