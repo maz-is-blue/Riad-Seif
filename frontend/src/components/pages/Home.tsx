@@ -645,7 +645,7 @@ export default function Home({ lang, content }) {
               <div className="w-16 h-1 bg-[#f7c20e]"></div>
             </div>
             <p className="text-slate-500 text-sm" style={{ marginTop: '2rem' }}>
-              {lang === 'ar' ? 'رائد الإصلاح الديمقراطي' : 'Democratic Reform Pioneer'}
+              {lang === 'ar' ? 'مؤسس المؤسسة ورائد الإصلاح الديمقراطي' : 'Founder & Democratic Reform Pioneer'}
             </p>
             
             <div style={{ marginTop: '1.5rem' }}>
@@ -654,7 +654,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ scale: 1.05 }}
                   className="inline-block bg-[#1c3944] text-white px-8 py-3 text-sm font-semibold hover:bg-[#f7c20e] hover:text-[#1c3944] transition-all duration-300 cursor-pointer"
                 >
-                  {lang === 'ar' ? 'تعرف على رياض سيف' : 'Meet Riad Seif'}
+                  {lang === 'ar' ? 'تعرف على المؤسس' : 'Meet the Founder'}
                 </motion.span>
               </Link>
             </div>
