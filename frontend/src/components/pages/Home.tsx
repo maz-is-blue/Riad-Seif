@@ -1,6 +1,6 @@
 import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, Shield, Quote } from 'lucide-react';
 import { Link } from 'wouter';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 
 export default function Home({ lang, content }) {
@@ -54,14 +54,24 @@ export default function Home({ lang, content }) {
       <section 
         id="home" 
         className="relative overflow-hidden"
-        style={{ 
-          height: '92vh',
-          backgroundImage: `url(${heroImages[currentImageIndex]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
+        style={{ height: '92vh' }}
       >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={heroImages[currentImageIndex]}
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url(${heroImages[currentImageIndex]})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.9, ease: 'easeOut' }}
+          />
+        </AnimatePresence>
         {/* Gradient Shadow Overlay */}
         <div
           className="absolute inset-0 z-10"
@@ -84,7 +94,7 @@ export default function Home({ lang, content }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className={`text-white w-full lg:w-1/2 ${isRTL ? 'lg:mr-auto' : 'lg:ml-auto'} text-${isRTL ? 'right' : 'left'} py-8 lg:py-12`}
+            className={`text-white w-full lg:w-1/2 ${isRTL ? 'lg:mr-auto text-right' : 'lg:ml-auto text-left'} py-8 lg:py-12`}
           >
             <h1 className={`text-4xl lg:text-5xl xl:text-5xl ${t.serif} font-bold leading-tight mb-6 drop-shadow-lg`}>
               {t.hero.titleStart} <span className="text-[#f7c20e]">{t.hero.titleEnd}</span>
