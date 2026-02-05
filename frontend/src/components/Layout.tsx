@@ -43,7 +43,8 @@ export default function Layout({ children, lang, setLang, content }) {
               <img
                 src={logo}
                 alt="Riad Seif Foundation"
-                className="h-16 w-auto object-contain"
+                className="w-auto object-contain"
+                style={{ height: '72px' }}
               />
             </Link>
 
@@ -135,7 +136,8 @@ export default function Layout({ children, lang, setLang, content }) {
               <img
                 src={logoWhite}
                 alt="Riad Seif Foundation"
-                className="h-12 w-auto object-contain mb-6"
+                className="w-auto object-contain mb-6"
+                style={{ height: '64px' }}
               />
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
