@@ -56,7 +56,7 @@ export default function Home({ lang, content }) {
         className="relative overflow-hidden"
         style={{ height: '92vh' }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false}>
           <motion.div
             key={heroImages[currentImageIndex]}
             className="absolute inset-0"
@@ -68,7 +68,7 @@ export default function Home({ lang, content }) {
             }}
             initial={{ x: '100%' }}
             animate={{ x: '0%' }}
-            exit={{ x: '-100%' }}
+            exit={{ x: '0%' }}
             transition={{ duration: 0.8, ease: 'easeInOut' }}
           />
         </AnimatePresence>
