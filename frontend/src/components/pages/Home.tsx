@@ -66,10 +66,10 @@ export default function Home({ lang, content }) {
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat'
             }}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
+            initial={{ x: '100%' }}
+            animate={{ x: '0%' }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
           />
         </AnimatePresence>
         {/* Gradient Shadow Overlay */}
@@ -94,10 +94,10 @@ export default function Home({ lang, content }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className={`text-white w-full lg:w-1/2 ${isRTL ? 'lg:mr-auto text-right' : 'lg:ml-auto text-left'} py-8 lg:py-12`}
+            className={`text-white w-full lg:w-1/2 ${isRTL ? 'lg:ml-auto text-right' : 'lg:mr-auto text-left'} py-8 lg:py-12`}
           >
             <h1 className={`text-4xl lg:text-5xl xl:text-5xl ${t.serif} font-bold leading-tight mb-6 drop-shadow-lg`}>
-              {t.hero.titleStart} <span className="text-[#f7c20e]">{t.hero.titleEnd}</span>
+              {t.hero.titleStart}<span className="text-[#f7c20e]">{t.hero.titleEnd}</span>
             </h1>
             <p className="text-base lg:text-lg text-white leading-relaxed font-light drop-shadow-lg max-w-2xl opacity-95">
               مؤسسة رياض سيف لحقوق الإنسان هي منظمة غير حكومية وغير ربحية مقرها دمشق وتنشط في جميع أنحاء سوريا
@@ -250,7 +250,7 @@ export default function Home({ lang, content }) {
               
               <div className="space-y-4 mb-8">
                 <motion.div 
-                  className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
+                  className="flex items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -272,7 +272,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
+                  className="flex items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -294,7 +294,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}
+                  className="flex items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}

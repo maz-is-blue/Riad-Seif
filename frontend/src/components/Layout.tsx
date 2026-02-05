@@ -3,6 +3,7 @@ import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import logo from "../assets/logo.png";
+import logoWhite from "../assets/logo white.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -128,7 +129,7 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
               <img
-                src={logo}
+                src={logoWhite}
                 alt="Riad Seif Foundation"
                 className="h-10 w-auto object-contain mb-6"
               />
