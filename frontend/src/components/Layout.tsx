@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
@@ -21,6 +21,10 @@ export default function Layout({ children, lang, setLang, content }) {
     { label: t.nav.publications, href: '/publications' },
     { label: t.nav.contact, href: '/contact' }
   ];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location]);
 
   return (
     <div className={`min-h-screen bg-white ${t.font} text-slate-800 selection:bg-[#f7c20e] selection:text-[#1c3944]`} dir={t.direction}>
