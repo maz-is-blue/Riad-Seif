@@ -14,10 +14,14 @@ export default function Home({ lang, content }) {
   ];
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [prevImageIndex, setPrevImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+      setCurrentImageIndex((prevIndex) => {
+        setPrevImageIndex(prevIndex);
+        return (prevIndex + 1) % heroImages.length;
+      });
     }, 5000);
 
     return () => clearInterval(interval);
@@ -53,12 +57,28 @@ export default function Home({ lang, content }) {
       {/* Hero Section */}
       <section 
         id="home" 
-        className="relative overflow-hidden"
+        className="relative overflow-hidden bg-black"
         style={{ height: '92vh' }}
       >
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} mode="sync">
+          {prevImageIndex !== currentImageIndex && (
+            <motion.div
+              key={`prev-${prevImageIndex}-${currentImageIndex}`}
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `url(${heroImages[prevImageIndex]})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+              initial={{ x: '0%' }}
+              animate={{ x: '-100%' }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+            />
+          )}
           <motion.div
-            key={heroImages[currentImageIndex]}
+            key={`cur-${currentImageIndex}`}
             className="absolute inset-0"
             style={{
               backgroundImage: `url(${heroImages[currentImageIndex]})`,
@@ -69,7 +89,7 @@ export default function Home({ lang, content }) {
             initial={{ x: '100%' }}
             animate={{ x: '0%' }}
             exit={{ x: '0%' }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
           />
         </AnimatePresence>
         {/* Gradient Shadow Overlay */}
