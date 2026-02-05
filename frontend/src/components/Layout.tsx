@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Menu, X, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Globe } from 'lucide-react';
+import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
-import imgLogo from "../assets/logo.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,7 +34,7 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="flex justify-between items-center h-24">
             {/* Logo Section */}
             <Link href="/" className="flex items-center cursor-pointer">
-              <img src={imgLogo} alt="Riad Seif Foundation" className="h-16 object-contain" />
+              <div className="h-20 w-20 flex items-center justify-center bg-[#1c3944] text-white font-bold text-2xl">RS</div>
             </Link>
 
             {/* Desktop Nav */}
@@ -89,28 +88,46 @@ export default function Layout({ children, lang, setLang, content }) {
                    </span>
                 </Link>
               ))}
+              <div className="pt-4 border-t border-slate-700">
+                <button
+                  className="flex items-center gap-2 text-sm font-semibold text-white hover:text-[#f7c20e] transition-colors"
+                  onClick={() => {
+                    setLang(lang === 'en' ? 'ar' : 'en');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <Globe size={16} />
+                  <span className={lang === 'en' ? 'text-[#f7c20e]' : ''}>EN</span>
+                  <span>/</span>
+                  <span className={lang === 'ar' ? 'text-[#f7c20e]' : ''}>AR</span>
+                </button>
+              </div>
             </nav>
           </motion.div>
         )}
       </header>
 
       {/* Page Content */}
-      <main>
+      <motion.main
+        key={location}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
         {children}
-      </main>
+      </motion.main>
 
       {/* Footer */}
       <footer className="bg-[#0f242c] text-slate-400 py-16 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <img src={imgLogo} alt="Logo" className="h-12 w-12 opacity-50 grayscale mb-6" />
+              <div className="h-12 w-12 bg-[#f7c20e] opacity-50 mb-6 flex items-center justify-center text-[#1c3944] font-bold text-xl">RS</div>
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
               </div>
               <div className="flex gap-4">
                 <Facebook className="hover:text-white cursor-pointer transition-colors" size={20} />
-                <Twitter className="hover:text-white cursor-pointer transition-colors" size={20} />
                 <Linkedin className="hover:text-white cursor-pointer transition-colors" size={20} />
               </div>
             </div>
