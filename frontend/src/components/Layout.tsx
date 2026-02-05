@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
+import logo from "../assets/logo.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,7 +35,9 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="flex justify-between items-center h-24">
             {/* Logo Section */}
             <Link href="/" className="flex items-center cursor-pointer">
-              <div className="h-20 w-20 flex items-center justify-center bg-[#1c3944] text-white font-bold text-2xl">RS</div>
+              <div className="h-20 w-20 flex items-center justify-center bg-white border border-slate-200">
+                <img src={logo} alt="Riad Seif Foundation" className="h-16 w-16 object-contain" />
+              </div>
             </Link>
 
             {/* Desktop Nav */}
@@ -122,7 +125,9 @@ export default function Layout({ children, lang, setLang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <div className="h-12 w-12 bg-[#f7c20e] opacity-50 mb-6 flex items-center justify-center text-[#1c3944] font-bold text-xl">RS</div>
+              <div className="h-12 w-12 bg-white border border-slate-700 mb-6 flex items-center justify-center">
+                <img src={logo} alt="Riad Seif Foundation" className="h-9 w-9 object-contain" />
+              </div>
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
               </div>
