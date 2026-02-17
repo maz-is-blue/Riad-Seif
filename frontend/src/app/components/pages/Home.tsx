@@ -435,7 +435,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className="flex flex-row-reverse items-start gap-4"
+                  className="flex items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -457,7 +457,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className="flex flex-row-reverse items-start gap-4"
+                  className="flex items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
