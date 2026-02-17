@@ -413,8 +413,7 @@ export default function Home({ lang, content }) {
               
               <div className="space-y-4 mb-8">
                 <motion.div 
-                  className="flex items-start gap-4"
-                  dir="ltr"
+                  className="grid grid-cols-[40px_1fr] items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -423,7 +422,7 @@ export default function Home({ lang, content }) {
                   <div className="w-10 h-10 bg-[#f7c20e] bg-opacity-10 rounded-full flex items-center justify-center shrink-0">
                     <BookOpen className="text-[#f7c20e]" size={20} />
                   </div>
-                  <div className={isRTL ? 'text-right' : 'text-left'} style={{ flex: 1 }}>
+                  <div className={isRTL ? 'text-right' : 'text-left'}>
                     <h4 className="font-semibold text-[#1c3944] mb-1">
                       {lang === 'ar' ? 'التدريب المتخصص' : 'Specialized Training'}
                     </h4>
@@ -436,8 +435,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className="flex items-start gap-4"
-                  dir="ltr"
+                  className="grid grid-cols-[40px_1fr] items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -459,8 +457,7 @@ export default function Home({ lang, content }) {
                 </motion.div>
                 
                 <motion.div 
-                  className="flex items-start gap-4"
-                  dir="ltr"
+                  className="grid grid-cols-[40px_1fr] items-start gap-4"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
