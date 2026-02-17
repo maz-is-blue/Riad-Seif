@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
-import logo from "../assets/logo.png";
-import logoWhite from "../assets/logo white.png";
+import imgLogo from "figma:asset/462f3900dc7745a950696b40f35112b146c08fcb.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,30 +21,60 @@ export default function Layout({ children, lang, setLang, content }) {
     { label: t.nav.contact, href: '/contact' }
   ];
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [location]);
-
   return (
     <div className={`min-h-screen bg-white ${t.font} text-slate-800 selection:bg-[#f7c20e] selection:text-[#1c3944]`} dir={t.direction}>
       {/* Font Injection for Arabic */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
-        .font-cairo { font-family: 'Cairo', sans-serif; line-height: 1.8; }
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        .font-amiri { font-family: 'Amiri', serif; line-height: 1.8; }
       `}</style>
+
+      {/* Top Utility Bar */}
+      <div className="bg-[#1c3944] text-white py-2 text-xs uppercase tracking-widest">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
+          <div className="hidden sm:flex items-center gap-6">
+            <a href="mailto:info@riadseiflb.org" className="hover:text-[#f7c20e] transition-colors flex items-center gap-2">
+              <Mail size={14} /> <span className="pt-0.5">info@riadseiflb.org</span>
+            </a>
+            <span className="text-slate-500">|</span>
+            <span className="flex items-center gap-2">
+              <MapPin size={14} /> <span className="pt-0.5">{t.topBar.location}</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-4 ms-auto">
+            <div className="flex gap-3 border-e border-slate-600 pe-4 me-4">
+              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Facebook size={14} /></a>
+              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Twitter size={14} /></a>
+              <a href="#" className="hover:text-[#f7c20e] transition-colors"><Linkedin size={14} /></a>
+            </div>
+            <div 
+              className="flex items-center gap-2 cursor-pointer hover:text-[#f7c20e] transition-colors"
+              onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
+            >
+              <Globe size={14} />
+              <span className={`font-semibold ${lang === 'en' ? 'text-[#f7c20e]' : ''}`}>EN</span>
+              <span className="text-slate-500">/</span>
+              <span className={`font-semibold ${lang === 'ar' ? 'text-[#f7c20e]' : ''}`}>AR</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Main Navigation Header */}
       <header className="bg-white border-b-4 border-[#1c3944] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             {/* Logo Section */}
-            <Link href="/" className="flex items-center cursor-pointer">
-              <img
-                src={logo}
-                alt="Riad Seif Foundation"
-                className="w-auto object-contain"
-                style={{ height: '72px' }}
-              />
+            <Link href="/" className="flex items-center gap-4 cursor-pointer">
+              <img src={imgLogo} alt="Riad Seif Foundation" className="h-16 w-16 object-contain" />
+              <div className="hidden md:block">
+                <div className={`text-2xl ${t.serif} font-bold text-[#1c3944] leading-none mb-1 tracking-wide`}>
+                    {lang === 'en' ? 'RIAD SEIF' : 'مؤسسة رياض سيف'}
+                </div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#2c1d5f]">
+                    {lang === 'en' ? 'Foundation for Human Rights' : 'لحقوق الإنسان'}
+                </div>
+              </div>
             </Link>
 
             {/* Desktop Nav */}
@@ -61,17 +90,6 @@ export default function Layout({ children, lang, setLang, content }) {
                   </span>
                 </Link>
               ))}
-              
-              {/* Language Switcher */}
-              <div 
-                className="flex items-center gap-2 cursor-pointer hover:text-[#f7c20e] transition-colors text-xs font-semibold text-[#1c3944]"
-                onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
-              >
-                <Globe size={16} />
-                <span className={lang === 'en' ? 'text-[#f7c20e]' : ''}>EN</span>
-                <span>/</span>
-                <span className={lang === 'ar' ? 'text-[#f7c20e]' : ''}>AR</span>
-              </div>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -99,51 +117,28 @@ export default function Layout({ children, lang, setLang, content }) {
                    </span>
                 </Link>
               ))}
-              <div className="pt-4 border-t border-slate-700">
-                <button
-                  className="flex items-center gap-2 text-sm font-semibold text-white hover:text-[#f7c20e] transition-colors"
-                  onClick={() => {
-                    setLang(lang === 'en' ? 'ar' : 'en');
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  <Globe size={16} />
-                  <span className={lang === 'en' ? 'text-[#f7c20e]' : ''}>EN</span>
-                  <span>/</span>
-                  <span className={lang === 'ar' ? 'text-[#f7c20e]' : ''}>AR</span>
-                </button>
-              </div>
             </nav>
           </motion.div>
         )}
       </header>
 
       {/* Page Content */}
-      <motion.main
-        key={location}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-      >
+      <main>
         {children}
-      </motion.main>
+      </main>
 
       {/* Footer */}
       <footer className="bg-[#0f242c] text-slate-400 py-16 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <img
-                src={logoWhite}
-                alt="Riad Seif Foundation"
-                className="w-auto object-contain mb-6"
-                style={{ height: '64px' }}
-              />
+              <img src={imgLogo} alt="Logo" className="h-12 w-12 opacity-50 grayscale mb-6" />
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
               </div>
               <div className="flex gap-4">
                 <Facebook className="hover:text-white cursor-pointer transition-colors" size={20} />
+                <Twitter className="hover:text-white cursor-pointer transition-colors" size={20} />
                 <Linkedin className="hover:text-white cursor-pointer transition-colors" size={20} />
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export const content = {
@@ -15,7 +15,7 @@ export const content = {
     nav: {
       home: "Home",
       about: "About Us",
-      founder: "About Riad Seif",
+      founder: "The Founder",
       center: "Human Rights Center",
       forum: "Dialogue Forum",
       publications: "Publications",
@@ -37,7 +37,7 @@ export const content = {
         },
         founderSection: {
             title: "About Riad Seif",
-            text: "Riad Seif is remembered as one of Syria's most courageous voices for freedom. From the Damascus Spring to the Syrian opposition, his life story marked by sacrifice and vision continues to inspire Syrians striving for dignity.",
+            text: "Riad Seif is remembered as one of Syria’s most courageous voices for freedom. From the Damascus Spring to the Syrian opposition, his life story marked by sacrifice and vision continues to inspire Syrians striving for dignity.",
             link: "Full Biography"
         },
         newsSection: {
@@ -49,105 +49,27 @@ export const content = {
       title: "About the Foundation",
       whoWeAre: {
           title: "Who We Are",
-          text: "The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization registered in Syria, headquartered in Damascus, and working across the country. Named in tribute to Riad Seif, the Foundation, led by his daughter, lawyer Joumana Seif, transforms his personal history into a national project for justice, inclusion, and democratic renewal."
+          text: "The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization registered in Syria, headquartered in Damascus, and operating across the country. Named in honor of Riad Seif, the Foundation transforms his personal history into a national project for justice, inclusion, and democratic renewal, led by his daughter, prominent human rights lawyer Joumana Seif."
       },
       ourStory: {
           title: "Our Story",
-          text: "The Foundation was born in the aftermath of Syria's political transition as an initiative to ensure that justice, equality, and inclusion are at the heart of the country's future. By linking the struggles of the past with present-day needs, we create pathways for accountability, dialogue, and empowerment."
+          text: "Born in the wake of Syria’s political transition, the Foundation emerges as a timely initiative to ensure justice, equality, and inclusion are at the heart of the country’s future. By connecting Syria’s democratic struggles of the past with today’s urgent needs, we create pathways for accountability, dialogue, and empowerment."
       },
       vision: {
           title: "Our Vision",
-          text: "A just and democratic Syria in which all individuals, especially women and marginalized communities, can shape public life and lead sustainable peace, development, and inclusive empowerment."
+          text: "A just and democratic Syria where all individuals, especially women and marginalized communities, can shape public life and lead sustainable peace, development, and inclusive empowerment."
       },
       mission: {
           title: "Our Mission",
-          text: "To advance justice, human rights, and inclusive democratic reform in Syria by empowering civil society actors and human rights defenders, especially women, while fostering public dialogue and building a civic and legal culture rooted in Syrian values."
+          text: "To advance justice, human rights, and inclusive democratic reform in Syria by empowering local civil society actors and human rights defenders, primarily women, while fostering public dialogue and building a civic and legal culture rooted in Syrian realities and values."
       },
       approach: {
           title: "Our Approach",
           pillars: [
-              { title: "Gender Justice and Legal Empowerment", desc: "Promoting the role of women and marginalized groups; providing legal and psychosocial support and empowerment tools." },
-              { title: "Justice and Accountability Pathways", desc: "Supporting survivors through legal aid and documentation; building foundations for future accountability mechanisms." },
-              { title: "Democratic Dialogue and Civil Participation", desc: "Reviving the tradition of civil forums by reopening the National Dialogue Forum; promoting discussion, reconciliation, and civic education." },
-              { title: "Research, Policy, and Knowledge Production", desc: "Producing research and legal analysis in Arabic; promoting evidence-based policymaking." }
-          ]
-      },
-      team: {
-          title: "Our Team",
-          subtitle: "Meet the dedicated individuals working to advance human rights and democracy in Syria",
-          members: [
-              {
-                  id: 1,
-                  name: "Joumana Seif",
-                  nameAr: "جمانة سيف",
-                  role: "Executive Director",
-                  roleAr: "المديرة التنفيذية",
-                  image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Joumana Seif is a lawyer and human rights advocate, daughter of Riad Seif. She leads the foundation with a commitment to justice, women's rights, and democratic reform in Syria.",
-                  bioAr: "جمانة سيف محامية ومدافعة عن حقوق الإنسان، ابنة رياض سيف. تقود المؤسسة بالتزام تجاه العدالة وحقوق المرأة والإصلاح الديمقراطي في سوريا.",
-                  detailedBio: "Joumana Seif is a Syrian lawyer and human rights advocate who has dedicated her career to advancing justice and democratic reform in Syria. As the daughter of renowned activist Riad Seif, she grew up witnessing firsthand the struggle for human rights and democratic change. After completing her law degree, Joumana worked extensively on legal reform initiatives and gender justice programs. She founded the Riad Seif Foundation for Human Rights to honor her father's legacy and transform his vision into tangible programs that empower civil society actors, particularly women and marginalized communities. Under her leadership, the Foundation has become a leading voice in transitional justice, legal empowerment, and democratic dialogue in Syria.",
-                  detailedBioAr: "جمانة سيف محامية سورية ومدافعة عن حقوق الإنسان كرست حياتها المهنية لتعزيز العدالة والإصلاح الديمقراطي في سوريا. كابنة الناشط الشهير رياض سيف، نشأت وهي تشهد بشكل مباشر النضال من أجل حقوق الإنسان والتغيير الديمقراطي. بعد إكمال شهادتها في القانون، عملت جمانة على نطاق واسع في مبادرات الإصلاح القانوني وبرامج العدالة الجندرية. أسست مؤسسة رياض سيف لحقوق الإنسان لتكريم إرث والدها وتحويل رؤيته إلى برامج ملموسة تمكن فاعلي المجتمع المدني، وخاصة النساء والمجتمعات المهمشة. تحت قيادتها، أصبحت المؤسسة صوتاً رائداً في العدالة الانتقالية والتمكين القانوني والحوار الديمقراطي في سوريا."
-              },
-              {
-                  id: 2,
-                  name: "Ahmad Al-Hassan",
-                  nameAr: "أحمد الحسن",
-                  role: "Human Rights Program Director",
-                  roleAr: "مدير برنامج حقوق الإنسان",
-                  image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Ahmad oversees the Human Rights Center's training programs, developing curricula on transitional justice, accountability, and democratic participation.",
-                  bioAr: "يشرف أحمد على برامج التدريب في مركز حقوق الإنسان، ويطور المناهج حول العدالة الانتقالية والمساءلة والمشاركة الديمقراطية.",
-                  detailedBio: "Write a detailed paragraph about Ahmad Al-Hassan here. This will be the full biography that appears when users click on his profile.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن أحمد الحسن هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              },
-              {
-                  id: 3,
-                  name: "Layla Mahmoud",
-                  nameAr: "ليلى محمود",
-                  role: "Women's Empowerment Coordinator",
-                  roleAr: "منسقة تمكين المرأة",
-                  image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Layla leads initiatives focused on gender justice, legal empowerment, and supporting women in leadership roles within civil society.",
-                  bioAr: "تقود ليلى المبادرات المركزة على العدالة الجندرية والتمكين القانوني ودعم النساء في الأدوار القيادية داخل المجتمع المدني.",
-                  detailedBio: "Write a detailed paragraph about Layla Mahmoud here. This will be the full biography that appears when users click on her profile.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن ليلى محمود هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي."
-              },
-              {
-                  id: 4,
-                  name: "Karim Othman",
-                  nameAr: "كريم عثمان",
-                  role: "Dialogue Forum Manager",
-                  roleAr: "مدير منتدى الحوار",
-                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Karim manages the National Dialogue Forum, fostering constructive conversations on democracy, civil participation, and reconciliation.",
-                  bioAr: "يدير كريم منتدى الحوار الوطني، معززاً الحوارات البناءة حول الديمقراطية والمشاركة المدنية والمصالحة.",
-                  detailedBio: "Write a detailed paragraph about Karim Othman here. This will be the full biography that appears when users click on his profile.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن كريم عثمان هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              },
-              {
-                  id: 5,
-                  name: "Sara Khalil",
-                  nameAr: "سارة خليل",
-                  role: "Research & Policy Analyst",
-                  roleAr: "محللة الأبحاث والسياسات",
-                  image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Sara conducts research on human rights, legal reforms, and policy analysis to support evidence-based advocacy and decision-making.",
-                  bioAr: "تجري سارة أبحاثاً حول حقوق الإنسان والإصلاحات القانونية وتحليل السياسات لدعم المناصرة واتخاذ القرار القائم على الأدلة.",
-                  detailedBio: "Write a detailed paragraph about Sara Khalil here. This will be the full biography that appears when users click on her profile.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن سارة خليل هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي."
-              },
-              {
-                  id: 6,
-                  name: "Omar Najjar",
-                  nameAr: "عمر نجار",
-                  role: "Legal Support Coordinator",
-                  roleAr: "منسق الدعم القانوني",
-                  image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "Omar coordinates legal assistance programs for survivors and marginalized communities, ensuring access to justice and documentation support.",
-                  bioAr: "ينسق عمر برامج المساعدة القانونية للناجين والمجتمعات المهمشة، مضموناً الوصول إلى العدالة ودعم التوثيق.",
-                  detailedBio: "Write a detailed paragraph about Omar Najjar here. This will be the full biography that appears when users click on his profile.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن عمر نجار هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              }
+              { title: "Gender Justice & Legal Empowerment", desc: "Strengthening women and marginalized groups; providing legal support, psychosocial assistance, and empowerment tools." },
+              { title: "Justice Pathways & Accountability", desc: "Supporting survivors through legal aid and documentation; building foundations for future accountability mechanisms." },
+              { title: "Democratic Dialogue & Civic Participation", desc: "Reviving Syria’s tradition of civic forums; promoting debate, reconciliation, youth engagement, and civic education." },
+              { title: "Research, Policy & Knowledge Production", desc: "Producing Arabic-language research and legal analysis; strengthening evidence-based policymaking." }
           ]
       }
     },
@@ -184,7 +106,7 @@ export const content = {
       },
       curriculum: {
           title: "Human Rights Training Curriculum",
-          text: "Tailored to the Syrian context, covering human rights law, women's rights frameworks, transitional justice pillars (truth, justice, reparations, non-recurrence), and advocacy methodologies."
+          text: "Tailored to the Syrian context, covering human rights law, women’s rights frameworks, transitional justice pillars (truth, justice, reparations, non-recurrence), and advocacy methodologies."
       },
       training: {
           title: "Training Programs",
@@ -203,7 +125,7 @@ export const content = {
       title: "Forum for National Dialogue",
       history: {
           title: "History & Origins",
-          text: "Tied to the Damascus Spring (2000–2001), Riad Seif's original Forum hosted weekly debates on reform and freedom. Though shut down in 2001, it remained a symbol of democratic aspiration. Today, we relaunch this legacy to meet current urgent needs."
+          text: "Tied to the Damascus Spring (2000–2001), Riad Seif’s original Forum hosted weekly debates on reform and freedom. Though shut down in 2001, it remained a symbol of democratic aspiration. Today, we relaunch this legacy to meet current urgent needs."
       },
       activities: {
           title: "Current Activities",
@@ -218,7 +140,7 @@ export const content = {
       title: "Publications",
       approach: {
           title: "Our Approach to Knowledge",
-          text: "Producing practical, accessible knowledge rooted in Syrian realities. Our Arabic-language resources aim to make transitional justice concepts understandable for civil society. We highlight women's perspectives and regional experiences."
+          text: "Producing practical, accessible knowledge rooted in Syrian realities. Our Arabic-language resources aim to make transitional justice concepts understandable for civil society. We highlight women’s perspectives and regional experiences."
       },
       access: {
           title: "Access Our Work",
@@ -230,9 +152,9 @@ export const content = {
           readMore: "Read More",
       },
       items: [
-        { cat: "Report", title: "Transitional Justice Mechanisms in Post-Conflict Syria", date: "Dec 2024", desc: "A comprehensive analysis of legal frameworks required for accountability.", type: "Report" },
-        { cat: "Policy Brief", title: "Women's Role in Constitutional Reform", date: "Nov 2024", desc: "Examining the importance of women's participation in drafting the new constitution.", type: "Policy Brief" },
-        { cat: "Manual", title: "Legal Advocacy Toolkit for Practitioners", date: "Oct 2024", desc: "Practical guide for lawyers working on human rights cases.", type: "Manual" }
+        { cat: "Report", title: "Transitional Justice Mechanisms in Post-Conflict Syria", date: "Dec 2024", desc: "A comprehensive analysis of legal frameworks required for accountability." },
+        { cat: "Policy Brief", title: "Women's Role in Constitutional Reform", date: "Nov 2024", desc: "Examining the importance of women's participation in drafting the new constitution." },
+        { cat: "Manual", title: "Legal Advocacy Toolkit for Practitioners", date: "Oct 2024", desc: "Practical guide for lawyers working on human rights cases." }
       ]
     },
     contact: {
@@ -258,8 +180,8 @@ export const content = {
   },
   ar: {
     direction: "rtl",
-    font: "font-cairo",
-    serif: "font-cairo",
+    font: "font-amiri",
+    serif: "font-amiri",
     topBar: {
       location: "دمشق، سوريا",
       privacy: "سياسة الخصوصية",
@@ -269,7 +191,7 @@ export const content = {
     nav: {
       home: "الرئيسية",
       about: "عن المؤسسة",
-      founder: "عن رياض سيف",
+      founder: "المؤسس",
       center: "مركز حقوق الإنسان",
       forum: "منتدى الحوار",
       publications: "الإصدارات",
@@ -307,7 +229,7 @@ export const content = {
       },
       ourStory: {
           title: "قصتنا",
-          text: "ولدت المؤسسة في أعقاب التحول السياسي في سوريا كمبادرة لضمان أن تكون العدالة والمساواة والشمول في قلب مستقبل البلاد. من خلال ربط نضالات ال��اضي بالاحتياجات الحالية، نخلق مسارات للمساءلة والحوار والتمكين."
+          text: "ولدت المؤسسة في أعقاب التحول السياسي في سوريا كمبادرة لضمان أن تكون العدالة والمساواة والشمول في قلب مستقبل البلاد. من خلال ربط نضالات الماضي بالاحتياجات الحالية، نخلق مسارات للمساءلة والحوار والتمكين."
       },
       vision: {
           title: "رؤيتنا",
@@ -321,87 +243,9 @@ export const content = {
           title: "نهجنا",
           pillars: [
               { title: "العدالة الجندرية والتمكين القانوني", desc: "تعزيز دور النساء والفئات المهمشة؛ توفير الدعم القانوني والنفسي وأدوات التمكين." },
-              { title: "مسارات العدالة والمساءلة", desc: "دعم الناجين من خ��ال المساعدة القانونية والتوثيق؛ بناء الأسس لآليات المساءلة المستقبلية." },
+              { title: "مسارات العدالة والمساءلة", desc: "دعم الناجين من خلال المساعدة القانونية والتوثيق؛ بناء الأسس لآليات المساءلة المستقبلية." },
               { title: "الحوار الديمقراطي والمشاركة المدنية", desc: "إحياء تقليد المنتديات المدنية عبر إعادة فتح منتدى الحوار الوطني؛ تعزيز النقاش والمصالحة والتعليم المدني." },
               { title: "الأبحاث والسياسات وإنتاج المعرفة", desc: "إنتاج أبحاث وتحليلات قانونية باللغة العربية؛ تعزيز صنع السياسات القائمة على الأدلة." }
-          ]
-      },
-      team: {
-          title: "فريقنا",
-          subtitle: "تعرف على الأفراد الملتزمين يعملون على تعزيز حقوق الإنسان والديمقراطية في سوريا",
-          members: [
-              {
-                  id: 1,
-                  name: "Joumana Seif",
-                  nameAr: "جمانة سيف",
-                  role: "المديرة التنفيذية",
-                  roleAr: "المديرة التنفيذية",
-                  image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "جمانة سيف محامية ومدافعة عن حقوق الإنسان، ابنة رياض سيف. تقود المؤسسة بالتزام تجاه العدالة وحقوق المرأة والإصلاح الديمقراطي في سوريا.",
-                  bioAr: "جمانة سيف محامية ومدافعة عن حقوق الإنسان، ابنة رياض سيف. تقود المؤسسة بالتزام تجاه العدالة وحقوق المرأة والإصلاح الديمقراطي في سوريا.",
-                  detailedBio: "جمانة سيف محامية سورية ومدافعة عن حقوق الإنسان كرست حياتها المهنية لتعزيز العدالة والإصلاح الديمقراطي في سوريا. كابنة الناشط الشهير رياض سيف، نشأت وهي تشهد بشكل مباشر النضال من أجل حقوق الإنسان والتغيير الديمقراطي. بعد إكمال شهادتها في القانون، عملت جمانة على نطاق واسع في مبادرات الإصلاح القانوني وبرامج العدالة الجندرية. أسست مؤسسة رياض سيف لحقوق الإنسان لتكريم إرث والدها وتحويل رؤيته إلى برامج ملموسة تمكن فاعلي المجتمع المدني، وخاصة النساء والمجتمعات المهمشة. تحت قيادتها، أصبحت المؤسسة صوتاً رائداً في العدالة الانتقالية والتمكين القانوني والحوار الديمقراطي في سوريا.",
-                  detailedBioAr: "جمانة سيف محامية سورية ومدافعة عن حقوق الإنسان كرست حياتها المهنية لتعزيز العدالة والإصلاح الديمقراطي في سوريا. كابنة الناشط الشهير رياض سيف، نشأت وهي تشهد بشكل مباشر النضال من أجل حقوق الإنسان والتغيير الديمقراطي. بعد إكمال شهادتها في القانون، عملت جمانة على نطاق واسع في مبادرات الإصلاح القانوني وبرامج العدالة الجندرية. أسست مؤسسة رياض سيف لحقوق الإنسان لتكريم إرث والدها وتحويل رؤيته إلى برامج ملموسة تمكن فاعلي المجتمع المدني، وخاصة النساء والمجتمعات المهمشة. تحت قيادتها، أصبحت المؤسسة صوتاً رائداً في العدالة الانتقالية والتمكين القانوني والحوار الديمقراطي في سوريا."
-              },
-              {
-                  id: 2,
-                  name: "Ahmad Al-Hassan",
-                  nameAr: "أحمد الحسن",
-                  role: "مدير برنامج حقوق الإنسان",
-                  roleAr: "مدير برنامج حقوق الإنسان",
-                  image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "يشرف أحمد على برامج التدريب في مركز حقوق الإنسان، ويطور المناهج حول العدالة الانتقالية والمساءلة والمشاركة الديمقراطية.",
-                  bioAr: "يشرف أحمد على برامج التدريب في مركز حقوق الإنسان، ويطور المناهج حول العدالة الانتقالية والمساءلة والمشاركة الديمقراطية.",
-                  detailedBio: "اكتب فقرة تفصيلية عن أحمد الحسن هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن أحمد الحسن هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              },
-              {
-                  id: 3,
-                  name: "Layla Mahmoud",
-                  nameAr: "ليلى محمود",
-                  role: "منسقة تمكين المرأة",
-                  roleAr: "منسقة تمكين المرأة",
-                  image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "تقود ليلى المبادرات المركزة على العدالة الجندرية والتمكين القانوني ودعم النساء في الأدوار القيادية داخل المجتمع المدني.",
-                  bioAr: "تقود ليلى المبادرات المركزة على العدالة الجندرية والتمكين القانوني ودعم النساء في الأدوار القيادية داخل المجتمع المدني.",
-                  detailedBio: "اكتب فقرة تفصيلية عن ليلى محمود هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن ليلى محمود هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي."
-              },
-              {
-                  id: 4,
-                  name: "Karim Othman",
-                  nameAr: "كريم عثمان",
-                  role: "مدير منتدى الحوار",
-                  roleAr: "مدير منتدى الحوار",
-                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "يدير كريم منتدى الحوار الوطني، معززاً الحوارات البناءة حول الديمقراطية والمشاركة المدنية والمصالحة.",
-                  bioAr: "يدير كريم منتدى الحوار الوطني، معززاً الحوارات البناءة حول الديمقراطية والمشاركة المدنية والمصالحة.",
-                  detailedBio: "اكتب فقرة تفصيلية عن كريم عثمان هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن كريم عثمان هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              },
-              {
-                  id: 5,
-                  name: "Sara Khalil",
-                  nameAr: "سارة خليل",
-                  role: "محللة الأبحاث والسياسات",
-                  roleAr: "محللة الأبحاث والسياسات",
-                  image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "تجري سارة أبحاثاً حول حقوق الإنسان والإصلاحات القانونية وتحليل السياسات لدعم المناصرة واتخاذ القرار القائم على الأدلة.",
-                  bioAr: "تجري سارة أبحاثاً حول حقوق الإنسان والإصلاحات القانونية وتحليل السياسات لدعم المناصرة واتخاذ القرار القائم على الأدلة.",
-                  detailedBio: "اكتب فقرة تفصيلية عن سارة خليل هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن سارة خليل هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفها الشخصي."
-              },
-              {
-                  id: 6,
-                  name: "Omar Najjar",
-                  nameAr: "عمر نجار",
-                  role: "منسق الدعم القانوني",
-                  roleAr: "منسق الدعم القانوني",
-                  image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-                  bio: "ينسق عمر برامج المساعدة القانونية للناجين والمجتمعات المهمشة، مضموناً الوصول إلى العدالة ودعم التوثيق.",
-                  bioAr: "ينسق عمر برامج المساعدة القانونية للناجين والمجتمعات المهمشة، مضموناً الوصول إلى العدالة ودعم التوثيق.",
-                  detailedBio: "اكتب فقرة تفصيلية عن عمر نجار هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي.",
-                  detailedBioAr: "اكتب فقرة تفصيلية عن عمر نجار هنا. ستكون هذه السيرة الذاتية الكاملة التي تظهر عندما ينقر المستخدمون على ملفه الشخصي."
-              }
           ]
       }
     },
@@ -484,9 +328,9 @@ export const content = {
           readMore: "اقرأ المزيد",
       },
       items: [
-        { cat: "تقرير", title: "آليات العدالة الانتقالية في سوريا ما بعد النزاع", date: "ديسمبر 2024", desc: "تحليل شامل للأطر القانونية المطلوبة للمساءلة.", type: "تقرير" },
-        { cat: "ورقة سياسات", title: "دور المرأة في الإصلاح الدستوري", date: "نوفمبر 2024", desc: "دراسة أهمية مشاركة المرأة في صياغة الدستور الجديد.", type: "ورقة سياسات" },
-        { cat: "دليل", title: "مجموعة أدوات المناصرة القانونية للممارسين", date: "أكتوبر 2024", desc: "دليل عملي للمحامين العاملين في قضايا حقوق الإنسان.", type: "دليل" }
+        { cat: "تقرير", title: "آليات العدالة الانتقالية في سوريا ما بعد النزاع", date: "ديسمبر 2024", desc: "تحليل شامل للأطر القانونية المطلوبة للمساءلة." },
+        { cat: "ورقة سياسات", title: "دور المرأة في الإصلاح الدستوري", date: "نوفمبر 2024", desc: "دراسة أهمية مشاركة المرأة في صياغة الدستور الجديد." },
+        { cat: "دليل", title: "مجموعة أدوات المناصرة القانونية للممارسين", date: "أكتوبر 2024", desc: "دليل عملي للمحامين العاملين في قضايا حقوق الإنسان." }
       ]
     },
     contact: {
