@@ -32,10 +32,10 @@ export default function Layout({ children, lang, setLang, content }) {
       {/* Main Navigation Header */}
       <header className="bg-white border-b-4 border-[#1c3944] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
+          <div className="flex justify-between items-center py-4">
             {/* Logo Section */}
             <Link href="/" className="flex items-center cursor-pointer">
-              <img src={logo} alt="Riad Seif Foundation logo" className="h-18 w-18 object-contain" />
+              <img src={logo} alt="Riad Seif Foundation logo" className="h-28 w-auto object-contain" />
             </Link>
 
             {/* Desktop Nav */}
@@ -123,7 +123,7 @@ export default function Layout({ children, lang, setLang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <img src={logo} alt="Riad Seif Foundation logo" className="h-18 w-18 object-contain mb-6" />
+              <img src={logo} alt="Riad Seif Foundation logo" className="h-24 w-auto object-contain mb-6" />
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
               </div>
