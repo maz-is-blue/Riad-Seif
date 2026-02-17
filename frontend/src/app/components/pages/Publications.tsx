@@ -1,6 +1,7 @@
 import { ChevronRight, ChevronLeft, ArrowRight, ArrowLeft, FileText, Download, Eye, Filter } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchPublications, type Publication } from '../../utils/api';
 
 export default function Publications({ lang, content }) {
   const t = content[lang];
@@ -9,20 +10,81 @@ export default function Publications({ lang, content }) {
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
   const [filter, setFilter] = useState('all');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [apiPublications, setApiPublications] = useState<Publication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const categories = ['all', 'Report', 'Policy Brief', 'Manual', 'Archive'];
+  useEffect(() => {
+    let isMounted = true;
+
+    const load = async () => {
+      try {
+        const data = await fetchPublications();
+        if (isMounted) {
+          setApiPublications(data);
+        }
+      } catch {
+        // Fall back to static content if backend is unavailable.
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const categories = ['all', 'Report', 'Policy Brief', 'Manual', 'Research', 'Article', 'Archive'];
   const categoryLabels = {
     'all': lang === 'ar' ? 'الكل' : 'All',
     'Report': lang === 'ar' ? 'تقرير' : 'Report',
     'Policy Brief': lang === 'ar' ? 'ورقة سياسات' : 'Policy Brief',
     'Manual': lang === 'ar' ? 'دليل' : 'Manual',
+    'Research': lang === 'ar' ? 'بحث' : 'Research',
+    'Article': lang === 'ar' ? 'مقال' : 'Article',
     'Archive': lang === 'ar' ? 'أرشيف' : 'Archive'
   };
 
+  const apiCategoryMap: Record<string, string> = {
+    report: 'Report',
+    policy_brief: 'Policy Brief',
+    manual: 'Manual',
+    research: 'Research',
+    article: 'Article',
+  };
+
+  const dynamicItems = useMemo(() => {
+    if (!apiPublications.length) {
+      return t.publications.items;
+    }
+
+    return apiPublications.map((item) => {
+      const englishType = apiCategoryMap[item.category] ?? item.category;
+      const [displayEn, displayAr] = item.category_display.split('/').map((part) => part.trim());
+      const categoryLabel = lang === 'ar' ? (displayAr ?? englishType) : (displayEn ?? englishType);
+      const publishedDate = new Date(item.published_date);
+
+      return {
+        cat: categoryLabel,
+        title: lang === 'ar' ? item.title_ar : item.title_en,
+        date: publishedDate.toLocaleDateString(lang === 'ar' ? 'ar' : 'en', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }),
+        desc: lang === 'ar' ? item.description_ar : item.description_en,
+        type: englishType,
+      };
+    });
+  }, [apiPublications, lang, t.publications.items]);
+
   // Filter publications based on selected category
   const filteredPublications = filter === 'all' 
-    ? t.publications.items 
-    : t.publications.items.filter(item => item.type === filter || item.cat === filter);
+    ? dynamicItems
+    : dynamicItems.filter(item => item.type === filter || item.cat === filter);
 
   return (
     <section className="py-24 bg-gradient-to-b from-[#1c3944] via-[#254b59] to-[#1c3944] text-white min-h-screen relative overflow-hidden">
@@ -112,6 +174,11 @@ export default function Publications({ lang, content }) {
         </motion.div>
 
         {/* Publications Grid */}
+        {isLoading && (
+          <div className="mb-8 text-sm text-slate-300">
+            {lang === 'ar' ? 'جارٍ تحميل الإصدارات...' : 'Loading publications...'}
+          </div>
+        )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPublications.map((item, i) => (
             <motion.div

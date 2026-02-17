@@ -29,7 +29,7 @@ npm install
 npm run build
 ```
 
-The build output will be in `frontend/build/`
+The build output will be in `frontend/dist/`
 
 ### 3. Push Changes
 
@@ -47,10 +47,8 @@ After the GitHub Actions workflow completes (usually takes 2-3 minutes), your si
 
 ## Important Notes
 
-- The base path is set to `/Riad-Seif/` in `vite.config.ts`
-- All routes will work correctly with the base path
-- The 404.html file handles SPA routing for GitHub Pages
-- The site will automatically rebuild on every push to `main`
+- The base path is set automatically in GitHub Actions using the repository name.
+- The site will automatically rebuild on every push to `main`.
 
 ## Troubleshooting
 

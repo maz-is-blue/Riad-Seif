@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { submitContact } from '../../utils/api';
 
 export default function Contact({ lang, content }) {
   const t = content[lang];
@@ -8,14 +9,41 @@ export default function Contact({ lang, content }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [focused, setFocused] = useState({ name: false, email: false, message: false });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
+
+    if (formData.message.trim().length < 10) {
+      setSubmitError(lang === 'ar' ? 'الرسالة يجب أن تكون 10 أحرف على الأقل.' : 'Message must be at least 10 characters.');
+      return;
+    }
+
+    setSubmitError(null);
+    setIsSubmitting(true);
+
+    try {
+      await submitContact({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        message: formData.message.trim(),
+      });
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', message: '' });
+      }, 3000);
+    } catch {
+      setSubmitError(
+        lang === 'ar'
+          ? 'تعذر إرسال الرسالة الآن. يرجى المحاولة لاحقاً.'
+          : 'Unable to send your message right now. Please try again later.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -171,6 +199,11 @@ export default function Contact({ lang, content }) {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                     {submitError && (
+                       <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                         {submitError}
+                       </div>
+                     )}
                      {[
                        { name: 'name', label: lang === 'ar' ? 'الاسم' : 'Name', type: 'text' },
                        { name: 'email', label: lang === 'ar' ? 'البريد الإلكتروني' : 'Email', type: 'email' },
@@ -195,6 +228,7 @@ export default function Contact({ lang, content }) {
                             }}
                             className="w-full border-2 p-3 rounded-lg focus:outline-none transition-all duration-300"
                             whileFocus={{ scale: 1.01 }}
+                            required
                           />
                        </motion.div>
                      ))}
@@ -218,6 +252,7 @@ export default function Contact({ lang, content }) {
                           }}
                           className="w-full border-2 p-3 rounded-lg focus:outline-none transition-all duration-300 resize-none"
                           whileFocus={{ scale: 1.01 }}
+                          required
                         />
                      </motion.div>
                      
@@ -229,6 +264,7 @@ export default function Contact({ lang, content }) {
                        initial={{ opacity: 0 }}
                        animate={{ opacity: 1 }}
                        transition={{ delay: 0.4 }}
+                       disabled={isSubmitting}
                      >
                         <motion.span
                           className="absolute inset-0 bg-[#f7c20e]"
@@ -236,7 +272,9 @@ export default function Contact({ lang, content }) {
                           whileHover={{ x: 0 }}
                           transition={{ duration: 0.3 }}
                         />
-                        <span className="relative z-10">{lang === 'ar' ? 'إرسال' : 'Send'}</span>
+                        <span className="relative z-10">
+                          {isSubmitting ? (lang === 'ar' ? 'جارٍ الإرسال...' : 'Sending...') : (lang === 'ar' ? 'إرسال' : 'Send')}
+                        </span>
                         <Send size={18} className="relative z-10" />
                      </motion.button>
                   </form>
