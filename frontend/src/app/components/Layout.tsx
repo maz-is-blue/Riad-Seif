@@ -45,7 +45,7 @@ export default function Layout({ children, lang, setLang, content }) {
                   key={link.label}
                   href={link.href} 
                 >
-                  <span className={`text-[#1c3944] font-medium text-sm uppercase tracking-wider hover:text-[#f7c20e] transition-colors py-2 relative group cursor-pointer ${lang === 'ar' ? 'font-bold' : ''} ${location === link.href ? 'text-[#f7c20e]' : ''}`}>
+                  <span className={`text-[#1c3944] font-medium text-sm uppercase tracking-wider whitespace-nowrap hover:text-[#f7c20e] transition-colors py-2 relative group cursor-pointer ${lang === 'ar' ? 'font-bold' : ''} ${location === link.href ? 'text-[#f7c20e]' : ''}`}>
                     {link.label}
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-[#f7c20e] transition-all duration-300 ${location === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                   </span>
