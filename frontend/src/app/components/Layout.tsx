@@ -3,6 +3,7 @@ import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/logo.png";
+import logoWhite from "../../assets/logo white.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,7 +39,7 @@ export default function Layout({ children, lang, setLang, content }) {
               <img
                 src={logo}
                 alt="Riad Seif Foundation logo"
-                className={`${lang === 'en' ? 'h-24' : 'h-24'} w-auto object-contain`}
+                className="h-28 w-auto object-contain"
               />
             </Link>
 
@@ -128,9 +129,9 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
               <img
-                src={logo}
+                src={logoWhite}
                 alt="Riad Seif Foundation logo"
-                className={`${lang === 'en' ? 'h-20' : 'h-20'} w-auto object-contain mb-6`}
+                className="h-20 w-auto object-contain mb-6"
               />
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
