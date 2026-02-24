@@ -39,12 +39,12 @@ export default function Layout({ children, lang, setLang, content }) {
               <img
                 src={logo}
                 alt="Riad Seif Foundation logo"
-                className="h-28 w-auto object-contain"
+                className={`${lang === 'en' ? 'h-32 scale-110' : 'h-28'} w-auto object-contain origin-left`}
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-10">
+            <nav className={`hidden lg:flex items-center gap-10 ${lang === 'en' ? 'pl-8' : 'pr-4'}`}>
               {navLinks.map((link) => (
                 <Link 
                   key={link.label}
