@@ -35,7 +35,7 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="flex justify-between items-center py-4">
             {/* Logo Section */}
             <Link href="/" className="flex items-center cursor-pointer">
-              <img src={logo} alt="Riad Seif Foundation logo" className="h-22 w-auto object-contain" />
+              <img src={logo} alt="Riad Seif Foundation logo" className="h-24 w-auto object-contain" />
             </Link>
 
             {/* Desktop Nav */}
@@ -123,7 +123,7 @@ export default function Layout({ children, lang, setLang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-1">
-              <img src={logo} alt="Riad Seif Foundation logo" className="h-18 w-auto object-contain mb-6" />
+              <img src={logo} alt="Riad Seif Foundation logo" className="h-20 w-auto object-contain mb-6" />
               <div className="text-sm leading-relaxed mb-6">
                 {t.footer.desc}
               </div>
