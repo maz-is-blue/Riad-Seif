@@ -35,16 +35,19 @@ export default function Layout({ children, lang, setLang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             {/* Logo Section */}
-            <Link href="/" className="flex items-center cursor-pointer">
+            <Link
+              href="/"
+              className={`flex items-center cursor-pointer ${lang === 'en' ? 'w-[320px]' : 'w-[300px]'}`}
+            >
               <img
                 src={logo}
                 alt="Riad Seif Foundation logo"
-                className={`${lang === 'en' ? 'h-20 scale-[1.5]' : 'h-24 scale-110'} w-auto object-contain origin-left`}
+                className="h-24 w-auto object-contain"
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className={`hidden lg:flex items-center gap-10 ${lang === 'en' ? 'pl-10' : 'pr-4'}`}>
+            <nav className={`hidden lg:flex items-center gap-10 ${lang === 'en' ? 'pl-4' : 'pr-4'}`}>
               {navLinks.map((link) => (
                 <Link 
                   key={link.label}
