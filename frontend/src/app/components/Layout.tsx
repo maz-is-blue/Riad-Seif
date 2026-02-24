@@ -33,24 +33,24 @@ export default function Layout({ children, lang, setLang, content }) {
       {/* Main Navigation Header */}
       <header className="bg-white border-b-4 border-[#1c3944] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center h-24">
             {/* Logo Section */}
             <Link href="/" className="flex items-center cursor-pointer">
               <img
                 src={logo}
                 alt="Riad Seif Foundation logo"
-                className={`${lang === 'en' ? 'h-32 scale-110' : 'h-28'} w-auto object-contain origin-left`}
+                className={`${lang === 'en' ? 'h-20 scale-[1.5]' : 'h-24 scale-110'} w-auto object-contain origin-left`}
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className={`hidden lg:flex items-center gap-10 ${lang === 'en' ? 'pl-8' : 'pr-4'}`}>
+            <nav className={`hidden lg:flex items-center gap-10 ${lang === 'en' ? 'pl-10' : 'pr-4'}`}>
               {navLinks.map((link) => (
                 <Link 
                   key={link.label}
                   href={link.href} 
                 >
-                  <span className={`text-[#1c3944] font-medium text-sm uppercase tracking-wider whitespace-nowrap hover:text-[#f7c20e] transition-colors py-2 relative group cursor-pointer ${lang === 'ar' ? 'font-bold' : ''} ${location === link.href ? 'text-[#f7c20e]' : ''}`}>
+                  <span className={`text-[#1c3944] font-medium ${lang === 'en' ? 'text-xs' : 'text-sm'} uppercase tracking-wider whitespace-nowrap hover:text-[#f7c20e] transition-colors py-2 relative group cursor-pointer ${lang === 'ar' ? 'font-bold' : ''} ${location === link.href ? 'text-[#f7c20e]' : ''}`}>
                     {link.label}
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-[#f7c20e] transition-all duration-300 ${location === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                   </span>
