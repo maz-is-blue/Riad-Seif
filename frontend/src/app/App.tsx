@@ -9,6 +9,7 @@ import Center from "./components/pages/Center";
 import Forum from "./components/pages/Forum";
 import Publications from "./components/pages/Publications";
 import Contact from "./components/pages/Contact";
+import Terms from "./components/pages/Terms";
 import { content } from "./utils/content";
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/forum" component={() => <Forum {...props} />} />
           <Route path="/publications" component={() => <Publications {...props} />} />
           <Route path="/contact" component={() => <Contact {...props} />} />
+          <Route path="/terms" component={() => <Terms {...props} />} />
           
           {/* Fallback to Home */}
           <Route component={() => <Home {...props} />} />

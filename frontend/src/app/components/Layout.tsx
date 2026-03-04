@@ -7,6 +7,7 @@ import logoWhite from "../../assets/logo white.png";
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
   const [location] = useLocation();
 
   const isRTL = lang === 'ar';
@@ -189,11 +190,73 @@ export default function Layout({ children, lang, setLang, content }) {
             <div>&copy; 2024 {isRTL ? 'مؤسسة رياض سيف' : 'Riad Seif Foundation'}. {t.topBar.rights}</div>
             <div className="flex gap-8">
               <a href="#" className="hover:text-white transition-colors">{t.topBar.privacy}</a>
-              <a href="#" className="hover:text-white transition-colors">{t.topBar.terms}</a>
+              <button
+                type="button"
+                className="hover:text-white transition-colors"
+                onClick={() => setTermsOpen(true)}
+              >
+                {t.topBar.terms}
+              </button>
             </div>
           </div>
         </div>
       </footer>
+
+      {termsOpen && (
+        <div
+          className="fixed inset-0 z-[70] bg-black/60 flex items-center justify-center p-4"
+          onClick={() => setTermsOpen(false)}
+        >
+          <div
+            className="w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-white rounded-2xl shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+              <h3 className={`text-2xl ${t.serif} text-[#1c3944]`}>{t.topBar.terms}</h3>
+              <button
+                type="button"
+                onClick={() => setTermsOpen(false)}
+                className="text-slate-500 hover:text-slate-900"
+                aria-label={lang === "ar" ? "إغلاق" : "Close"}
+              >
+                <X size={22} />
+              </button>
+            </div>
+            <div className="p-6 text-slate-700 leading-8 space-y-4">
+              <p>
+                {lang === "ar"
+                  ? "باستخدامك لهذا الموقع، فإنك توافق على شروط الاستخدام والسياسات ذات الصلة. تم إعداد هذه الشروط لحماية المستخدمين وتنظيم استخدام المحتوى."
+                  : "By using this website, you agree to our Terms of Service and related policies. These terms are designed to protect users and govern the use of website content."}
+              </p>
+              <p>
+                {lang === "ar"
+                  ? "يحظر إعادة نشر أو استخدام المحتوى لأغراض تجارية دون إذن خطي مسبق. قد نقوم بتحديث الشروط من وقت لآخر، واستمرار الاستخدام يعني موافقتك على التحديثات."
+                  : "You may not republish or use content for commercial purposes without prior written consent. We may update these terms over time, and continued use means acceptance of updates."}
+              </p>
+              <p className="text-sm text-slate-500">
+                {lang === "ar" ? "آخر تحديث: 4 مارس 2026" : "Last updated: March 4, 2026"}
+              </p>
+            </div>
+            <div className="p-6 border-t border-slate-200 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100"
+                onClick={() => setTermsOpen(false)}
+              >
+                {lang === "ar" ? "إغلاق" : "Close"}
+              </button>
+              <Link href="/terms">
+                <span
+                  className="px-4 py-2 rounded-lg bg-[#1c3944] text-white hover:bg-[#122c35] inline-block cursor-pointer"
+                  onClick={() => setTermsOpen(false)}
+                >
+                  {lang === "ar" ? "عرض الشروط كاملة" : "View full Terms"}
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
