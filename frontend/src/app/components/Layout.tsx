@@ -189,7 +189,6 @@ export default function Layout({ children, lang, setLang, content }) {
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs uppercase tracking-widest">
             <div>&copy; 2024 {isRTL ? 'مؤسسة رياض سيف' : 'Riad Seif Foundation'}. {t.topBar.rights}</div>
             <div className="flex gap-8">
-              <a href="#" className="hover:text-white transition-colors">{t.topBar.privacy}</a>
               <button
                 type="button"
                 className="hover:text-white transition-colors"
@@ -225,13 +224,35 @@ export default function Layout({ children, lang, setLang, content }) {
             <div className="p-6 text-slate-700 leading-8 space-y-4">
               <p>
                 {lang === "ar"
-                  ? "باستخدامك لهذا الموقع، فإنك توافق على شروط الاستخدام والسياسات ذات الصلة. تم إعداد هذه الشروط لحماية المستخدمين وتنظيم استخدام المحتوى."
-                  : "By using this website, you agree to our Terms of Service and related policies. These terms are designed to protect users and govern the use of website content."}
+                  ? "باستخدامك لهذا الموقع فإنك توافق على شروط الاستخدام. هذا الملخص يوضح النقاط الأساسية، بينما تتوفر الصيغة القانونية الكاملة في صفحة الشروط."
+                  : "By using this website, you agree to our Terms of Service. This popup provides a quick summary, and the full legal text is available on the Terms page."}
               </p>
-              <p>
+              <ul className="list-disc ps-6 space-y-2 text-sm md:text-base">
+                <li>
+                  {lang === "ar"
+                    ? "المحتوى مخصص للاستخدام المعلوماتي وغير التجاري، ما لم يتم منح موافقة خطية مسبقة."
+                    : "Content is provided for informational and non-commercial use unless prior written approval is granted."}
+                </li>
+                <li>
+                  {lang === "ar"
+                    ? "يُمنع أي استخدام يسبب ضرراً للموقع أو محاولة وصول غير مصرح به."
+                    : "Any harmful use of the site or unauthorized access attempts are prohibited."}
+                </li>
+                <li>
+                  {lang === "ar"
+                    ? "قد نحدّث الشروط من وقت لآخر، ويُعد استمرار الاستخدام قبولاً للإصدار الأحدث."
+                    : "We may update these terms from time to time; continued use means acceptance of the latest version."}
+                </li>
+                <li>
+                  {lang === "ar"
+                    ? "قد يتضمن الموقع روابط خارجية ولا نتحمل مسؤولية محتوى أو سياسات تلك الجهات."
+                    : "The site may include external links, and we are not responsible for third-party content or policies."}
+                </li>
+              </ul>
+              <p className="text-sm text-slate-600">
                 {lang === "ar"
-                  ? "يحظر إعادة نشر أو استخدام المحتوى لأغراض تجارية دون إذن خطي مسبق. قد نقوم بتحديث الشروط من وقت لآخر، واستمرار الاستخدام يعني موافقتك على التحديثات."
-                  : "You may not republish or use content for commercial purposes without prior written consent. We may update these terms over time, and continued use means acceptance of updates."}
+                  ? "للتفاصيل الكاملة المتعلقة بالحقوق، المسؤولية، القانون الناظم، وآلية التواصل، اضغط على \"عرض الشروط كاملة\"."
+                  : "For complete details on rights, liabilities, governing law, and contact information, select \"View full Terms\"."}
               </p>
               <p className="text-sm text-slate-500">
                 {lang === "ar" ? "آخر تحديث: 4 مارس 2026" : "Last updated: March 4, 2026"}
@@ -260,3 +281,5 @@ export default function Layout({ children, lang, setLang, content }) {
     </div>
   );
 }
+
+

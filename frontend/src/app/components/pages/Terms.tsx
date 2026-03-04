@@ -8,45 +8,129 @@ export default function Terms({ lang, content }) {
       ? [
           {
             title: "قبول الشروط",
-            body: "باستخدامك لهذا الموقع، فإنك توافق على الالتزام بهذه الشروط والقوانين المعمول بها. إذا كنت لا توافق على أي جزء من هذه الشروط، يرجى عدم استخدام الموقع.",
+            paragraphs: [
+              "باستخدام هذا الموقع، فإنك تقر بأنك قرأت شروط الاستخدام هذه وفهمتها وتوافق على الالتزام بها.",
+              "إذا كنت لا توافق على أي جزء من هذه الشروط، يجب عليك التوقف عن استخدام الموقع فوراً.",
+            ],
           },
           {
-            title: "استخدام المحتوى",
-            body: "جميع النصوص والمواد المنشورة لأغراض معرفية وتوعوية. لا يجوز إعادة نشر المحتوى أو نسخه لأغراض تجارية دون موافقة خطية مسبقة.",
+            title: "الغرض من الموقع",
+            paragraphs: [
+              "يقدم الموقع محتوى حقوقي وتوعوي وإعلامي متعلق بعمل المؤسسة وبرامجها.",
+              "لا يشكل أي محتوى على الموقع استشارة قانونية فردية أو تمثيلاً قانونياً مباشراً.",
+            ],
           },
           {
-            title: "روابط خارجية",
-            body: "قد يحتوي الموقع على روابط لمواقع خارجية. نحن غير مسؤولين عن محتوى أو سياسات الخصوصية في تلك المواقع.",
+            title: "الاستخدام المسموح والممنوع",
+            paragraphs: [
+              "يُسمح باستخدام الموقع للأغراض الشخصية أو البحثية أو الإعلامية المشروعة فقط.",
+              "يُمنع إساءة استخدام الموقع، أو محاولة اختراقه، أو نشر برمجيات ضارة، أو جمع بيانات المستخدمين دون تفويض.",
+            ],
           },
           {
-            title: "تحديد المسؤولية",
-            body: "نحن نبذل جهدًا معقولًا لضمان دقة المعلومات، لكننا لا نقدم ضمانًا كاملًا لعدم وجود أخطاء أو انقطاعات في الخدمة.",
+            title: "الملكية الفكرية",
+            paragraphs: [
+              "جميع النصوص والصور والمواد المنشورة مملوكة للمؤسسة أو مرخصة لها ما لم يذكر خلاف ذلك.",
+              "لا يجوز نسخ أو إعادة نشر المحتوى لأغراض تجارية دون إذن خطي مسبق.",
+            ],
           },
           {
-            title: "التعديلات",
-            body: "يحق لنا تعديل هذه الشروط في أي وقت. استمرارك في استخدام الموقع بعد نشر التعديلات يعني موافقتك على النسخة المحدثة.",
+            title: "الروابط الخارجية وخدمات الغير",
+            paragraphs: [
+              "قد يتضمن الموقع روابط لمواقع خارجية لغايات مرجعية.",
+              "لا تتحمل المؤسسة مسؤولية محتوى أو ممارسات الخصوصية أو دقة المعلومات في تلك المواقع.",
+            ],
+          },
+          {
+            title: "إخلاء المسؤولية",
+            paragraphs: [
+              "نسعى لتقديم معلومات دقيقة ومحدثة، لكننا لا نضمن خلو الموقع من الأخطاء أو الانقطاعات التقنية.",
+              "يتم استخدام الموقع على مسؤوليتك الخاصة، وتُقدَّم الخدمات والمحتوى كما هي.",
+            ],
+          },
+          {
+            title: "حدود المسؤولية",
+            paragraphs: [
+              "إلى أقصى حد يسمح به القانون، لا تتحمل المؤسسة أي مسؤولية عن أي خسائر مباشرة أو غير مباشرة ناتجة عن استخدام الموقع أو عدم القدرة على استخدامه.",
+            ],
+          },
+          {
+            title: "التعديلات والإنهاء",
+            paragraphs: [
+              "يجوز لنا تعديل هذه الشروط في أي وقت، ويصبح التعديل نافذاً فور نشره على هذه الصفحة.",
+              "يجوز للمؤسسة تقييد أو تعليق الوصول إلى الموقع في حال وجود إساءة استخدام أو متطلبات تشغيلية.",
+            ],
+          },
+          {
+            title: "القانون الناظم والتواصل",
+            paragraphs: [
+              "تخضع هذه الشروط للقوانين الواجبة التطبيق وفق إطار عمل المؤسسة القانوني.",
+              "لأي استفسار بخصوص شروط الاستخدام، يرجى التواصل عبر القنوات الرسمية المنشورة في صفحة التواصل.",
+            ],
           },
         ]
       : [
           {
             title: "Acceptance of Terms",
-            body: "By using this website, you agree to comply with these terms and applicable laws. If you do not agree with any part of these terms, do not use the website.",
+            paragraphs: [
+              "By accessing or using this website, you confirm that you have read, understood, and agreed to these Terms of Service.",
+              "If you do not agree with any part of these terms, you must stop using the website immediately.",
+            ],
           },
           {
-            title: "Use of Content",
-            body: "All published materials are provided for educational and informational purposes. You may not reproduce or republish content for commercial use without prior written permission.",
+            title: "Purpose of the Website",
+            paragraphs: [
+              "This website provides human-rights related informational, advocacy, and institutional content about the foundation and its programs.",
+              "Content on this website is for general information and does not constitute individual legal advice or legal representation.",
+            ],
           },
           {
-            title: "External Links",
-            body: "This website may contain links to third-party websites. We are not responsible for the content or privacy practices of those websites.",
+            title: "Permitted and Prohibited Use",
+            paragraphs: [
+              "You may use the website for lawful personal, educational, research, or media purposes.",
+              "You must not misuse the website, attempt unauthorized access, upload malicious code, or harvest user data without authorization.",
+            ],
+          },
+          {
+            title: "Intellectual Property",
+            paragraphs: [
+              "Unless otherwise stated, all website content, including text, images, and design elements, is owned by or licensed to the foundation.",
+              "Commercial reproduction, redistribution, or republication of content requires prior written permission.",
+            ],
+          },
+          {
+            title: "Third-Party Links and Services",
+            paragraphs: [
+              "The website may include links to external websites for reference and convenience.",
+              "We are not responsible for the content, availability, accuracy, or privacy practices of third-party websites.",
+            ],
+          },
+          {
+            title: "Disclaimer of Warranties",
+            paragraphs: [
+              "We work to keep website information accurate and current, but we do not guarantee uninterrupted operation or error-free content.",
+              "The website and its content are provided on an \"as is\" and \"as available\" basis.",
+            ],
           },
           {
             title: "Limitation of Liability",
-            body: "We make reasonable efforts to keep information accurate, but we do not guarantee uninterrupted service or complete absence of errors.",
+            paragraphs: [
+              "To the maximum extent permitted by law, the foundation is not liable for direct, indirect, incidental, consequential, or special damages arising from use of, or inability to use, this website.",
+            ],
           },
           {
-            title: "Updates to Terms",
-            body: "We may update these terms at any time. Continued use of the website after updates are posted means you accept the revised terms.",
+            title: "Changes and Termination",
+            paragraphs: [
+              "We may revise these terms at any time by posting an updated version on this page.",
+              "We may suspend or restrict access to the website where misuse is detected or for operational, legal, or security reasons.",
+            ],
+          },
+          {
+            title: "Governing Law and Contact",
+            paragraphs: [
+              "These terms are governed by the applicable legal framework under which the foundation operates.",
+              "For questions regarding these terms, contact us through the official channels listed on the Contact page.",
+            ],
           },
         ];
 
@@ -64,7 +148,11 @@ export default function Terms({ lang, content }) {
           {sections.map((section) => (
             <article key={section.title} className="bg-white border border-slate-200 rounded-xl p-6">
               <h2 className={`text-2xl ${t.serif} text-[#1c3944] mb-3`}>{section.title}</h2>
-              <p className="text-slate-700 leading-8">{section.body}</p>
+              <div className="space-y-3 text-slate-700 leading-8">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </article>
           ))}
         </div>
