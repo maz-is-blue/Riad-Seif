@@ -145,7 +145,7 @@ export default function Home({ lang, content }) {
         ></div>
 
         {/* Hero Content */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 flex items-start pt-32 lg:pt-40" style={{ height: '92vh' }}>
+        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 flex items-start pt-24 sm:pt-28 lg:pt-40" style={{ height: '92vh' }}>
           <div className="relative w-full lg:w-2/3 xl:w-3/5">
             {slides.map((slide, index) => (
               <motion.div
@@ -161,8 +161,7 @@ export default function Home({ lang, content }) {
               >
                 <div className={`text-white ${isRTL ? 'text-right' : 'text-left'} px-[10px] py-[0px]`}>
                   <motion.h1
-                    className={`text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-tight mb-6 drop-shadow-2xl text-white px-[10px] py-[0px]`}
-                    style={{ whiteSpace: 'nowrap' }}
+                    className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-snug lg:leading-tight mb-5 lg:mb-6 drop-shadow-2xl text-white px-[10px] py-[0px] break-words`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: currentSlide === index ? 1 : 0,
@@ -174,7 +173,7 @@ export default function Home({ lang, content }) {
                   </motion.h1>
                   
                   <motion.p
-                    className="text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-8 px-[10px] py-[0px]"
+                    className="text-base sm:text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-7 lg:mb-8 px-[10px] py-[0px] max-w-2xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: currentSlide === index ? 1 : 0,
