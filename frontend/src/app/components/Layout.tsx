@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Globe } from 'lucide-react';
+import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/logo.png";
@@ -141,8 +141,42 @@ export default function Layout({ children, lang, setLang, content }) {
                 {t.footer.desc}
               </div>
               <div className="flex gap-4">
-                <Facebook className="hover:text-white cursor-pointer transition-colors" size={20} />
-                <Linkedin className="hover:text-white cursor-pointer transition-colors" size={20} />
+                <a
+                  href="https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="hover:text-white transition-colors"
+                >
+                  <Facebook className="cursor-pointer" size={20} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/riad-seif-human-rights-foundation/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="hover:text-white transition-colors"
+                >
+                  <Linkedin className="cursor-pointer" size={20} />
+                </a>
+                <a
+                  href="https://www.instagram.com/rshrfndn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="hover:text-white transition-colors"
+                >
+                  <Instagram className="cursor-pointer" size={20} />
+                </a>
+                <a
+                  href="https://x.com/Rscomms130366"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X"
+                  className="hover:text-white transition-colors"
+                >
+                  <Twitter className="cursor-pointer" size={20} />
+                </a>
               </div>
             </div>
             
