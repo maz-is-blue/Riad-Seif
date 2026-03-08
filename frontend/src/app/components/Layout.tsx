@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
-import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Instagram, Twitter, Globe } from 'lucide-react';
+import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Instagram, Globe } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/logo.png";
 import logoWhite from "../../assets/logo white.png";
+
+function XLogoIcon({ className = "", size = 20 }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M18.244 2H21.5l-7.118 8.134L22.75 22h-6.557l-5.135-6.708L5.19 22H1.93l7.612-8.703L1.5 2h6.724l4.64 6.13L18.244 2Zm-1.15 18h1.804L7.247 3.896H5.312L17.094 20Z" />
+    </svg>
+  );
+}
 
 export default function Layout({ children, lang, setLang, content }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -175,7 +190,7 @@ export default function Layout({ children, lang, setLang, content }) {
                   aria-label="X"
                   className="hover:text-white transition-colors"
                 >
-                  <Twitter className="cursor-pointer" size={20} />
+                  <XLogoIcon className="cursor-pointer" size={20} />
                 </a>
               </div>
             </div>
@@ -195,9 +210,8 @@ export default function Layout({ children, lang, setLang, content }) {
               <h4 className={`text-white ${t.serif} text-lg mb-6`}>{t.footer.resTitle}</h4>
               <ul className="space-y-3 text-sm">
                 <li><Link href="/publications"><span className="hover:text-[#f7c20e] transition-colors cursor-pointer">{t.nav.publications}</span></Link></li>
-                <li><a href="#" className="hover:text-[#f7c20e] transition-colors">Annual Reports</a></li>
-                <li><a href="#" className="hover:text-[#f7c20e] transition-colors">Press Kit</a></li>
-                <li><a href="#" className="hover:text-[#f7c20e] transition-colors">Careers</a></li>
+                <li><Link href="/contact"><span className="hover:text-[#f7c20e] transition-colors cursor-pointer">{t.nav.contact}</span></Link></li>
+                <li><Link href="/join-us"><span className="hover:text-[#f7c20e] transition-colors cursor-pointer">{lang === 'ar' ? 'انضم إلينا' : 'Join Us'}</span></Link></li>
               </ul>
             </div>
 
