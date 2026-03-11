@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riad Seif Foundation</title>
+    <script>
+      // Redirect all unknown paths to the SPA entry with the original path preserved
+      var path = window.location.pathname + (window.location.search || "") + (window.location.hash || "");
+      var parts = window.location.pathname.split("/").filter(Boolean);
+      var base = parts.length > 0 ? "/" + parts[0] + "/" : "/";
+      window.location.replace(base + "?path=" + encodeURIComponent(path));
+    </script>
+  </head>
+  <body></body>
+</html>
