@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Switch, Router } from "wouter";
 import Layout from "./components/Layout";
 import Home from "./components/pages/Home";
@@ -12,12 +12,19 @@ import Contact from "./components/pages/Contact";
 import Terms from "./components/pages/Terms";
 import JoinUs from "./components/pages/JoinUs";
 import { content } from "./utils/content";
+import { loadContent, type SiteContent } from "./utils/contentStore";
+import Admin from "./components/pages/Admin";
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'ar'>('ar'); // Default to Arabic
+  const [siteContent, setSiteContent] = useState<SiteContent>(content);
+
+  useEffect(() => {
+    setSiteContent(loadContent());
+  }, []);
 
   // Page props
-  const props = { lang, content };
+  const props = { lang, content: siteContent };
 
   return (
     <Router>
@@ -33,6 +40,7 @@ export default function App() {
           <Route path="/contact" component={() => <Contact {...props} />} />
           <Route path="/join-us" component={() => <JoinUs {...props} />} />
           <Route path="/terms" component={() => <Terms {...props} />} />
+          <Route path="/admin" component={() => <Admin {...props} onContentUpdate={setSiteContent} />} />
           
           {/* Fallback to Home */}
           <Route component={() => <Home {...props} />} />
