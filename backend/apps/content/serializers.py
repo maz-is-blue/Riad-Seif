@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
 
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
@@ -125,4 +125,12 @@ class NewsUpdateListSerializer(serializers.ModelSerializer):
             'published_date',
             'is_featured',
         ]
+
+
+class SiteContentBlobSerializer(serializers.ModelSerializer):
+    """Serializer for full site content JSON."""
+
+    class Meta:
+        model = SiteContentBlob
+        fields = ["content", "updated_at"]
 

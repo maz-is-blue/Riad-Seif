@@ -12,7 +12,8 @@ import Contact from "./components/pages/Contact";
 import Terms from "./components/pages/Terms";
 import JoinUs from "./components/pages/JoinUs";
 import { content } from "./utils/content";
-import { loadContent, type SiteContent } from "./utils/contentStore";
+import { fetchSiteContent } from "./utils/api";
+import { type SiteContent } from "./utils/contentStore";
 import Admin from "./components/pages/Admin";
 
 export default function App() {
@@ -20,7 +21,20 @@ export default function App() {
   const [siteContent, setSiteContent] = useState<SiteContent>(content);
 
   useEffect(() => {
-    setSiteContent(loadContent());
+    let active = true;
+    fetchSiteContent()
+      .then((response) => {
+        const payload = response?.content;
+        if (payload && Object.keys(payload).length > 0 && active) {
+          setSiteContent(payload as SiteContent);
+        }
+      })
+      .catch(() => {
+        // Fallback to bundled content
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   // Page props

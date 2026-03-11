@@ -1,13 +1,15 @@
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate
+from rest_framework.permissions import AllowAny, IsAdminUser
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
 from .serializers import (
     SiteSettingsSerializer,
     PageContentSerializer,
     TeamMemberSerializer,
     NewsUpdateSerializer,
     NewsUpdateListSerializer,
+    SiteContentBlobSerializer,
 )
 
 
@@ -38,6 +40,27 @@ def get_all_page_content(request):
     # Convert to dict keyed by page
     result = {item['page']: item for item in serializer.data}
     return Response(result)
+
+
+@api_view(["GET", "PUT", "PATCH"])
+@permission_classes([AllowAny])
+def site_content_blob(request):
+    """Get or update the full site content JSON."""
+    blob = SiteContentBlob.get_content()
+
+    if request.method == "GET":
+        serializer = SiteContentBlobSerializer(blob)
+        return Response(serializer.data)
+
+    # Only admins can update
+    if not request.user.is_staff:
+        return Response({"detail": "Authentication required."}, status=401)
+
+    serializer = SiteContentBlobSerializer(blob, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
 
 
 class TeamMemberViewSet(viewsets.ReadOnlyModelViewSet):

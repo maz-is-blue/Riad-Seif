@@ -136,3 +136,27 @@ class NewsUpdate(models.Model):
     def __str__(self):
         return self.title_en
 
+
+class SiteContentBlob(models.Model):
+    """Stores full site content JSON for the frontend."""
+
+    content = models.JSONField(default=dict)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Site Content Blob"
+        verbose_name_plural = "Site Content Blob"
+
+    def save(self, *args, **kwargs):
+        # Ensure singleton
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def get_content(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+

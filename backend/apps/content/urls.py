@@ -4,6 +4,7 @@ from .views import (
     get_site_settings,
     get_page_content,
     get_all_page_content,
+    site_content_blob,
     TeamMemberViewSet,
     NewsUpdateViewSet,
 )
@@ -16,6 +17,7 @@ urlpatterns = [
     path('settings/', get_site_settings, name='site-settings'),
     path('pages/', get_all_page_content, name='all-pages'),
     path('pages/<str:page>/', get_page_content, name='page-content'),
+    path('site-content/', site_content_blob, name='site-content'),
     path('', include(router.urls)),
 ]
 

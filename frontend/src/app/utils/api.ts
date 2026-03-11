@@ -17,6 +17,11 @@ export type Publication = {
   published_date: string;
 };
 
+export type SiteContentBlob = {
+  content: Record<string, unknown>;
+  updated_at?: string;
+};
+
 type ContactPayload = {
   name: string;
   email: string;
@@ -31,6 +36,33 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     throw new Error(`Request failed with status ${response.status}`);
   }
   return response.json() as Promise<T>;
+}
+
+function authHeaders(token?: string) {
+  return token ? { Authorization: `Token ${token}` } : {};
+}
+
+export async function loginAdmin(username: string, password: string) {
+  return request<{ token: string }>("/auth/token/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+}
+
+export async function fetchSiteContent(): Promise<SiteContentBlob> {
+  return request<SiteContentBlob>("/content/site-content/");
+}
+
+export async function updateSiteContent(content: Record<string, unknown>, token: string) {
+  return request<SiteContentBlob>("/content/site-content/", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeaders(token),
+    },
+    body: JSON.stringify({ content }),
+  });
 }
 
 export async function fetchPublications(): Promise<Publication[]> {

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
 
 
 @admin.register(SiteSettings)
@@ -110,4 +110,17 @@ class NewsUpdateAdmin(admin.ModelAdmin):
             'fields': ('published_date', 'is_published', 'is_featured'),
         }),
     )
+
+
+@admin.register(SiteContentBlob)
+class SiteContentBlobAdmin(admin.ModelAdmin):
+    """Admin for full site content JSON."""
+
+    readonly_fields = ("updated_at",)
+
+    def has_add_permission(self, request):
+        return not SiteContentBlob.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
