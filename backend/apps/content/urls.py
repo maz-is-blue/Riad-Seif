@@ -7,11 +7,17 @@ from .views import (
     site_content_blob,
     TeamMemberViewSet,
     NewsUpdateViewSet,
+    AdminTeamMemberViewSet,
+    AdminNewsUpdateViewSet,
 )
 
 router = DefaultRouter()
 router.register(r'team', TeamMemberViewSet, basename='team')
 router.register(r'news', NewsUpdateViewSet, basename='news')
+
+admin_router = DefaultRouter()
+admin_router.register(r'admin/team', AdminTeamMemberViewSet, basename='admin-team')
+admin_router.register(r'admin/news', AdminNewsUpdateViewSet, basename='admin-news')
 
 urlpatterns = [
     path('settings/', get_site_settings, name='site-settings'),
@@ -19,5 +25,6 @@ urlpatterns = [
     path('pages/<str:page>/', get_page_content, name='page-content'),
     path('site-content/', site_content_blob, name='site-content'),
     path('', include(router.urls)),
+    path('', include(admin_router.urls)),
 ]
 

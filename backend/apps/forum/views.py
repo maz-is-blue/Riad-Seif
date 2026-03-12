@@ -1,9 +1,11 @@
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.utils import timezone
-from .models import Event
-from .serializers import EventSerializer, EventListSerializer
+from .models import Event, MemoryPhoto, ArchiveItem
+from .serializers import EventSerializer, EventListSerializer, MemoryPhotoSerializer, ArchiveItemSerializer
 
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
@@ -51,4 +53,35 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
         ).order_by('date')[:3]
         serializer = EventListSerializer(featured, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class MemoryPhotoViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MemoryPhoto.objects.filter(is_published=True)
+    serializer_class = MemoryPhotoSerializer
+
+
+class ArchiveItemViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ArchiveItem.objects.filter(is_published=True)
+    serializer_class = ArchiveItemSerializer
+
+
+class AdminEventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class AdminMemoryPhotoViewSet(viewsets.ModelViewSet):
+    queryset = MemoryPhoto.objects.all()
+    serializer_class = MemoryPhotoSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class AdminArchiveItemViewSet(viewsets.ModelViewSet):
+    queryset = ArchiveItem.objects.all()
+    serializer_class = ArchiveItemSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 

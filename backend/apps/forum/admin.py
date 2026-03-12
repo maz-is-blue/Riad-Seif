@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event
+from .models import Event, MemoryPhoto, ArchiveItem
 
 
 @admin.register(Event)
@@ -56,4 +56,20 @@ class EventAdmin(admin.ModelAdmin):
     @admin.action(description='Unpublish selected events')
     def unpublish_selected(self, request, queryset):
         queryset.update(is_published=False)
+
+
+@admin.register(MemoryPhoto)
+class MemoryPhotoAdmin(admin.ModelAdmin):
+    list_display = ["title_en", "date", "is_published", "order"]
+    list_editable = ["is_published", "order"]
+    search_fields = ["title_en", "title_ar", "description_en", "description_ar"]
+    ordering = ["order", "id"]
+
+
+@admin.register(ArchiveItem)
+class ArchiveItemAdmin(admin.ModelAdmin):
+    list_display = ["title_en", "date", "is_published", "order"]
+    list_editable = ["is_published", "order"]
+    search_fields = ["title_en", "title_ar", "description_en", "description_ar"]
+    ordering = ["order", "id"]
 

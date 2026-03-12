@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
+﻿import { Mail, Phone, MapPin, Facebook, Linkedin, Globe, ArrowRight, ArrowLeft } from 'lucide-react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export const content = {
@@ -151,6 +151,44 @@ export const content = {
           ]
       }
     },
+    jumana: {
+      backLabel: "Back to About Us",
+      hero: {
+        role: "Executive Director",
+        name: "Joumana Seif"
+      },
+      intro: {
+        lead: "Joumana Seif is a Syrian lawyer and human rights advocate who has dedicated her career to advancing justice and democratic reform in Syria. As the daughter of renowned activist Riad Seif, she grew up witnessing firsthand the struggle for human rights and democratic change. She founded the Riad Seif Foundation for Human Rights to honor her father's legacy and transform his vision into tangible programs that empower civil society actors, particularly women and marginalized communities.",
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+        caption: "Joumana Seif"
+      },
+      sections: [
+        {
+          title: "Early Life and Education",
+          text: "Born into a family deeply committed to human rights and democracy, Joumana Seif witnessed firsthand the struggles and sacrifices required for social change. She pursued law studies with a determination to use legal frameworks as tools for justice and equality in Syria."
+        },
+        {
+          title: "Legal Career and Advocacy",
+          text: "After completing her law degree, Joumana dedicated herself to legal reform initiatives focusing on gender justice, civil rights, and democratic governance. Her work emphasized empowering marginalized communities through legal awareness and access to justice."
+        },
+        {
+          title: "Leading the Foundation",
+          text: "As Executive Director of the Riad Seif Foundation, Joumana transformed her father's vision into concrete programs that address transitional justice, legal empowerment, and civil society development. Under her leadership, the Foundation has become a leading voice for democratic reform in Syria."
+        },
+        {
+          title: "Women's Rights Champion",
+          text: "Joumana has been a tireless advocate for women's rights in Syria, working to challenge discriminatory laws and practices. She has led initiatives to increase women's participation in political processes and decision-making structures."
+        },
+        {
+          title: "Vision for Syria's Future",
+          text: "Joumana continues to work toward a Syria built on principles of justice, equality, and democratic governance. She believes in the power of civil society to drive meaningful change and remains committed to supporting Syrian activists and organizations working toward these goals."
+        }
+      ],
+      quote: {
+        title: "Inspiring Leadership for Change",
+        text: "Joumana Seif continues her father's legacy in the struggle for justice and democracy, leading a new generation of human rights defenders in Syria."
+      }
+    },
     founder: {
       title: "About Riad Seif",
       sections: [
@@ -224,7 +262,30 @@ export const content = {
       management: {
           title: "Management Team",
           text: "Meet the dedicated professionals who coordinate the Forum's activities and ensure every session creates a safe and inclusive space for meaningful dialogue."
-      }
+      },
+      managementTeam: [
+        {
+          name: "Dr. Karim Al-Deeb",
+          role: "Forum Coordinator",
+          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "Political scientist specializing in democratic transitions and civil society development.",
+          detailedBio: "Dr. Karim Al-Deeb is a political scientist with over 15 years of experience in democratic transitions and civil society development. He holds a PhD in Political Science from the Sorbonne University and has worked extensively with civil society organizations across the Middle East. As Forum Coordinator, he oversees all dialogue sessions, manages partnerships with local and international organizations, and ensures the Forum remains a safe and inclusive space for democratic discourse. His research focuses on transitional justice, civic participation, and the role of civil forums in post-conflict societies."
+        },
+        {
+          name: "Layla Kassem",
+          role: "Communications Director",
+          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "Leads media relations and public engagement for the Forum, ensuring transparent and inclusive communication.",
+          detailedBio: "Layla Kassem is a communications strategist with extensive experience in civil society storytelling and advocacy campaigns. She has led media initiatives for international NGOs and is passionate about amplifying Syrian voices. At the Forum, she manages public relations, outreach, and the narrative around democratic dialogue and civic participation."
+        },
+        {
+          name: "Salma Saeed",
+          role: "Research & Documentation Lead",
+          image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "Oversees research output and documentation of Forum sessions, ensuring knowledge is archived and shared.",
+          detailedBio: "Salma Saeed is a researcher and documentary filmmaker focused on storytelling, transitional justice, and visual documentation of Syrian history. She has worked with international media outlets and rights organizations to document survivor testimonies and collective memory. At the Forum, she leads memory and documentation initiatives, ensuring that Syrian stories are preserved and accessible for future generations. Her research interests include the relationship between narrative, justice, and identity in post-conflict societies."
+        }
+      ]
     },
     publications: {
       title: "Publications",
@@ -417,6 +478,44 @@ export const content = {
           ]
       }
     },
+    jumana: {
+      backLabel: "العودة إلى من نحن",
+      hero: {
+        role: "المديرة التنفيذية",
+        name: "جمانة سيف"
+      },
+      intro: {
+        lead: "جمانة سيف محامية سورية ومدافعة عن حقوق الإنسان كرست حياتها المهنية لتعزيز العدالة والإصلاح الديمقراطي في سوريا. كابنة الناشط الشهير رياض سيف، نشأت وهي تشهد بشكل مباشر النضال من أجل حقوق الإنسان والتغيير الديمقراطي. أسست مؤسسة رياض سيف لحقوق الإنسان لتكريم إرث والدها وتحويل رؤيته إلى برامج ملموسة تمكن فاعلي المجتمع المدني، وخاصة النساء والمجتمعات المهمشة.",
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+        caption: "جمانة سيف"
+      },
+      sections: [
+        {
+          title: "الحياة المبكرة والتعليم",
+          text: "ولدت في عائلة ملتزمة بعمق بحقوق الإنسان والديمقراطية، شهدت جمانة سيف بشكل مباشر النضالات والتضحيات المطلوبة من أجل التغيير الاجتماعي. تابعت دراسة القانون بعزيمة لاستخدام الأطر القانونية كأدوات للعدالة والمساواة في سوريا."
+        },
+        {
+          title: "المسيرة القانونية والدفاع عن الحقوق",
+          text: "بعد إكمال شهادتها في القانون، كرست جمانة نفسها لمبادرات الإصلاح القانوني مع التركيز على العدالة الجندرية والحقوق المدنية والحوكمة الديمقراطية. ركز عملها على تمكين المجتمعات المهمشة من خلال التوعية القانونية والوصول إلى العدالة."
+        },
+        {
+          title: "قيادة المؤسسة",
+          text: "كمديرة تنفيذية لمؤسسة رياض سيف، حولت جمانة رؤية والدها إلى برامج ملموسة تعالج العدالة الانتقالية والتمكين القانوني وتطوير المجتمع المدني. تحت قيادتها، أصبحت المؤسسة صوتاً رائداً للإصلاح الديمقراطي في سوريا."
+        },
+        {
+          title: "بطلة حقوق المرأة",
+          text: "كانت جمانة مدافعة لا تكل عن حقوق المرأة في سوريا، حيث عملت على تحدي القوانين والممارسات التمييزية. قادت مبادرات لزيادة مشاركة المرأة في العمليات السياسية وهيكل صنع القرار."
+        },
+        {
+          title: "رؤية لمستقبل سوريا",
+          text: "تواصل جمانة العمل نحو سوريا مبنية على مبادئ العدالة والمساواة والحوكمة الديمقراطية. تؤمن بقوة المجتمع المدني في قيادة التغيير الحقيقي وتبقى ملتزمة بدعم الناشطين والمنظمات السورية العاملة نحو هذه الأهداف."
+        }
+      ],
+      quote: {
+        title: "قيادة ملهمة من أجل التغيير",
+        text: "تواصل جمانة سيف مسيرة والدها في النضال من أجل العدالة والديمقراطية، قائدة جيلاً جديداً من المدافعين عن حقوق الإنسان في سوريا."
+      }
+    },
     founder: {
       title: "عن رياض سيف",
       sections: [
@@ -490,7 +589,30 @@ export const content = {
       management: {
           title: "فريق الإدارة",
           text: "تعرف على المحترفين الملتزمين الذين يتنسيقون أنشطة منتدى الحوار ويضمنون أن كل جلسة تخلق مكانًا آمنًا وشاملًا للحوار المفيد."
-      }
+      },
+      managementTeam: [
+        {
+          name: "د. كريم الديب",
+          role: "منسق المنتدى",
+          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "عالم سياسي متخصص في الانتقالات الديمقراطية وتنمية المجتمع المدني.",
+          detailedBio: "الدكتور كريم الديب عالم سياسي يتمتع بخبرة تزيد عن 15 عامًا في الانتقالات الديمقراطية وتنمية المجتمع المدني. حاصل على درجة الدكتوراه في العلوم السياسية من جامعة السوربون وعمل بشكل مكثف مع منظمات المجتمع المدني في جميع أنحاء الشرق الأوسط. بصفته منسق المنتدى، يشرف على جميع جلسات الحوار، ويدير الشراكات مع المنظمات المحلية والدولية، ويضمن بقاء المنتدى مساحة آمنة وشاملة للخطاب الديمقراطي. يركز بحثه على العدالة الانتقالية والمشاركة المدنية ودور المنتديات المدنية في مجتمعات ما بعد النزاع."
+        },
+        {
+          name: "ليلى قاسم",
+          role: "مديرة التواصل",
+          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "تدير العلاقات الإعلامية والتواصل المجتمعي للمنتدى لضمان خطاب شفاف وشامل.",
+          detailedBio: "ليلى قاسم خبيرة في استراتيجيات التواصل ولديها خبرة واسعة في سرد قصص المجتمع المدني وحملات المناصرة. قادت مبادرات إعلامية لمنظمات دولية وهي ملتزمة بتعزيز أصوات السوريين. في المنتدى، تدير العلاقات العامة والتواصل وصياغة السرد حول الحوار الديمقراطي والمشاركة المدنية."
+        },
+        {
+          name: "سلمى سعيد",
+          role: "مسؤولة الأبحاث والتوثيق",
+          image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
+          bio: "تشرف على الأبحاث وتوثيق جلسات المنتدى لضمان حفظ المعرفة ومشاركتها.",
+          detailedBio: "سلمى سعيد باحثة وصانعة أفلام وثائقية تركز على رواية القصص والعدالة الانتقالية والتوثيق البصري للتاريخ السوري. عملت مع وسائل إعلام دولية ومنظمات حقوقية لتوثيق شهادات الناجين والذاكرة الجماعية. في المنتدى، تقود مبادرات الذاكرة والتوثيق البصري، وتضمن أن تكون قصص السوريين محفوظة ومتاحة للأجيال القادمة. تهتم أبحاثها بالعلاقة بين السرد والعدالة والهوية في المجتمعات الخارجة من النزاع."
+        }
+      ]
     },
     publications: {
       title: "الإصدارات",

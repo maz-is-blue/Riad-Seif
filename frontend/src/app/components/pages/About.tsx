@@ -1,18 +1,41 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { Users, Target, Lightbulb, Heart, Award, Briefcase, Building2, Globe, X, ArrowRight, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { fetchTeamMembers, type TeamMember } from '../../utils/api';
 
 export default function About({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
   const [selectedMember, setSelectedMember] = useState(null);
+  const [apiTeam, setApiTeam] = useState<TeamMember[]>([]);
   const [, setLocation] = useLocation();
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
   
+  useEffect(() => {
+    fetchTeamMembers()
+      .then((items) => setApiTeam(items ?? []))
+      .catch(() => setApiTeam([]));
+  }, []);
+
+  const mappedTeam = apiTeam.length
+    ? apiTeam.map((member) => ({
+        id: member.id,
+        name: member.name_en,
+        nameAr: member.name_ar,
+        role: member.role_en,
+        roleAr: member.role_ar,
+        image: member.photo_url,
+        bio: member.bio_en,
+        bioAr: member.bio_ar,
+        detailedBio: member.bio_en,
+        detailedBioAr: member.bio_ar,
+      }))
+    : t.about.team.members;
+
   // Separate Jumana from other team members
-  const jumana = t.about.team.members.find(m => m.id === 1);
-  const teamMembers = t.about.team.members.filter(m => m.id !== 1);
+  const jumana = mappedTeam.find(m => m.id === 1);
+  const teamMembers = mappedTeam.filter(m => m.id !== 1);
   
   // Animation variants
   const containerVariants = {

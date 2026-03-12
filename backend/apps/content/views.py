@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
 from .serializers import (
     SiteSettingsSerializer,
@@ -80,4 +81,22 @@ class NewsUpdateViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'list':
             return NewsUpdateListSerializer
         return NewsUpdateSerializer
+
+
+class AdminTeamMemberViewSet(viewsets.ModelViewSet):
+    """Admin CRUD for team members."""
+
+    queryset = TeamMember.objects.all()
+    serializer_class = TeamMemberSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class AdminNewsUpdateViewSet(viewsets.ModelViewSet):
+    """Admin CRUD for news updates."""
+
+    queryset = NewsUpdate.objects.all()
+    serializer_class = NewsUpdateSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 

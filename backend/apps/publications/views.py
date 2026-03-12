@@ -1,6 +1,8 @@
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from .models import Publication
 from .serializers import PublicationSerializer, PublicationListSerializer
 
@@ -44,3 +46,11 @@ class PublicationViewSet(viewsets.ReadOnlyModelViewSet):
             categories[cat].append(PublicationListSerializer(pub).data)
         return Response(categories)
 
+
+class AdminPublicationViewSet(viewsets.ModelViewSet):
+    """Admin CRUD for publications."""
+
+    queryset = Publication.objects.all()
+    serializer_class = PublicationSerializer
+    permission_classes = [IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]

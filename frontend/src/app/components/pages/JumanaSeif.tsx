@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { Award, Scale, Users, Heart, BookOpen, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLocation } from 'wouter';
 
@@ -11,7 +11,7 @@ export default function JumanaSeif({ lang, content }) {
   const timelineIcons = [Scale, Award, Users, Heart, BookOpen];
   
   // Content for Jumana's sections
-  const sections = {
+  const fallbackSections = {
     en: [
       {
         title: "Early Life and Education",
@@ -36,29 +36,52 @@ export default function JumanaSeif({ lang, content }) {
     ],
     ar: [
       {
-        title: "الحياة المبكرة والتعليم",
-        text: "ولدت في عائلة ملتزمة بعمق بحقوق الإنسان والديمقراطية، شهدت جمانة سيف بشكل مباشر النضالات والتضحيات المطلوبة من أجل التغيير الاجتماعي. تابعت دراسة القانون بعزيمة لاستخدام الأطر القانونية كأدوات للعدالة والمساواة في سوريا."
+        title: "Ø§Ù„Ø­ÙŠØ§Ø© Ø§Ù„Ù…Ø¨ÙƒØ±Ø© ÙˆØ§Ù„ØªØ¹Ù„ÙŠÙ…",
+        text: "ÙˆÙ„Ø¯Øª ÙÙŠ Ø¹Ø§Ø¦Ù„Ø© Ù…Ù„ØªØ²Ù…Ø© Ø¨Ø¹Ù…Ù‚ Ø¨Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† ÙˆØ§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©ØŒ Ø´Ù‡Ø¯Øª Ø¬Ù…Ø§Ù†Ø© Ø³ÙŠÙ Ø¨Ø´ÙƒÙ„ Ù…Ø¨Ø§Ø´Ø± Ø§Ù„Ù†Ø¶Ø§Ù„Ø§Øª ÙˆØ§Ù„ØªØ¶Ø­ÙŠØ§Øª Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø© Ù…Ù† Ø£Ø¬Ù„ Ø§Ù„ØªØºÙŠÙŠØ± Ø§Ù„Ø§Ø¬ØªÙ…Ø§Ø¹ÙŠ. ØªØ§Ø¨Ø¹Øª Ø¯Ø±Ø§Ø³Ø© Ø§Ù„Ù‚Ø§Ù†ÙˆÙ† Ø¨Ø¹Ø²ÙŠÙ…Ø© Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ø·Ø± Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ÙŠØ© ÙƒØ£Ø¯ÙˆØ§Øª Ù„Ù„Ø¹Ø¯Ø§Ù„Ø© ÙˆØ§Ù„Ù…Ø³Ø§ÙˆØ§Ø© ÙÙŠ Ø³ÙˆØ±ÙŠØ§."
       },
       {
-        title: "المسيرة القانونية والدفاع عن الحقوق",
-        text: "بعد إكمال شهادتها في القانون، كرست جمانة نفسها لمبادرات الإصلاح القانوني مع التركيز على العدالة الجندرية والحقوق المدنية والحوكمة الديمقراطية. ركز عملها على تمكين المجتمعات المهمشة من خلال التوعية القانونية والوصول إلى العدالة."
+        title: "Ø§Ù„Ù…Ø³ÙŠØ±Ø© Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ÙŠØ© ÙˆØ§Ù„Ø¯ÙØ§Ø¹ Ø¹Ù† Ø§Ù„Ø­Ù‚ÙˆÙ‚",
+        text: "Ø¨Ø¹Ø¯ Ø¥ÙƒÙ…Ø§Ù„ Ø´Ù‡Ø§Ø¯ØªÙ‡Ø§ ÙÙŠ Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ØŒ ÙƒØ±Ø³Øª Ø¬Ù…Ø§Ù†Ø© Ù†ÙØ³Ù‡Ø§ Ù„Ù…Ø¨Ø§Ø¯Ø±Ø§Øª Ø§Ù„Ø¥ØµÙ„Ø§Ø­ Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ÙŠ Ù…Ø¹ Ø§Ù„ØªØ±ÙƒÙŠØ² Ø¹Ù„Ù‰ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© Ø§Ù„Ø¬Ù†Ø¯Ø±ÙŠØ© ÙˆØ§Ù„Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ù…Ø¯Ù†ÙŠØ© ÙˆØ§Ù„Ø­ÙˆÙƒÙ…Ø© Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©. Ø±ÙƒØ² Ø¹Ù…Ù„Ù‡Ø§ Ø¹Ù„Ù‰ ØªÙ…ÙƒÙŠÙ† Ø§Ù„Ù…Ø¬ØªÙ…Ø¹Ø§Øª Ø§Ù„Ù…Ù‡Ù…Ø´Ø© Ù…Ù† Ø®Ù„Ø§Ù„ Ø§Ù„ØªÙˆØ¹ÙŠØ© Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ÙŠØ© ÙˆØ§Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø©."
       },
       {
-        title: "قيادة المؤسسة",
-        text: "كمديرة تنفيذية لمؤسسة رياض سيف، حولت جمانة رؤية والدها إلى برامج ملموسة تعالج العدالة الانتقالية والتمكين القانوني وتطوير المجتمع المدني. تحت قيادتها، أصبحت المؤسسة صوتاً رائداً للإصلاح الديمقراطي في سوريا."
+        title: "Ù‚ÙŠØ§Ø¯Ø© Ø§Ù„Ù…Ø¤Ø³Ø³Ø©",
+        text: "ÙƒÙ…Ø¯ÙŠØ±Ø© ØªÙ†ÙÙŠØ°ÙŠØ© Ù„Ù…Ø¤Ø³Ø³Ø© Ø±ÙŠØ§Ø¶ Ø³ÙŠÙØŒ Ø­ÙˆÙ„Øª Ø¬Ù…Ø§Ù†Ø© Ø±Ø¤ÙŠØ© ÙˆØ§Ù„Ø¯Ù‡Ø§ Ø¥Ù„Ù‰ Ø¨Ø±Ø§Ù…Ø¬ Ù…Ù„Ù…ÙˆØ³Ø© ØªØ¹Ø§Ù„Ø¬ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ÙŠØ© ÙˆØ§Ù„ØªÙ…ÙƒÙŠÙ† Ø§Ù„Ù‚Ø§Ù†ÙˆÙ†ÙŠ ÙˆØªØ·ÙˆÙŠØ± Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ. ØªØ­Øª Ù‚ÙŠØ§Ø¯ØªÙ‡Ø§ØŒ Ø£ØµØ¨Ø­Øª Ø§Ù„Ù…Ø¤Ø³Ø³Ø© ØµÙˆØªØ§Ù‹ Ø±Ø§Ø¦Ø¯Ø§Ù‹ Ù„Ù„Ø¥ØµÙ„Ø§Ø­ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ ÙÙŠ Ø³ÙˆØ±ÙŠØ§."
       },
       {
-        title: "بطلة حقوق المرأة",
-        text: "كانت جمانة مدافعة لا تكل عن حقوق المرأة في سوريا، حيث عملت على تحدي القوانين والممارسات التمييزية. قادت مبادرات لزيادة مشاركة المرأة في العمليات السياسية وهياكل صنع القرار."
+        title: "Ø¨Ø·Ù„Ø© Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ù…Ø±Ø£Ø©",
+        text: "ÙƒØ§Ù†Øª Ø¬Ù…Ø§Ù†Ø© Ù…Ø¯Ø§ÙØ¹Ø© Ù„Ø§ ØªÙƒÙ„ Ø¹Ù† Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ù…Ø±Ø£Ø© ÙÙŠ Ø³ÙˆØ±ÙŠØ§ØŒ Ø­ÙŠØ« Ø¹Ù…Ù„Øª Ø¹Ù„Ù‰ ØªØ­Ø¯ÙŠ Ø§Ù„Ù‚ÙˆØ§Ù†ÙŠÙ† ÙˆØ§Ù„Ù…Ù…Ø§Ø±Ø³Ø§Øª Ø§Ù„ØªÙ…ÙŠÙŠØ²ÙŠØ©. Ù‚Ø§Ø¯Øª Ù…Ø¨Ø§Ø¯Ø±Ø§Øª Ù„Ø²ÙŠØ§Ø¯Ø© Ù…Ø´Ø§Ø±ÙƒØ© Ø§Ù„Ù…Ø±Ø£Ø© ÙÙŠ Ø§Ù„Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„Ø³ÙŠØ§Ø³ÙŠØ© ÙˆÙ‡ÙŠØ§ÙƒÙ„ ØµÙ†Ø¹ Ø§Ù„Ù‚Ø±Ø§Ø±."
       },
       {
-        title: "رؤية لمستقبل سوريا",
-        text: "تواصل جمانة العمل نحو سوريا مبنية على مبادئ العدالة والمساواة والحوكمة الديمقراطية. تؤمن بقوة المجتمع المدني في قيادة التغيير الحقيقي وتبقى ملتزمة بدعم الناشطين والمنظمات السورية العاملة نحو هذه الأهداف."
+        title: "Ø±Ø¤ÙŠØ© Ù„Ù…Ø³ØªÙ‚Ø¨Ù„ Ø³ÙˆØ±ÙŠØ§",
+        text: "ØªÙˆØ§ØµÙ„ Ø¬Ù…Ø§Ù†Ø© Ø§Ù„Ø¹Ù…Ù„ Ù†Ø­Ùˆ Ø³ÙˆØ±ÙŠØ§ Ù…Ø¨Ù†ÙŠØ© Ø¹Ù„Ù‰ Ù…Ø¨Ø§Ø¯Ø¦ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© ÙˆØ§Ù„Ù…Ø³Ø§ÙˆØ§Ø© ÙˆØ§Ù„Ø­ÙˆÙƒÙ…Ø© Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©. ØªØ¤Ù…Ù† Ø¨Ù‚ÙˆØ© Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ ÙÙŠ Ù‚ÙŠØ§Ø¯Ø© Ø§Ù„ØªØºÙŠÙŠØ± Ø§Ù„Ø­Ù‚ÙŠÙ‚ÙŠ ÙˆØªØ¨Ù‚Ù‰ Ù…Ù„ØªØ²Ù…Ø© Ø¨Ø¯Ø¹Ù… Ø§Ù„Ù†Ø§Ø´Ø·ÙŠÙ† ÙˆØ§Ù„Ù…Ù†Ø¸Ù…Ø§Øª Ø§Ù„Ø³ÙˆØ±ÙŠØ© Ø§Ù„Ø¹Ø§Ù…Ù„Ø© Ù†Ø­Ùˆ Ù‡Ø°Ù‡ Ø§Ù„Ø£Ù‡Ø¯Ø§Ù."
       }
     ]
   };
 
-  const currentSections = sections[lang];
+  const jumana = t.jumana ?? {};
+  const currentSections = jumana.sections ?? fallbackSections[lang];
+  const hero = jumana.hero ?? {
+    role: lang === 'ar' ? 'Ø§Ù„Ù…Ø¯ÙŠØ±Ø© Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠØ©' : 'Executive Director',
+    name: lang === 'ar' ? 'Ø¬Ù…Ø§Ù†Ø© Ø³ÙŠÙ' : 'Joumana Seif',
+  };
+  const intro = jumana.intro ?? {
+    lead:
+      lang === 'ar'
+        ? 'Ø¬Ù…Ø§Ù†Ø© Ø³ÙŠÙ Ù…Ø­Ø§Ù…ÙŠØ© Ø³ÙˆØ±ÙŠØ© ÙˆÙ…Ø¯Ø§ÙØ¹Ø© Ø¹Ù† Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† ÙƒØ±Ø³Øª Ø­ÙŠØ§ØªÙ‡Ø§ Ø§Ù„Ù…Ù‡Ù†ÙŠØ© Ù„ØªØ¹Ø²ÙŠØ² Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© ÙˆØ§Ù„Ø¥ØµÙ„Ø§Ø­ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ ÙÙŠ Ø³ÙˆØ±ÙŠØ§. ÙƒØ§Ø¨Ù†Ø© Ø§Ù„Ù†Ø§Ø´Ø· Ø§Ù„Ø´Ù‡ÙŠØ± Ø±ÙŠØ§Ø¶ Ø³ÙŠÙØŒ Ù†Ø´Ø£Øª ÙˆÙ‡ÙŠ ØªØ´Ù‡Ø¯ Ø¨Ø´ÙƒÙ„ Ù…Ø¨Ø§Ø´Ø± Ø§Ù„Ù†Ø¶Ø§Ù„ Ù…Ù† Ø£Ø¬Ù„ Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† ÙˆØ§Ù„ØªØºÙŠÙŠØ± Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ. Ø£Ø³Ø³Øª Ù…Ø¤Ø³Ø³Ø© Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ Ù„Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† Ù„ØªÙƒØ±ÙŠÙ… Ø¥Ø±Ø« ÙˆØ§Ù„Ø¯Ù‡Ø§ ÙˆØªØ­ÙˆÙŠÙ„ Ø±Ø¤ÙŠØªÙ‡ Ø¥Ù„Ù‰ Ø¨Ø±Ø§Ù…Ø¬ Ù…Ù„Ù…ÙˆØ³Ø© ØªÙ…ÙƒÙ† ÙØ§Ø¹Ù„ÙŠ Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠØŒ ÙˆØ®Ø§ØµØ© Ø§Ù„Ù†Ø³Ø§Ø¡ ÙˆØ§Ù„Ù…Ø¬ØªÙ…Ø¹Ø§Øª Ø§Ù„Ù…Ù‡Ù…Ø´Ø©.'
+        : 'Joumana Seif is a Syrian lawyer and human rights advocate who has dedicated her career to advancing justice and democratic reform in Syria. As the daughter of renowned activist Riad Seif, she grew up witnessing firsthand the struggle for human rights and democratic change. She founded the Riad Seif Foundation for Human Rights to honor her father\'s legacy and transform his vision into tangible programs that empower civil society actors, particularly women and marginalized communities.',
+    image:
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
+    caption: lang === 'ar' ? 'Ø¬Ù…Ø§Ù†Ø© Ø³ÙŠÙ' : 'Joumana Seif',
+  };
+  const quote = jumana.quote ?? {
+    title: lang === 'ar' ? 'Ù‚ÙŠØ§Ø¯Ø© Ù…Ù„Ù‡Ù…Ø© Ù…Ù† Ø£Ø¬Ù„ Ø§Ù„ØªØºÙŠÙŠØ±' : 'Inspiring Leadership for Change',
+    text:
+      lang === 'ar'
+        ? 'ØªÙˆØ§ØµÙ„ Ø¬Ù…Ø§Ù†Ø© Ø³ÙŠÙ Ù…Ø³ÙŠØ±Ø© ÙˆØ§Ù„Ø¯Ù‡Ø§ ÙÙŠ Ø§Ù„Ù†Ø¶Ø§Ù„ Ù…Ù† Ø£Ø¬Ù„ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© ÙˆØ§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©ØŒ Ù‚Ø§Ø¦Ø¯Ø© Ø¬ÙŠÙ„Ø§Ù‹ Ø¬Ø¯ÙŠØ¯Ø§Ù‹ Ù…Ù† Ø§Ù„Ù…Ø¯Ø§ÙØ¹ÙŠÙ† Ø¹Ù† Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† ÙÙŠ Ø³ÙˆØ±ÙŠØ§.'
+        : 'Joumana Seif continues her father\'s legacy in the struggle for justice and democracy, leading a new generation of human rights defenders in Syria.',
+  };
+  const backLabel =
+    jumana.backLabel ?? (lang === 'ar' ? 'Ø§Ù„Ø¹ÙˆØ¯Ø© Ø¥Ù„Ù‰ Ù…Ù† Ù†Ø­Ù†' : 'Back to About Us');
   
   return (
     <div className="bg-white">
@@ -77,7 +100,7 @@ export default function JumanaSeif({ lang, content }) {
             whileTap={{ scale: 0.95 }}
           >
             <BackArrowIcon size={20} />
-            <span>{lang === 'ar' ? 'العودة إلى من نحن' : 'Back to About Us'}</span>
+            <span>{backLabel}</span>
           </motion.button>
         </div>
       </motion.div>
@@ -119,7 +142,7 @@ export default function JumanaSeif({ lang, content }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              {lang === 'ar' ? 'المديرة التنفيذ��ة' : 'Executive Director'}
+              {hero.role}
             </motion.span>
             <motion.h1
               className={`text-4xl lg:text-5xl ${t.serif} mb-8`}
@@ -127,7 +150,7 @@ export default function JumanaSeif({ lang, content }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              {lang === 'ar' ? 'جمانة سيف' : 'Joumana Seif'}
+              {hero.name}
             </motion.h1>
          </div>
       </motion.div>
@@ -147,13 +170,13 @@ export default function JumanaSeif({ lang, content }) {
             >
               <div className="aspect-[3/4] bg-gradient-to-br from-slate-200 to-slate-300 relative overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" 
-                    alt={lang === 'ar' ? 'جمانة سيف' : 'Joumana Seif'}
+                    src={intro.image}
+                    alt={hero.name}
                     className="w-full h-full object-cover"
                   />
               </div>
               <div className="text-center text-xs text-slate-500 mt-2 italic">
-                {lang === 'ar' ? 'جمانة سيف' : 'Joumana Seif'}
+                {intro.caption}
               </div>
             </motion.div>
             
@@ -163,9 +186,7 @@ export default function JumanaSeif({ lang, content }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-                {lang === 'ar' 
-                  ? 'جمانة سيف محامية سورية ومدافعة عن حقوق الإنسان كرست حياتها المهنية لتعزيز العدالة والإصلاح الديمقراطي في سوريا. كابنة الناشط الشهير رياض سيف، نشأت وهي تشهد بشكل مباشر النضال من أجل حقوق الإنسان والتغيير الديمقراطي. أسست مؤسسة رياض سيف لحقوق الإنسان لتكريم إرث والدها وتحويل رؤيته إلى برامج ملموسة تمكن فاعلي المجتمع المدني، وخاصة النساء والمجتمعات المهمشة.'
-                  : 'Joumana Seif is a Syrian lawyer and human rights advocate who has dedicated her career to advancing justice and democratic reform in Syria. As the daughter of renowned activist Riad Seif, she grew up witnessing firsthand the struggle for human rights and democratic change. She founded the Riad Seif Foundation for Human Rights to honor her father\'s legacy and transform his vision into tangible programs that empower civil society actors, particularly women and marginalized communities.'}
+                {intro.lead}
             </motion.p>
          </motion.div>
 
@@ -276,12 +297,10 @@ export default function JumanaSeif({ lang, content }) {
              viewport={{ once: true }}
            >
              <h3 className={`text-3xl ${t.serif} text-[#f7c20e] mb-4`}>
-               {lang === 'ar' ? 'قيادة ملهمة من أجل التغيير' : 'Inspiring Leadership for Change'}
+               {quote.title}
              </h3>
              <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
-               {lang === 'ar'
-                 ? 'تواصل جمانة سيف مسيرة والدها في النضال من أجل العدالة والديمقراطية، قائدة جيلاً جديداً من المدافعين عن حقوق الإنسان في سوريا.'
-                 : 'Joumana Seif continues her father\'s legacy in the struggle for justice and democracy, leading a new generation of human rights defenders in Syria.'}
+               {quote.text}
              </p>
            </motion.div>
          </motion.div>
@@ -289,3 +308,5 @@ export default function JumanaSeif({ lang, content }) {
     </div>
   );
 }
+
+

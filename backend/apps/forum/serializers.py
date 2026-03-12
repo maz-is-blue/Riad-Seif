@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event
+from .models import Event, MemoryPhoto, ArchiveItem
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -60,5 +60,47 @@ class EventListSerializer(serializers.ModelSerializer):
             'is_online',
             'is_upcoming',
             'is_featured',
+        ]
+
+
+class MemoryPhotoSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MemoryPhoto
+        fields = [
+            "id",
+            "title_en",
+            "title_ar",
+            "description_en",
+            "description_ar",
+            "image_url",
+            "date",
+            "is_published",
+            "order",
+        ]
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get("request")
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class ArchiveItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArchiveItem
+        fields = [
+            "id",
+            "title_en",
+            "title_ar",
+            "description_en",
+            "description_ar",
+            "date",
+            "external_link",
+            "is_published",
+            "order",
         ]
 

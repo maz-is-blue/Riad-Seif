@@ -56,3 +56,45 @@ class Event(models.Model):
         from django.utils import timezone
         return self.date < timezone.now()
 
+
+class MemoryPhoto(models.Model):
+    """Photo entries for the forum memory/gallery section."""
+
+    title_en = models.CharField(max_length=255)
+    title_ar = models.CharField(max_length=255)
+    description_en = models.TextField(blank=True)
+    description_ar = models.TextField(blank=True)
+    image = models.ImageField(upload_to='forum/memory/', blank=True, null=True)
+    date = models.CharField(max_length=50, blank=True)
+    is_published = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Memory Photo'
+        verbose_name_plural = 'Memory Photos'
+
+    def __str__(self):
+        return self.title_en
+
+
+class ArchiveItem(models.Model):
+    """Archive/previous work entries for the forum archive section."""
+
+    title_en = models.CharField(max_length=255)
+    title_ar = models.CharField(max_length=255)
+    description_en = models.TextField(blank=True)
+    description_ar = models.TextField(blank=True)
+    date = models.CharField(max_length=50, blank=True)
+    is_published = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+    external_link = models.URLField(blank=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Archive Item'
+        verbose_name_plural = 'Archive Items'
+
+    def __str__(self):
+        return self.title_en
+

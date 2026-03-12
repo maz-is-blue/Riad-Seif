@@ -2,12 +2,14 @@ import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, Sh
 import { Link } from 'wouter';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
+import { fetchNewsUpdates, type NewsUpdate } from '../../utils/api';
 
 export default function Home({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
   
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [newsItems, setNewsItems] = useState<NewsUpdate[]>([]);
 
   // Slider content
   const slides = [
@@ -59,6 +61,16 @@ export default function Home({ lang, content }) {
     }, 5000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    fetchNewsUpdates()
+      .then((items) => {
+        setNewsItems(items ?? []);
+      })
+      .catch(() => {
+        setNewsItems([]);
+      });
   }, []);
 
   const goToSlide = (index) => {
@@ -272,7 +284,14 @@ export default function Home({ lang, content }) {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
-            {t.publications.items.map((item, i) => (
+            {(newsItems.length
+              ? newsItems.map((item) => ({
+                  type: lang === 'ar' ? item.summary_ar : item.summary_en,
+                  title: lang === 'ar' ? item.title_ar : item.title_en,
+                  date: item.published_date,
+                }))
+              : t.publications.items
+            ).map((item, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -6 }}
