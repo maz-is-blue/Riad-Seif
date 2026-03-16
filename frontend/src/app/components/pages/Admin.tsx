@@ -255,7 +255,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const [token, setToken] = useState(() => window.localStorage.getItem("rs_admin_token") ?? "");
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [activeRoot, setActiveRoot] = useState("ar");
-  const [activePanel, setActivePanel] = useState<"content" | ResourceKey>("content");
+  const [activeMode, setActiveMode] = useState<"content" | "resource">("content");
+  const [activeContentKey, setActiveContentKey] = useState("home");
+  const [activeResourceKey, setActiveResourceKey] = useState<ResourceKey>("news");
   const [search, setSearch] = useState("");
   const [collapsed, setCollapsed] = useState(() => new Set<string>());
   const [resourceState, setResourceState] = useState(() => {
@@ -372,16 +374,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
       .catch(() => {
         setStatus(isRTL ? "تعذر إعادة الضبط." : "Reset failed.");
       });
-  };
-
-  const handleDownload = () => {
-    const blob = new Blob([JSON.stringify(draft, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "site-content.json";
-    link.click();
-    URL.revokeObjectURL(url);
   };
 
   const handleLoadServer = () => {
@@ -604,17 +596,23 @@ export default function Admin({ lang, content, onContentUpdate }) {
     return <div className="text-sm text-slate-500">{isRTL ? "نوع غير مدعوم" : "Unsupported type"}</div>;
   };
 
-  const rootValue = (draft as any)?.[activeRoot] ?? draft;
-
-  const panelTabs: Array<{ key: "content" | ResourceKey; label: string }> = [
-    { key: "content", label: isRTL ? "محتوى الموقع" : "Site Content" },
-    { key: "news", label: isRTL ? "الأخبار" : "News" },
-    { key: "team", label: isRTL ? "الفريق" : "Team" },
-    { key: "publications", label: isRTL ? "الإصدارات" : "Publications" },
-    { key: "events", label: isRTL ? "الفعاليات" : "Events" },
-    { key: "memory", label: isRTL ? "الذاكرة" : "Memory" },
-    { key: "archive", label: isRTL ? "الأرشيف" : "Archive" },
-  ];
+  const contentSections = useMemo(
+    () => [
+      { key: "home", label: isRTL ? "الرئيسية" : "Home", path: ["home"] },
+      { key: "about", label: isRTL ? "عن المؤسسة" : "About Us", path: ["about"] },
+      { key: "jumana", label: isRTL ? "جمانة سيف" : "Joumana Seif", path: ["jumana"] },
+      { key: "founder", label: isRTL ? "عن رياض سيف" : "About Riad Seif", path: ["founder"] },
+      { key: "center", label: isRTL ? "مركز حقوق الإنسان" : "Human Rights Center", path: ["center"] },
+      { key: "forum", label: isRTL ? "منتدى الحوار" : "Dialogue Forum", path: ["forum"] },
+      { key: "publications", label: isRTL ? "الإصدارات" : "Publications", path: ["publications"] },
+      { key: "contact", label: isRTL ? "اتصل بنا" : "Contact", path: ["contact"] },
+      { key: "footer", label: isRTL ? "تذييل الموقع" : "Footer", path: ["footer"] },
+      { key: "topBar", label: isRTL ? "الشريط العلوي" : "Top Bar", path: ["topBar"] },
+      { key: "nav", label: isRTL ? "القائمة" : "Navigation", path: ["nav"] },
+      { key: "hero", label: isRTL ? "واجهة الموقع" : "Hero", path: ["hero"] },
+    ],
+    [isRTL],
+  );
 
   const loadResource = (key: ResourceKey) => {
     if (!token) return;
@@ -639,10 +637,17 @@ export default function Admin({ lang, content, onContentUpdate }) {
   };
 
   useEffect(() => {
-    if (activePanel !== "content" && token) {
-      loadResource(activePanel);
+    if (activeMode === "resource" && token) {
+      loadResource(activeResourceKey);
     }
-  }, [activePanel, token]);
+  }, [activeMode, activeResourceKey, token]);
+
+  useEffect(() => {
+    if (activeMode === "content") {
+      setSearch("");
+      setCollapsed(new Set());
+    }
+  }, [activeMode, activeContentKey, activeRoot]);
 
   const handleResourceChange = (key: ResourceKey, field: string, value: any) => {
     setResourceState((prev) => ({
@@ -700,6 +705,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
       });
   };
 
+  const activeSection = contentSections.find((section) => section.key === activeContentKey) ??
+    contentSections[0];
+  const activeSectionPath = [activeRoot, ...(activeSection?.path ?? [])];
+  const activeSectionValue = activeSectionPath.reduce(
+    (acc, key) => (acc ? acc[key as keyof typeof acc] : undefined),
+    draft as any,
+  );
+
   return (
     <section className="py-16 lg:py-24 bg-slate-50">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
@@ -714,25 +727,64 @@ export default function Admin({ lang, content, onContentUpdate }) {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-8">
-          {panelTabs.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActivePanel(tab.key)}
-              className={`px-4 py-2 rounded-full text-sm ${
-                activePanel === tab.key ? "bg-[#1c3944] text-white" : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        {token ? (
+          <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
+              <div>
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                  {isRTL ? "صفحات الموقع" : "Pages"}
+                </div>
+                <div className="flex flex-col gap-2">
+                  {contentSections.map((section) => {
+                    const isActive = activeMode === "content" && activeContentKey === section.key;
+                    return (
+                      <button
+                        key={section.key}
+                        type="button"
+                        onClick={() => {
+                          setActiveMode("content");
+                          setActiveContentKey(section.key);
+                        }}
+                        className={`text-sm rounded-lg px-3 py-2 text-left ${
+                          isActive ? "bg-[#1c3944] text-white" : "bg-slate-100 text-slate-700"
+                        }`}
+                      >
+                        {section.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-        <div className="grid lg:grid-cols-[1fr_240px] gap-6">
-          {token ? (
-            <>
-              {activePanel === "content" ? (
+              <div>
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                  {isRTL ? "البيانات الديناميكية" : "Dynamic Data"}
+                </div>
+                <div className="flex flex-col gap-2">
+                  {(Object.keys(resourceConfigs) as ResourceKey[]).map((key) => {
+                    const isActive = activeMode === "resource" && activeResourceKey === key;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => {
+                          setActiveMode("resource");
+                          setActiveResourceKey(key);
+                        }}
+                        className={`text-sm rounded-lg px-3 py-2 text-left ${
+                          isActive ? "bg-[#1c3944] text-white" : "bg-slate-100 text-slate-700"
+                        }`}
+                      >
+                        {resourceConfigs[key].title[isRTL ? "ar" : "en"]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              {activeMode === "content" ? (
                 <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
                   <div className="flex flex-wrap gap-2">
                     {rootKeys.map((key) => (
@@ -758,169 +810,22 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     onChange={(event) => setSearch(event.target.value)}
                   />
 
-                  {renderValue(rootValue, [activeRoot], activeRoot, 0)}
-                </div>
-              ) : (
-                <div className="lg:col-span-2 space-y-6">
-                  <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-6">
-                    <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="text-lg font-semibold text-[#1c3944]">
-                          {resourceConfigs[activePanel].title[isRTL ? "ar" : "en"]}
-                        </div>
-                        <button
-                          type="button"
-                          className="text-sm text-[#1c3944] font-semibold"
-                          onClick={() => handleResourceNew(activePanel)}
-                        >
-                          {isRTL ? "عنصر جديد" : "New Item"}
-                        </button>
-                      </div>
-                      {resourceState[activePanel].loading && (
-                        <div className="text-sm text-slate-500">
-                          {isRTL ? "جارٍ التحميل..." : "Loading..."}
-                        </div>
-                      )}
-                      {resourceState[activePanel].error && (
-                        <div className="text-sm text-red-600">{resourceState[activePanel].error}</div>
-                      )}
-                      <div className="space-y-3">
-                        {resourceState[activePanel].items.map((item) => (
-                          <div
-                            key={item.id}
-                            className="border border-slate-200 rounded-lg p-3 flex items-start justify-between gap-4"
-                          >
-                            <div>
-                              <div className="font-semibold text-sm text-[#1c3944]">
-                                {resourceConfigs[activePanel].summary(item, lang)}
-                              </div>
-                              {item.published_date || item.date ? (
-                                <div className="text-xs text-slate-500 mt-1">
-                                  {item.published_date ?? item.date}
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="flex gap-2">
-                              <button
-                                type="button"
-                                className="text-xs text-slate-600"
-                                onClick={() => handleResourceEdit(activePanel, item)}
-                              >
-                                {isRTL ? "تعديل" : "Edit"}
-                              </button>
-                              <button
-                                type="button"
-                                className="text-xs text-red-600"
-                                onClick={() => handleResourceDelete(activePanel, item.id)}
-                              >
-                                {isRTL ? "حذف" : "Delete"}
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                        {resourceState[activePanel].items.length === 0 &&
-                          !resourceState[activePanel].loading && (
-                            <div className="text-sm text-slate-500">
-                              {isRTL ? "لا توجد عناصر بعد." : "No items yet."}
-                            </div>
-                          )}
-                      </div>
+                  {activeSectionValue === undefined ? (
+                    <div className="text-sm text-slate-500">
+                      {isRTL ? "لا يوجد محتوى لهذا القسم." : "No content found for this section."}
                     </div>
+                  ) : (
+                    renderValue(activeSectionValue, activeSectionPath, activeSection.label, 0)
+                  )}
 
-                    <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
-                      <div className="text-lg font-semibold text-[#1c3944]">
-                        {resourceState[activePanel].editingId
-                          ? isRTL
-                            ? "تعديل العنصر"
-                            : "Edit Item"
-                          : isRTL
-                          ? "إضافة عنصر"
-                          : "Add Item"}
-                      </div>
-                      <div className="space-y-3">
-                        {resourceConfigs[activePanel].fields.map((field) => {
-                          const value = resourceState[activePanel].form[field.name] ?? "";
-                          const label = field.label[isRTL ? "ar" : "en"];
-                          if (field.type === "textarea") {
-                            return (
-                              <div key={field.name} className="space-y-2">
-                                <label className="block text-xs font-semibold text-slate-500">{label}</label>
-                                <textarea
-                                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm leading-6"
-                                  rows={4}
-                                  value={value}
-                                  onChange={(event) =>
-                                    handleResourceChange(activePanel, field.name, event.target.value)
-                                  }
-                                />
-                              </div>
-                            );
-                          }
-                          if (field.type === "checkbox") {
-                            return (
-                              <label key={field.name} className="flex items-center gap-2 text-sm">
-                                <input
-                                  type="checkbox"
-                                  checked={Boolean(value)}
-                                  onChange={(event) =>
-                                    handleResourceChange(activePanel, field.name, event.target.checked)
-                                  }
-                                />
-                                {label}
-                              </label>
-                            );
-                          }
-                          return (
-                            <div key={field.name} className="space-y-2">
-                              <label className="block text-xs font-semibold text-slate-500">{label}</label>
-                              <input
-                                type={field.type === "date" ? "date" : field.type === "number" ? "number" : "text"}
-                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                                value={value}
-                                onChange={(event) =>
-                                  handleResourceChange(
-                                    activePanel,
-                                    field.name,
-                                    field.type === "number"
-                                      ? Number(event.target.value)
-                                      : event.target.value,
-                                  )
-                                }
-                              />
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <button
-                        type="button"
-                        className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
-                        onClick={() => handleResourceSave(activePanel)}
-                      >
-                        {isRTL ? "حفظ" : "Save"}
-                      </button>
-                      {resourceStatus && <div className="text-sm text-slate-600">{resourceStatus}</div>}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex flex-col gap-3">
-                {activePanel === "content" && (
-                  <>
-                    <button
-                      type="button"
-                      className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
-                      onClick={handleSave}
-                    >
-                      {isRTL ? "حفظ التغييرات" : "Save Changes"}
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-3 hover:bg-slate-100"
-                      onClick={() => setStatus(isRTL ? "تم التحقق من الحقول." : "Fields validated.")}
-                    >
-                      {isRTL ? "تحقق من الحقول" : "Validate Fields"}
-                    </button>
+                  <button
+                    type="button"
+                    className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
+                    onClick={handleSave}
+                  >
+                    {isRTL ? "حفظ التغييرات" : "Save Changes"}
+                  </button>
+                  <div className="grid gap-3 sm:grid-cols-2">
                     <button
                       type="button"
                       className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-3 hover:bg-slate-100"
@@ -930,32 +835,164 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     </button>
                     <button
                       type="button"
-                      className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-3 hover:bg-slate-100"
-                      onClick={handleDownload}
-                    >
-                      {isRTL ? "تنزيل JSON" : "Download JSON"}
-                    </button>
-                    <button
-                      type="button"
                       className="w-full rounded-lg border border-red-200 text-red-700 px-4 py-3 hover:bg-red-50"
                       onClick={handleReset}
                     >
                       {isRTL ? "إعادة الضبط" : "Reset to Default"}
                     </button>
-                  </>
-                )}
-                <button
-                  type="button"
-                  className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-2 hover:bg-slate-100"
-                  onClick={handleLogout}
-                >
-                  {isRTL ? "تسجيل الخروج" : "Logout"}
-                </button>
-                {status && <div className="text-sm text-slate-600 mt-2">{status}</div>}
-              </div>
-            </>
-          ) : (
-            <div className="bg-white border border-slate-200 rounded-xl p-6 max-w-md">
+                  </div>
+                  <button
+                    type="button"
+                    className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-2 hover:bg-slate-100"
+                    onClick={handleLogout}
+                  >
+                    {isRTL ? "تسجيل الخروج" : "Logout"}
+                  </button>
+                  {status && <div className="text-sm text-slate-600">{status}</div>}
+                </div>
+              ) : (
+                <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-6">
+                  <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="text-lg font-semibold text-[#1c3944]">
+                        {resourceConfigs[activeResourceKey].title[isRTL ? "ar" : "en"]}
+                      </div>
+                      <button
+                        type="button"
+                        className="text-sm text-[#1c3944] font-semibold"
+                        onClick={() => handleResourceNew(activeResourceKey)}
+                      >
+                        {isRTL ? "عنصر جديد" : "New Item"}
+                      </button>
+                    </div>
+                    {resourceState[activeResourceKey].loading && (
+                      <div className="text-sm text-slate-500">
+                        {isRTL ? "جارٍ التحميل..." : "Loading..."}
+                      </div>
+                    )}
+                    {resourceState[activeResourceKey].error && (
+                      <div className="text-sm text-red-600">{resourceState[activeResourceKey].error}</div>
+                    )}
+                    <div className="space-y-3">
+                      {resourceState[activeResourceKey].items.map((item) => (
+                        <div
+                          key={item.id}
+                          className="border border-slate-200 rounded-lg p-3 flex items-start justify-between gap-4"
+                        >
+                          <div>
+                            <div className="font-semibold text-sm text-[#1c3944]">
+                              {resourceConfigs[activeResourceKey].summary(item, lang)}
+                            </div>
+                            {item.published_date || item.date ? (
+                              <div className="text-xs text-slate-500 mt-1">
+                                {item.published_date ?? item.date}
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              className="text-xs text-slate-600"
+                              onClick={() => handleResourceEdit(activeResourceKey, item)}
+                            >
+                              {isRTL ? "تعديل" : "Edit"}
+                            </button>
+                            <button
+                              type="button"
+                              className="text-xs text-red-600"
+                              onClick={() => handleResourceDelete(activeResourceKey, item.id)}
+                            >
+                              {isRTL ? "حذف" : "Delete"}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                      {resourceState[activeResourceKey].items.length === 0 &&
+                        !resourceState[activeResourceKey].loading && (
+                          <div className="text-sm text-slate-500">
+                            {isRTL ? "لا توجد عناصر بعد." : "No items yet."}
+                          </div>
+                        )}
+                    </div>
+                  </div>
+
+                  <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
+                    <div className="text-lg font-semibold text-[#1c3944]">
+                      {resourceState[activeResourceKey].editingId
+                        ? isRTL
+                          ? "تعديل العنصر"
+                          : "Edit Item"
+                        : isRTL
+                        ? "إضافة عنصر"
+                        : "Add Item"}
+                    </div>
+                    <div className="space-y-3">
+                      {resourceConfigs[activeResourceKey].fields.map((field) => {
+                        const value = resourceState[activeResourceKey].form[field.name] ?? "";
+                        const label = field.label[isRTL ? "ar" : "en"];
+                        if (field.type === "textarea") {
+                          return (
+                            <div key={field.name} className="space-y-2">
+                              <label className="block text-xs font-semibold text-slate-500">{label}</label>
+                              <textarea
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm leading-6"
+                                rows={4}
+                                value={value}
+                                onChange={(event) =>
+                                  handleResourceChange(activeResourceKey, field.name, event.target.value)
+                                }
+                              />
+                            </div>
+                          );
+                        }
+                        if (field.type === "checkbox") {
+                          return (
+                            <label key={field.name} className="flex items-center gap-2 text-sm">
+                              <input
+                                type="checkbox"
+                                checked={Boolean(value)}
+                                onChange={(event) =>
+                                  handleResourceChange(activeResourceKey, field.name, event.target.checked)
+                                }
+                              />
+                              {label}
+                            </label>
+                          );
+                        }
+                        return (
+                          <div key={field.name} className="space-y-2">
+                            <label className="block text-xs font-semibold text-slate-500">{label}</label>
+                            <input
+                              type={field.type === "date" ? "date" : field.type === "number" ? "number" : "text"}
+                              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                              value={value}
+                              onChange={(event) =>
+                                handleResourceChange(
+                                  activeResourceKey,
+                                  field.name,
+                                  field.type === "number" ? Number(event.target.value) : event.target.value,
+                                )
+                              }
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <button
+                      type="button"
+                      className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
+                      onClick={() => handleResourceSave(activeResourceKey)}
+                    >
+                      {isRTL ? "حفظ" : "Save"}
+                    </button>
+                    {resourceStatus && <div className="text-sm text-slate-600">{resourceStatus}</div>}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white border border-slate-200 rounded-xl p-6 max-w-md">
               <h2 className="text-xl font-semibold text-[#1c3944] mb-4">
                 {isRTL ? "تسجيل الدخول إلى لوحة التحكم" : "Sign in to Admin"}
               </h2>
@@ -996,7 +1033,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
               </div>
             </div>
           )}
-        </div>
       </div>
     </section>
   );
