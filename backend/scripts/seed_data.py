@@ -21,13 +21,14 @@ from django.contrib.auth.models import User
 
 def create_superuser():
     """Create admin superuser if not exists."""
-    if not User.objects.filter(username='admin').exists():
+    username = 'riadseifadmin'
+    if not User.objects.filter(username=username).exists():
         User.objects.create_superuser(
-            username='admin',
-            email='admin@riadseiflb.org',
-            password='admin123'
+            username=username,
+            email='admin@riadseiffoundation.org',
+            password='riadseif123'
         )
-        print("✓ Created superuser: admin / admin123")
+        print(f"✓ Created superuser: {username} / riadseif123")
     else:
         print("- Superuser already exists")
 
@@ -184,8 +185,8 @@ def run():
     
     print("\n✅ Database seeding complete!\n")
     print("You can now login to /admin with:")
-    print("  Username: admin")
-    print("  Password: admin123")
+    print("  Username: riadseifadmin")
+    print("  Password: riadseif123")
     print("\n⚠️  Remember to change the password in production!\n")
 
 if __name__ == '__main__':
