@@ -53,6 +53,8 @@ export default function Layout({ children, lang, setLang, content }) {
             {/* Logo Section */}
             <Link
               href="/"
+              title="Riad Seif Foundation"
+              aria-label="Riad Seif Foundation"
               className={`flex items-center cursor-pointer ${lang === 'en' ? 'w-[320px]' : 'w-[300px]'}`}
             >
               <img
