@@ -133,6 +133,18 @@ export async function loginAdmin(username: string, password: string) {
   });
 }
 
+export async function changeAdminPassword(
+  token: string,
+  currentPassword: string,
+  newPassword: string,
+) {
+  return request<{ detail: string }>("/auth/change-password/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders(token) },
+    body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+  });
+}
+
 export async function fetchSiteContent(): Promise<SiteContentBlob> {
   return request<SiteContentBlob>("/content/site-content/");
 }

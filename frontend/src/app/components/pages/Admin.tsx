@@ -3,6 +3,7 @@ import { content as defaultContent } from "../../utils/content";
 import {
   fetchSiteContent,
   loginAdmin,
+  changeAdminPassword,
   updateSiteContent,
   adminListNews,
   adminUpsertNews,
@@ -254,6 +255,12 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const [resourceStatus, setResourceStatus] = useState("");
   const [token, setToken] = useState(() => window.localStorage.getItem("rs_admin_token") ?? "");
   const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [passwordStatus, setPasswordStatus] = useState("");
   const [activeRoot, setActiveRoot] = useState("ar");
   const [activeMode, setActiveMode] = useState<"content" | "resource">("content");
   const [activeContentKey, setActiveContentKey] = useState("home");
@@ -413,6 +420,35 @@ export default function Admin({ lang, content, onContentUpdate }) {
     window.localStorage.removeItem("rs_admin_token");
     setToken("");
     setStatus(isRTL ? "تم تسجيل الخروج." : "Logged out.");
+  };
+
+  const handlePasswordChange = () => {
+    if (!token) {
+      setPasswordStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
+      return;
+    }
+    if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+      setPasswordStatus(isRTL ? "يرجى تعبئة جميع الحقول." : "Please fill in all fields.");
+      return;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordStatus(isRTL ? "كلمتا المرور غير متطابقتين." : "Passwords do not match.");
+      return;
+    }
+    changeAdminPassword(token, passwordForm.currentPassword, passwordForm.newPassword)
+      .then((response) => {
+        setPasswordStatus(
+          response?.detail ?? (isRTL ? "تم تحديث كلمة المرور." : "Password updated."),
+        );
+        setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      })
+      .catch((error) => {
+        const message =
+          error?.detail?.[0] ??
+          error?.detail ??
+          (isRTL ? "فشل تحديث كلمة المرور." : "Password update failed.");
+        setPasswordStatus(Array.isArray(message) ? message[0] : message);
+      });
   };
 
   const handleFieldChange = (path: Array<string | number>, value: any) => {
@@ -989,6 +1025,61 @@ export default function Admin({ lang, content, onContentUpdate }) {
                   </div>
                 </div>
               )}
+
+              <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
+                <div className="text-lg font-semibold text-[#1c3944]">
+                  {isRTL ? "تغيير كلمة المرور" : "Change Password"}
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="space-y-2">
+                    <label className="block text-xs font-semibold text-slate-500">
+                      {isRTL ? "كلمة المرور الحالية" : "Current Password"}
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                      value={passwordForm.currentPassword}
+                      onChange={(event) =>
+                        setPasswordForm({ ...passwordForm, currentPassword: event.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-xs font-semibold text-slate-500">
+                      {isRTL ? "كلمة المرور الجديدة" : "New Password"}
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                      value={passwordForm.newPassword}
+                      onChange={(event) =>
+                        setPasswordForm({ ...passwordForm, newPassword: event.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-xs font-semibold text-slate-500">
+                      {isRTL ? "تأكيد كلمة المرور" : "Confirm Password"}
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                      value={passwordForm.confirmPassword}
+                      onChange={(event) =>
+                        setPasswordForm({ ...passwordForm, confirmPassword: event.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="w-full md:w-auto rounded-lg bg-[#1c3944] text-white px-4 py-2 hover:bg-[#122c35]"
+                  onClick={handlePasswordChange}
+                >
+                  {isRTL ? "تحديث كلمة المرور" : "Update Password"}
+                </button>
+                {passwordStatus && <div className="text-sm text-slate-600">{passwordStatus}</div>}
+              </div>
             </div>
           </div>
         ) : (
