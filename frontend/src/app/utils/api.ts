@@ -110,6 +110,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+function normalizeList<T>(payload: T[] | PaginatedResponse<T>) {
+  if (Array.isArray(payload)) return payload;
+  return payload.results ?? [];
+}
+
 function authHeaders(token?: string) {
   return token ? { Authorization: `Token ${token}` } : {};
 }
@@ -207,7 +212,11 @@ export async function fetchArchiveItems(): Promise<ArchiveItem[]> {
 
 // Admin CRUD
 export async function adminListNews(token: string) {
-  return request<NewsUpdate[]>("/admin/news/", { headers: authHeaders(token) });
+  const response = await request<NewsUpdate[] | PaginatedResponse<NewsUpdate>>(
+    "/admin/news/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertNews(token: string, payload: Record<string, any>, id?: number) {
@@ -222,7 +231,11 @@ export async function adminDeleteNews(token: string, id: number) {
 }
 
 export async function adminListTeam(token: string) {
-  return request<TeamMember[]>("/admin/team/", { headers: authHeaders(token) });
+  const response = await request<TeamMember[] | PaginatedResponse<TeamMember>>(
+    "/admin/team/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertTeam(token: string, payload: Record<string, any>, id?: number) {
@@ -237,7 +250,11 @@ export async function adminDeleteTeam(token: string, id: number) {
 }
 
 export async function adminListPublications(token: string) {
-  return request<Publication[]>("/admin/publications/", { headers: authHeaders(token) });
+  const response = await request<Publication[] | PaginatedResponse<Publication>>(
+    "/admin/publications/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertPublication(token: string, payload: Record<string, any>, id?: number) {
@@ -252,7 +269,11 @@ export async function adminDeletePublication(token: string, id: number) {
 }
 
 export async function adminListEvents(token: string) {
-  return request<ForumEvent[]>("/admin/events/", { headers: authHeaders(token) });
+  const response = await request<ForumEvent[] | PaginatedResponse<ForumEvent>>(
+    "/admin/events/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertEvent(token: string, payload: Record<string, any>, id?: number) {
@@ -267,7 +288,11 @@ export async function adminDeleteEvent(token: string, id: number) {
 }
 
 export async function adminListMemory(token: string) {
-  return request<MemoryPhoto[]>("/admin/memory/", { headers: authHeaders(token) });
+  const response = await request<MemoryPhoto[] | PaginatedResponse<MemoryPhoto>>(
+    "/admin/memory/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertMemory(token: string, payload: Record<string, any>, id?: number) {
@@ -282,7 +307,11 @@ export async function adminDeleteMemory(token: string, id: number) {
 }
 
 export async function adminListArchive(token: string) {
-  return request<ArchiveItem[]>("/admin/archive/", { headers: authHeaders(token) });
+  const response = await request<ArchiveItem[] | PaginatedResponse<ArchiveItem>>(
+    "/admin/archive/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
 }
 
 export async function adminUpsertArchive(token: string, payload: Record<string, any>, id?: number) {
