@@ -10,7 +10,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     # Admin
-    path('admin/', admin.site.urls),
+    path('dj-admin/', admin.site.urls),
     path('api/auth/token/', obtain_auth_token, name='api-token-auth'),
     
     # API endpoints
