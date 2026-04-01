@@ -266,7 +266,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const [uploading, setUploading] = useState<Record<string, boolean>>({});
   const [activeRoot, setActiveRoot] = useState("ar");
   const [activeMode, setActiveMode] = useState<"content" | "resource">("content");
-  const [activeContentKey, setActiveContentKey] = useState("home");
+  const [activeContentKey, setActiveContentKey] = useState("home-hero");
   const [activeResourceKey, setActiveResourceKey] = useState<ResourceKey>("news");
   const [search, setSearch] = useState("");
   const [collapsed, setCollapsed] = useState(() => new Set<string>());
@@ -291,7 +291,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   });
 
   useEffect(() => {
-    setDraft(content);
+    setDraft(mergeContent(defaultContent as SiteContent, content as SiteContent));
   }, [content]);
 
   const rootKeys = useMemo(() => Object.keys(draft ?? {}), [draft]);
@@ -304,6 +304,22 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const isPlainObject = (value: unknown) =>
     value !== null && typeof value === "object" && !Array.isArray(value);
+
+  const mergeContent = (base: any, override: any): any => {
+    if (override === undefined || override === null) return base;
+    if (Array.isArray(base)) {
+      return Array.isArray(override) ? override : base;
+    }
+    if (isPlainObject(base)) {
+      if (!isPlainObject(override)) return override;
+      const result: Record<string, any> = { ...base };
+      Object.keys(override).forEach((key) => {
+        result[key] = mergeContent(base?.[key], override[key]);
+      });
+      return result;
+    }
+    return override;
+  };
 
   const updateAtPath = (value: any, path: Array<string | number>, nextValue: any) => {
     if (path.length === 0) return nextValue;
@@ -404,8 +420,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
       .then((response) => {
         const payload = response?.content;
         if (payload && Object.keys(payload).length > 0) {
-          setDraft(payload as SiteContent);
-          onContentUpdate(payload as SiteContent);
+          const merged = mergeContent(defaultContent as SiteContent, payload as SiteContent);
+          setDraft(merged as SiteContent);
+          onContentUpdate(merged as SiteContent);
           setStatus(isRTL ? "تم التحميل من الخادم." : "Loaded from server.");
         } else {
           setStatus(isRTL ? "لا يوجد محتوى محفوظ على الخادم." : "No server content found.");
@@ -677,7 +694,10 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const contentSections = useMemo(
     () => [
-      { key: "home", label: isRTL ? "الرئيسية" : "Home", path: ["home"] },
+      { key: "home-hero", label: isRTL ? "الرئيسية - السلايدر" : "Home - Hero Slides", path: ["home", "heroSlides"] },
+      { key: "home-about", label: isRTL ? "الرئيسية - عن المؤسسة" : "Home - About Section", path: ["home", "aboutSection"] },
+      { key: "home-founder", label: isRTL ? "الرئيسية - عن رياض سيف" : "Home - Founder Section", path: ["home", "founderSection"] },
+      { key: "home-news", label: isRTL ? "الرئيسية - آخر المستجدات" : "Home - News Section", path: ["home", "newsSection"] },
       { key: "about", label: isRTL ? "عن المؤسسة" : "About Us", path: ["about"] },
       { key: "jumana", label: isRTL ? "جمانة سيف" : "Joumana Seif", path: ["jumana"] },
       { key: "founder", label: isRTL ? "عن رياض سيف" : "About Riad Seif", path: ["founder"] },
@@ -688,7 +708,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
       { key: "footer", label: isRTL ? "تذييل الموقع" : "Footer", path: ["footer"] },
       { key: "topBar", label: isRTL ? "الشريط العلوي" : "Top Bar", path: ["topBar"] },
       { key: "nav", label: isRTL ? "القائمة" : "Navigation", path: ["nav"] },
-      { key: "hero", label: isRTL ? "واجهة الموقع" : "Hero", path: ["hero"] },
     ],
     [isRTL],
   );
@@ -1013,6 +1032,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       {resourceConfigs[activeResourceKey].fields.map((field) => {
                         const value = resourceState[activeResourceKey].form[field.name] ?? "";
                         const label = field.label[isRTL ? "ar" : "en"];
+                        const isUrlField = /url|image|photo|cover|logo|pdf/i.test(field.name);
+                        const uploadKey = `resource:${activeResourceKey}.${field.name}`;
                         if (field.type === "textarea") {
                           return (
                             <div key={field.name} className="space-y-2">
@@ -1025,6 +1046,32 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                   handleResourceChange(activeResourceKey, field.name, event.target.value)
                                 }
                               />
+                              {isUrlField ? (
+                                <div className="flex items-center gap-3 text-xs text-slate-500">
+                                  <input
+                                    type="file"
+                                    accept={field.name.toLowerCase().includes("pdf") ? "application/pdf" : "image/*"}
+                                    onChange={(event) => {
+                                      const file = event.target.files?.[0];
+                                      if (!file || !token) return;
+                                      setUploading((prev) => ({ ...prev, [uploadKey]: true }));
+                                      uploadMedia(token, file)
+                                        .then((res) => {
+                                          if (res?.url) {
+                                            handleResourceChange(activeResourceKey, field.name, res.url);
+                                          }
+                                        })
+                                        .catch(() => {
+                                          setResourceStatus(isRTL ? "فشل رفع الملف." : "Upload failed.");
+                                        })
+                                        .finally(() => {
+                                          setUploading((prev) => ({ ...prev, [uploadKey]: false }));
+                                        });
+                                    }}
+                                  />
+                                  {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
+                                </div>
+                              ) : null}
                             </div>
                           );
                         }
@@ -1057,6 +1104,32 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                 )
                               }
                             />
+                            {isUrlField ? (
+                              <div className="flex items-center gap-3 text-xs text-slate-500">
+                                <input
+                                  type="file"
+                                  accept={field.name.toLowerCase().includes("pdf") ? "application/pdf" : "image/*"}
+                                  onChange={(event) => {
+                                    const file = event.target.files?.[0];
+                                    if (!file || !token) return;
+                                    setUploading((prev) => ({ ...prev, [uploadKey]: true }));
+                                    uploadMedia(token, file)
+                                      .then((res) => {
+                                        if (res?.url) {
+                                          handleResourceChange(activeResourceKey, field.name, res.url);
+                                        }
+                                      })
+                                      .catch(() => {
+                                        setResourceStatus(isRTL ? "فشل رفع الملف." : "Upload failed.");
+                                      })
+                                      .finally(() => {
+                                        setUploading((prev) => ({ ...prev, [uploadKey]: false }));
+                                      });
+                                  }}
+                                />
+                                {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
+                              </div>
+                            ) : null}
                           </div>
                         );
                       })}

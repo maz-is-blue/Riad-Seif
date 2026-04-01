@@ -74,6 +74,66 @@ export const content = {
             text: "Riad Seif is remembered as one of Syria's most courageous voices for freedom. From the Damascus Spring to the Syrian opposition, his life story marked by sacrifice and vision continues to inspire Syrians striving for dignity.",
             link: "Full Biography"
         },
+        programsSection: {
+            title: "Programs",
+            subtitle: "Through our programs and activities, we support democratic transition and human rights in Syria",
+            cards: [
+                {
+                    title: "Human Rights Center",
+                    text: "Comprehensive training programs in human rights, democracy, and transitional justice",
+                    link: "/center"
+                },
+                {
+                    title: "Dialogue Forum",
+                    text: "Platform for open and constructive dialogue on civil society and democracy issues",
+                    link: "/forum"
+                },
+                {
+                    title: "About Riad Seif",
+                    text: "Learn about Riad Seif, pioneer of democratic reform and human rights advocate",
+                    link: "/founder"
+                }
+            ]
+        },
+        centerSection: {
+            tagline: "Our Main Program",
+            title: "Human Rights Center",
+            description: "The Human Rights Center is the Foundation's capacity-building hub. We invest in lawyers and young defenders to engage in transitional justice. Through training, mentorship, and networking, we prepare a new generation of leaders.",
+            bullets: [
+                {
+                    title: "Specialized Training",
+                    text: "Training programs specifically designed for the Syrian context in human rights and transitional justice"
+                },
+                {
+                    title: "Leadership Building",
+                    text: "Preparing a new generation of lawyers and human rights defenders through mentorship and networking"
+                },
+                {
+                    title: "Transitional Justice",
+                    text: "Focus on truth, justice, reparations, and guarantees of non-recurrence"
+                }
+            ],
+            image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+            cta: "Discover More About the Center"
+        },
+        aboutFoundationSection: {
+            tagline: "Who We Are",
+            title: "About the Foundation",
+            description: "The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization founded to honor the legacy of activist Riad Seif. We work to promote democracy, justice, and human rights in Syria through training programs and dialogue initiatives.",
+            stats: [
+                { value: "15+", label: "Years of Work" },
+                { value: "500+", label: "Beneficiaries" },
+                { value: "50+", label: "Training Programs" },
+                { value: "100+", label: "Partners" }
+            ],
+            cta: "Discover More"
+        },
+        founderQuote: {
+            quote: "\"Democracy is not just a system of governance, but a culture of life based on respect for human dignity and fundamental rights.\"",
+            author: "Riad Seif",
+            role: "Democratic Reform Pioneer",
+            cta: "Meet Riad Seif"
+        },
         newsSection: {
             title: "Latest Updates",
             subtitle: "Recent activities and featured publications"
@@ -434,6 +494,66 @@ export const content = {
             title: "عن رياض سيف",
             text: "يُذكر رياض سيف كأحد أكثر الأصوات شجاعة في سوريا من أجل الحرية. من ربيع دمشق إلى المعارضة السورية، تستمر قصة حياته المليئة بالتضحية والرؤية في إلهام السوريين الساعين للكرامة.",
             link: "السيرة الذاتية الكاملة"
+        },
+        programsSection: {
+            title: "البرامج",
+            subtitle: "نسعى عبر برامجنا وأنشطتنا لدعم الانتقال الديمقراطي وحقوق الإنسان في سوريا",
+            cards: [
+                {
+                    title: "مركز حقوق الإنسان",
+                    text: "برامج تدريبية شاملة في مجال حقوق الإنسان والديمقراطية والعدالة الانتقالية",
+                    link: "/center"
+                },
+                {
+                    title: "منتدى الحوار",
+                    text: "منصة للحوار المفتوح والبناء حول قضايا المجتمع المدني والديمقراطية",
+                    link: "/forum"
+                },
+                {
+                    title: "عن رياض سيف",
+                    text: "تعرف على رياض سيف، رائد الإصلاح الديمقراطي والمدافع عن حقوق الإنسان",
+                    link: "/founder"
+                }
+            ]
+        },
+        centerSection: {
+            tagline: "برنامجنا الرئيسي",
+            title: "مركز حقوق الإنسان",
+            description: "مركز حقوق الإنسان هو مركز بناء القدرات في المؤسسة. نستثمر في المحامين والمدافعين الشباب للانخراط في العدالة الانتقالية. من خلال التدريب والتوجيه والتشبيك، نعد جيلاً جديداً من القادة.",
+            bullets: [
+                {
+                    title: "التدريب المتخصص",
+                    text: "برامج تدريبية مصممة خصيصاً للسياق السوري في مجال حقوق الإنسان والعدالة الانتقالية"
+                },
+                {
+                    title: "بناء القيادات",
+                    text: "إعداد جيل جديد من المحامين والمدافعين عن حقوق الإنسان من خلال التوجيه والتشبيك"
+                },
+                {
+                    title: "العدالة الانتقالية",
+                    text: "التركيز على الحقيقة والعدالة وجبر الضرر وضمان عدم التكرار"
+                }
+            ],
+            image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+            cta: "اكتشف المزيد عن المركز"
+        },
+        aboutFoundationSection: {
+            tagline: "من نحن",
+            title: "عن المؤسسة",
+            description: "مؤسسة رياض سيف لحقوق الإنسان هي منظمة غير حكومية وغير ربحية تأسست لتكريم إرث المناضل رياض سيف. نعمل على تعزيز الديمقراطية والعدالة وحقوق الإنسان في سوريا من خلال برامج تدريبية ومبادرات حوارية.",
+            stats: [
+                { value: "+15", label: "سنوات من العمل" },
+                { value: "+500", label: "مستفيد" },
+                { value: "+50", label: "برنامج تدريبي" },
+                { value: "+100", label: "شريك" }
+            ],
+            cta: "اكتشف المزيد"
+        },
+        founderQuote: {
+            quote: "\"الديمقراطية ليست مجرد نظام حكم، بل هي ثقافة حياة تقوم على احترام الإنسان وكرامته وحقوقه الأساسية.\"",
+            author: "رياض سيف",
+            role: "رائد الإصلاح الديمقراطي",
+            cta: "تعرف على رياض سيف"
         },
         newsSection: {
             title: "أحدث الأخبار",

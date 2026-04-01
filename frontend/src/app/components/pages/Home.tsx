@@ -59,6 +59,11 @@ export default function Home({ lang, content }) {
     ? t.home.heroSlides
     : defaultSlides;
 
+  const programsSection = t.home?.programsSection;
+  const centerSection = t.home?.centerSection;
+  const aboutFoundationSection = t.home?.aboutFoundationSection;
+  const founderQuote = t.home?.founderQuote;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -319,12 +324,13 @@ export default function Home({ lang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 lg:mb-20 xl:mb-24">
             <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
-              {lang === 'ar' ? 'البرامج' : 'Programs'}
+              {programsSection?.title ?? (lang === 'ar' ? 'البرامج' : 'Programs')}
             </h2>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-              {lang === 'ar' 
-                ? 'نسعى عبر برامجنا وأنشطتنا لدعم الانتقال الديمقراطي وحقوق الإنسان في سوريا' 
-                : 'Through our programs and activities, we support democratic transition and human rights in Syria'}
+              {programsSection?.subtitle ??
+                (lang === 'ar'
+                  ? 'نسعى عبر برامجنا وأنشطتنا لدعم الانتقال الديمقراطي وحقوق الإنسان في سوريا'
+                  : 'Through our programs and activities, we support democratic transition and human rights in Syria')}
             </p>
           </div>
 
@@ -339,16 +345,19 @@ export default function Home({ lang, content }) {
               variants={cardVariants}
               className="bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-t-4 border-[#f7c20e]"
             >
-              <Link href="/center">
+              <Link href={programsSection?.cards?.[0]?.link ?? "/center"}>
                 <div>
                   <div className="w-14 h-14 bg-[#f7c20e] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <BookOpen className="text-[#f7c20e]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>{t.nav.center}</h3>
+                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
+                    {programsSection?.cards?.[0]?.title ?? t.nav.center}
+                  </h3>
                   <p className="text-slate-600 leading-relaxed mb-6">
-                    {lang === 'ar' 
-                      ? 'برامج تدريبية شاملة في مجال حقوق الإنسان والديمقراطية والعدالة الانتقالية'
-                      : 'Comprehensive training programs in human rights, democracy, and transitional justice'}
+                    {programsSection?.cards?.[0]?.text ??
+                      (lang === 'ar'
+                        ? 'برامج تدريبية شاملة في مجال حقوق الإنسان والديمقراطية والعدالة الانتقالية'
+                        : 'Comprehensive training programs in human rights, democracy, and transitional justice')}
                   </p>
                   <span className={`text-[#f7c20e] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
@@ -363,16 +372,19 @@ export default function Home({ lang, content }) {
               variants={cardVariants}
               className="bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-t-4 border-[#1c3944]"
             >
-              <Link href="/forum">
+              <Link href={programsSection?.cards?.[1]?.link ?? "/forum"}>
                 <div>
                   <div className="w-14 h-14 bg-[#1c3944] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <MessageSquare className="text-[#1c3944]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>{t.nav.forum}</h3>
+                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
+                    {programsSection?.cards?.[1]?.title ?? t.nav.forum}
+                  </h3>
                   <p className="text-slate-600 leading-relaxed mb-6">
-                    {lang === 'ar' 
-                      ? 'منصة للحوار المفتوح والبناء حول قضايا المجتمع المدني والديمقراطية'
-                      : 'Platform for open and constructive dialogue on civil society and democracy issues'}
+                    {programsSection?.cards?.[1]?.text ??
+                      (lang === 'ar'
+                        ? 'منصة للحوار المفتوح والبناء حول قضايا المجتمع المدني والديمقراطية'
+                        : 'Platform for open and constructive dialogue on civil society and democracy issues')}
                   </p>
                   <span className={`text-[#1c3944] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
@@ -387,16 +399,19 @@ export default function Home({ lang, content }) {
               variants={cardVariants}
               className="bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-t-4 border-[#2c1d5f]"
             >
-              <Link href="/founder">
+              <Link href={programsSection?.cards?.[2]?.link ?? "/founder"}>
                 <div>
                   <div className="w-14 h-14 bg-[#2c1d5f] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <Users className="text-[#2c1d5f]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>{t.nav.founder}</h3>
+                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
+                    {programsSection?.cards?.[2]?.title ?? t.nav.founder}
+                  </h3>
                   <p className="text-slate-600 leading-relaxed mb-6">
-                    {lang === 'ar' 
-                      ? 'تعرف على رياض سيف، رائد الإصلاح الديمقراطي والمدافع عن حقوق الإنسان'
-                      : 'Learn about Riad Seif, pioneer of democratic reform and human rights advocate'}
+                    {programsSection?.cards?.[2]?.text ??
+                      (lang === 'ar'
+                        ? 'تعرف على رياض سيف، رائد الإصلاح الديمقراطي والمدافع عن حقوق الإنسان'
+                        : 'Learn about Riad Seif, pioneer of democratic reform and human rights advocate')}
                   </p>
                   <span className={`text-[#2c1d5f] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
@@ -424,13 +439,13 @@ export default function Home({ lang, content }) {
               className={isRTL ? 'lg:order-2' : ''}
             >
               <span className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block">
-                {lang === 'ar' ? 'برنامجنا الرئيسي' : 'Our Main Program'}
+                {centerSection?.tagline ?? (lang === 'ar' ? 'برنامجنا الرئيسي' : 'Our Main Program')}
               </span>
               <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-6`}>
-                {t.center.title}
+                {centerSection?.title ?? t.center.title}
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                {t.center.intro.text}
+                {centerSection?.description ?? t.center.intro.text}
               </p>
               
               <div className="space-y-4 mb-8">
@@ -446,12 +461,13 @@ export default function Home({ lang, content }) {
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
                     <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {lang === 'ar' ? 'التدريب المتخصص' : 'Specialized Training'}
+                      {centerSection?.bullets?.[0]?.title ?? (lang === 'ar' ? 'التدريب المتخصص' : 'Specialized Training')}
                     </h4>
                     <p className="text-slate-600 text-sm">
-                      {lang === 'ar' 
-                        ? 'برامج تدريبية مصممة خصيصاً للسياق السوري في مجال حقوق الإنسان والعدالة الانتقالية'
-                        : 'Training programs specifically designed for the Syrian context in human rights and transitional justice'}
+                      {centerSection?.bullets?.[0]?.text ??
+                        (lang === 'ar'
+                          ? 'برامج تدريبية مصممة خصيصاً للسياق السوري في مجال حقوق الإنسان والعدالة الانتقالية'
+                          : 'Training programs specifically designed for the Syrian context in human rights and transitional justice')}
                     </p>
                   </div>
                 </motion.div>
@@ -468,12 +484,13 @@ export default function Home({ lang, content }) {
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
                     <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {lang === 'ar' ? 'بناء القيادات' : 'Leadership Building'}
+                      {centerSection?.bullets?.[1]?.title ?? (lang === 'ar' ? 'بناء القيادات' : 'Leadership Building')}
                     </h4>
                     <p className="text-slate-600 text-sm">
-                      {lang === 'ar' 
-                        ? 'إعداد جيل جديد من المحامين والمدافعين عن حقوق الإنسان من خلال التوجيه والتشبيك'
-                        : 'Preparing a new generation of lawyers and human rights defenders through mentorship and networking'}
+                      {centerSection?.bullets?.[1]?.text ??
+                        (lang === 'ar'
+                          ? 'إعداد جيل جديد من المحامين والمدافعين عن حقوق الإنسان من خلال التوجيه والتشبيك'
+                          : 'Preparing a new generation of lawyers and human rights defenders through mentorship and networking')}
                     </p>
                   </div>
                 </motion.div>
@@ -490,12 +507,13 @@ export default function Home({ lang, content }) {
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
                     <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {lang === 'ar' ? 'العدالة الانتقالية' : 'Transitional Justice'}
+                      {centerSection?.bullets?.[2]?.title ?? (lang === 'ar' ? 'العدالة الانتقالية' : 'Transitional Justice')}
                     </h4>
                     <p className="text-slate-600 text-sm">
-                      {lang === 'ar' 
-                        ? 'التركيز على الحقيقة والعدالة وجبر الضرر وضمان عدم التكرار'
-                        : 'Focus on truth, justice, reparations, and guarantees of non-recurrence'}
+                      {centerSection?.bullets?.[2]?.text ??
+                        (lang === 'ar'
+                          ? 'التركيز على الحقيقة والعدالة وجبر الضرر وضمان عدم التكرار'
+                          : 'Focus on truth, justice, reparations, and guarantees of non-recurrence')}
                     </p>
                   </div>
                 </motion.div>
@@ -506,7 +524,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ x: isRTL ? -5 : 5 }}
                   className={`flex items-center gap-3 text-[#f7c20e] font-semibold cursor-pointer w-fit ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  <span>{lang === 'ar' ? 'اكتشف المزيد عن المركز' : 'Discover More About the Center'}</span>
+                  <span>{centerSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد عن المركز' : 'Discover More About the Center')}</span>
                   {isRTL ? <ArrowLeft size={18} className="shrink-0" /> : <ArrowRight size={18} className="shrink-0" />}
                 </motion.div>
               </Link>
@@ -526,7 +544,7 @@ export default function Home({ lang, content }) {
                   transition={{ duration: 0.3 }}
                 >
                   <img 
-                    src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                    src={centerSection?.image ?? "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"}
                     alt={lang === 'ar' ? 'مركز حقوق النسان' : 'Human Rights Center'}
                     className="w-full h-full object-cover opacity-80"
                   />
@@ -580,15 +598,16 @@ export default function Home({ lang, content }) {
               className={isRTL ? 'lg:order-2' : ''}
             >
               <span className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block">
-                {lang === 'ar' ? 'من نحن' : 'Who We Are'}
+                {aboutFoundationSection?.tagline ?? (lang === 'ar' ? 'من نحن' : 'Who We Are')}
               </span>
               <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-white mb-6`}>
-                {lang === 'ar' ? 'عن المؤسسة' : 'About the Foundation'}
+                {aboutFoundationSection?.title ?? (lang === 'ar' ? 'عن المؤسسة' : 'About the Foundation')}
               </h2>
               <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                {lang === 'ar' 
-                  ? 'مؤسسة رياض سيف لحقوق الإنسان هي منظمة غير حكومية وغير ربحية تأسست لتكريم إرث المناضل رياض سيف. نعمل على تعزيز قيم الديمقراطية والعدالة وحقوق الإنسان في سوريا من خلال برامج تدريبية ومبادرات حوارية.'
-                  : 'The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization founded to honor the legacy of activist Riad Seif. We work to promote democracy, justice, and human rights in Syria through training programs and dialogue initiatives.'}
+                {aboutFoundationSection?.description ??
+                  (lang === 'ar'
+                    ? 'مؤسسة رياض سيف لحقوق الإنسان هي منظمة غير حكومية وغير ربحية تأسست لتكريم إرث المناضل رياض سيف. نعمل على تعزيز قيم الديمقراطية والعدالة وحقوق الإنسان في سوريا من خلال برامج تدريبية ومبادرات حوارية.'
+                    : 'The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization founded to honor the legacy of activist Riad Seif. We work to promote democracy, justice, and human rights in Syria through training programs and dialogue initiatives.')}
               </p>
               <div className="flex flex-wrap gap-8 mt-8">
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -622,7 +641,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ x: isRTL ? -5 : 5 }}
                   className={`flex items-center gap-3 text-[#f7c20e] font-semibold cursor-pointer w-fit ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  <span>{lang === 'ar' ? 'اكتشف المزيد' : 'Discover More'}</span>
+                  <span>{aboutFoundationSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد' : 'Discover More')}</span>
                   {isRTL ? <ArrowLeft size={18} className="shrink-0" /> : <ArrowRight size={18} className="shrink-0" />}
                 </motion.div>
               </Link>
@@ -640,29 +659,45 @@ export default function Home({ lang, content }) {
                   whileHover={{ y: -5 }}
                   className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-lg border border-white border-opacity-10"
                 >
-                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">15+</div>
-                  <div className="text-slate-300 text-sm">{lang === 'ar' ? 'سنوات من العمل' : 'Years of Work'}</div>
+                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">
+                    {aboutFoundationSection?.stats?.[0]?.value ?? '15+'}
+                  </div>
+                  <div className="text-slate-300 text-sm">
+                    {aboutFoundationSection?.stats?.[0]?.label ?? (lang === 'ar' ? 'سنوات من العمل' : 'Years of Work')}
+                  </div>
                 </motion.div>
                 <motion.div 
                   whileHover={{ y: -5 }}
                   className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-lg border border-white border-opacity-10 mt-8"
                 >
-                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">500+</div>
-                  <div className="text-slate-300 text-sm">{lang === 'ar' ? 'مستفيد' : 'Beneficiaries'}</div>
+                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">
+                    {aboutFoundationSection?.stats?.[1]?.value ?? '500+'}
+                  </div>
+                  <div className="text-slate-300 text-sm">
+                    {aboutFoundationSection?.stats?.[1]?.label ?? (lang === 'ar' ? 'مستفيد' : 'Beneficiaries')}
+                  </div>
                 </motion.div>
                 <motion.div 
                   whileHover={{ y: -5 }}
                   className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-lg border border-white border-opacity-10"
                 >
-                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">50+</div>
-                  <div className="text-slate-300 text-sm">{lang === 'ar' ? 'برنامج تدريبي' : 'Training Programs'}</div>
+                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">
+                    {aboutFoundationSection?.stats?.[2]?.value ?? '50+'}
+                  </div>
+                  <div className="text-slate-300 text-sm">
+                    {aboutFoundationSection?.stats?.[2]?.label ?? (lang === 'ar' ? 'برنامج تدريبي' : 'Training Programs')}
+                  </div>
                 </motion.div>
                 <motion.div 
                   whileHover={{ y: -5 }}
                   className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-lg border border-white border-opacity-10 mt-8"
                 >
-                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">100+</div>
-                  <div className="text-slate-300 text-sm">{lang === 'ar' ? 'شريك' : 'Partners'}</div>
+                  <div className="text-4xl font-bold text-[#f7c20e] mb-2">
+                    {aboutFoundationSection?.stats?.[3]?.value ?? '100+'}
+                  </div>
+                  <div className="text-slate-300 text-sm">
+                    {aboutFoundationSection?.stats?.[3]?.label ?? (lang === 'ar' ? 'شريك' : 'Partners')}
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
@@ -685,19 +720,20 @@ export default function Home({ lang, content }) {
           >
             <Quote className="text-[#f7c20e] mx-auto mb-8 opacity-50" size={48} />
             <blockquote className={`text-2xl lg:text-3xl ${t.serif} text-[#1c3944] leading-relaxed mb-8 font-medium`}>
-              {lang === 'ar' 
-                ? '"الديمقراطية ليست مجرد نظام حكم، بل هي ثقافة حياة تقوم على احترام الإنسان وكرامته وحقوقه الأساسية."'
-                : '"Democracy is not just a system of governance, but a culture of life based on respect for human dignity and fundamental rights."'}
+              {founderQuote?.quote ??
+                (lang === 'ar'
+                  ? '"الديمقراطية ليست مجرد نظام حكم، بل هي ثقافة حياة تقوم على احترام الإنسان وكرامته وحقوقه الأساسية."'
+                  : '"Democracy is not just a system of governance, but a culture of life based on respect for human dignity and fundamental rights."')}
             </blockquote>
             <div className="flex items-center justify-center gap-4">
               <div className="w-16 h-1 bg-[#f7c20e]"></div>
               <span className={`${t.serif} text-lg text-[#1c3944] font-semibold`}>
-                {lang === 'ar' ? 'رياض سيف' : 'Riad Seif'}
+                {founderQuote?.author ?? (lang === 'ar' ? 'رياض سيف' : 'Riad Seif')}
               </span>
               <div className="w-16 h-1 bg-[#f7c20e]"></div>
             </div>
             <p className="text-slate-500 text-sm" style={{ marginTop: '2rem' }}>
-              {lang === 'ar' ? 'رائد الإصلاح الديمقراطي' : 'Democratic Reform Pioneer'}
+              {founderQuote?.role ?? (lang === 'ar' ? 'رائد الإصلاح الديمقراطي' : 'Democratic Reform Pioneer')}
             </p>
             
             <div style={{ marginTop: '1.5rem' }}>
@@ -706,7 +742,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ scale: 1.05 }}
                   className="inline-block bg-[#1c3944] text-white px-8 py-3 text-sm font-semibold hover:bg-[#f7c20e] hover:text-[#1c3944] transition-all duration-300 cursor-pointer"
                 >
-                  {lang === 'ar' ? 'تعرف على رياض سيف' : 'Meet Riad Seif'}
+                  {founderQuote?.cta ?? (lang === 'ar' ? 'تعرف على رياض سيف' : 'Meet Riad Seif')}
                 </motion.span>
               </Link>
             </div>
