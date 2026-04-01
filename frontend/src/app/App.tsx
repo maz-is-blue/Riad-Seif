@@ -15,6 +15,7 @@ import { content } from "./utils/content";
 import { fetchSiteContent } from "./utils/api";
 import { type SiteContent } from "./utils/contentStore";
 import Admin from "./components/pages/Admin";
+import AdminAccount from "./components/pages/AdminAccount";
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'ar'>('ar'); // Default to Arabic
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/join-us" component={() => <JoinUs {...props} />} />
           <Route path="/terms" component={() => <Terms {...props} />} />
           <Route path="/admin" component={() => <Admin {...props} onContentUpdate={setSiteContent} />} />
+          <Route path="/admin/account" component={() => <AdminAccount lang={lang} />} />
           
           {/* Fallback to Home */}
           <Route component={() => <Home {...props} />} />

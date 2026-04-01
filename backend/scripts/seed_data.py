@@ -16,7 +16,7 @@ django.setup()
 
 from apps.publications.models import Publication
 from apps.forum.models import Event
-from apps.content.models import SiteSettings, PageContent, NewsUpdate
+from apps.content.models import SiteSettings, PageContent, NewsUpdate, Job
 from django.contrib.auth.models import User
 
 def create_superuser():
@@ -173,6 +173,41 @@ def create_news():
         else:
             print(f"- News exists: {news.title_en[:50]}...")
 
+def create_jobs():
+    """Create sample job opportunities."""
+    jobs_data = [
+        {
+            'title_en': 'Human Rights Legal Researcher',
+            'title_ar': 'باحث قانوني في حقوق الإنسان',
+            'description_en': 'Conduct research on transitional justice mechanisms and produce reports.',
+            'description_ar': 'إجراء بحوث حول آليات العدالة الانتقالية وإعداد التقارير.',
+            'requirements_en': 'LLB, 2+ years experience, Arabic/English fluency, research skills.',
+            'requirements_ar': 'بكالوريوس قانون, خبرة 2+ سنوات, إجادة العربية/الإنجليزية, مهارات بحثية.',
+            'apply_info_en': 'Send CV and cover letter to jobs@riadseiflb.org with subject "Legal Researcher".',
+            'apply_info_ar': 'أرسل السيرة الذاتية وخطاب التقديم إلى jobs@riadseiflb.org بعنوان "باحث قانوني".',
+        },
+        {
+            'title_en': 'Program Coordinator - Youth Empowerment',
+            'title_ar': 'منسق برامج - تمكين الشباب',
+            'description_en': 'Coordinate training programs for youth leaders and civil society activists.',
+            'description_ar': 'تنسيق برامج تدريبية لقادة الشباب وناشطي المجتمع المدني.',
+            'requirements_en': 'BA/BS, project management exp, passion for human rights.',
+            'requirements_ar': 'بكالوريوس, خبرة إدارة مشاريع, شغف بحقوق الإنسان.',
+            'apply_info_en': 'Email CV to jobs@riadseiflb.org subject "Program Coordinator".',
+            'apply_info_ar': 'أرسل CV إلى jobs@riadseiflb.org بعنوان "منسق برامج".',
+        },
+    ]
+    
+    for job_data in jobs_data:
+        job, created = Job.objects.get_or_create(
+            title_en=job_data['title_en'],
+            defaults=job_data
+        )
+        if created:
+            print(f"✓ Created job: {job.title_en}")
+        else:
+            print(f"- Job exists: {job.title_en}")
+
 def run():
     """Main function to run all seed operations."""
     print("\n🌱 Seeding database...\n")
@@ -182,6 +217,7 @@ def run():
     create_publications()
     create_events()
     create_news()
+    create_jobs()
     
     print("\n✅ Database seeding complete!\n")
     print("You can now login to /admin with:")
@@ -191,4 +227,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-

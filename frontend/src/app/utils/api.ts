@@ -22,6 +22,15 @@ export type SiteContentBlob = {
   updated_at?: string;
 };
 
+export type AdminUser = {
+  id: number;
+  username: string;
+  email?: string;
+  is_superuser?: boolean;
+  role?: string;
+  permissions?: Record<string, { view?: boolean; edit?: boolean; delete?: boolean }>;
+};
+
 export type NewsUpdate = {
   id: number;
   title_en: string;
@@ -148,6 +157,41 @@ export async function changeAdminPassword(
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders(token) },
     body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+  });
+}
+
+export async function fetchAdminMe(token: string) {
+  return request<AdminUser>("/auth/me/", {
+    headers: authHeaders(token),
+  });
+}
+
+export async function listAdminUsers(token: string) {
+  return request<AdminUser[]>("/auth/users/", {
+    headers: authHeaders(token),
+  });
+}
+
+export async function createAdminUser(token: string, payload: Record<string, any>) {
+  return request<{ detail: string; id: number }>("/auth/users/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders(token) },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateAdminUser(token: string, userId: number, payload: Record<string, any>) {
+  return request<{ detail: string }>(`/auth/users/${userId}/`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...authHeaders(token) },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteAdminUser(token: string, userId: number) {
+  return request<{ detail: string }>(`/auth/users/${userId}/`, {
+    method: "DELETE",
+    headers: authHeaders(token),
   });
 }
 

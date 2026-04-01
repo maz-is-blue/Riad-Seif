@@ -416,6 +416,23 @@ export const content = {
           email: "Email"
       }
     },
+    joinUs: {
+      title: "Join Us",
+      intro: "Explore current opportunities at the foundation. When positions are open, you can apply directly using the details below.",
+      emptyState: "There are no opportunities at the moment. Follow us for future openings.",
+      jobs: [
+        {
+          title: "Program Officer",
+          description: "Lead program coordination, partner engagement, and reporting for human rights initiatives.",
+          requirements: [
+            "3+ years of relevant experience in civil society or humanitarian programs",
+            "Strong Arabic and English communication skills",
+            "Experience with reporting and monitoring frameworks"
+          ],
+          howToApply: "Send your CV and a short cover letter to jobs@riadseiffoundation.org"
+        }
+      ]
+    },
     footer: {
       desc: "Dedicated to the memory and values of the Damascus Spring, working towards a free and democratic Syria for all its citizens.",
       navTitle: "Navigation",
@@ -836,6 +853,23 @@ export const content = {
           phone: "الهاتف",
           email: "البريد الإلكتروني"
       }
+    },
+    joinUs: {
+      title: "انضم إلينا",
+      intro: "اطلع على فرص العمل الحالية في المؤسسة. عند توفر وظائف يمكنك التقديم مباشرة عبر التفاصيل أدناه.",
+      emptyState: "لا توجد فرص متاحة حالياً. تابعنا لفرص قادمة.",
+      jobs: [
+        {
+          title: "منسق برامج",
+          description: "قيادة تنسيق البرامج والتواصل مع الشركاء وإعداد التقارير لمبادرات حقوق الإنسان.",
+          requirements: [
+            "خبرة لا تقل عن 3 سنوات في برامج المجتمع المدني أو العمل الإنساني",
+            "مهارات تواصل قوية بالعربية والإنجليزية",
+            "خبرة في إعداد التقارير وأطر المتابعة والتقييم"
+          ],
+          howToApply: "أرسل السيرة الذاتية ورسالة تعريفية قصيرة إلى jobs@riadseiffoundation.org"
+        }
+      ]
     },
     footer: {
       desc: "مكرسة لذكرى وقيم ربيع دمشق، وتعمل نحو سوريا حرة وديمقراطية لجميع مواطنيها.",

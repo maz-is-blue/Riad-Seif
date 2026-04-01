@@ -2,6 +2,7 @@ from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
+from apps.content.permissions import AdminSectionPermission
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from .models import Publication
 from .serializers import PublicationSerializer, PublicationListSerializer
@@ -52,5 +53,5 @@ class AdminPublicationViewSet(viewsets.ModelViewSet):
 
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("publications")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]

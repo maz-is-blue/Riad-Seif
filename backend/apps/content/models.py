@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class SiteSettings(models.Model):
@@ -159,4 +160,46 @@ class SiteContentBlob(models.Model):
     def get_content(cls):
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
+
+
+class AdminProfile(models.Model):
+    ROLE_CHOICES = [
+        ("super", "Super Admin"),
+        ("sub", "Sub Admin"),
+    ]
+
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name="admin_profile")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="sub")
+    permissions = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        verbose_name = "Admin Profile"
+        verbose_name_plural = "Admin Profiles"
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"
+
+
+class Job(models.Model):
+    """Job opportunities for Join Us page."""
+    
+    title_en = models.CharField(max_length=255)
+    title_ar = models.CharField(max_length=255)
+    description_en = models.TextField()
+    description_ar = models.TextField()
+    requirements_en = models.TextField()
+    requirements_ar = models.TextField()
+    apply_info_en = models.TextField()
+    apply_info_ar = models.TextField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Job Opportunity'
+        verbose_name_plural = 'Job Opportunities'
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title_en
 

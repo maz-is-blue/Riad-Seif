@@ -6,6 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.conf import settings
 from django.core.files.storage import default_storage
 from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
+from .permissions import AdminSectionPermission, has_permission, has_any_edit_permission
 from .serializers import (
     SiteSettingsSerializer,
     PageContentSerializer,
@@ -13,6 +14,8 @@ from .serializers import (
     NewsUpdateSerializer,
     NewsUpdateListSerializer,
     SiteContentBlobSerializer,
+    JobSerializer,
+    AdminJobSerializer,
 )
 
 
@@ -56,7 +59,7 @@ def site_content_blob(request):
         return Response(serializer.data)
 
     # Only admins can update
-    if not request.user.is_staff:
+    if not has_permission(request.user, "content", "edit"):
         return Response({"detail": "Authentication required."}, status=401)
 
     serializer = SiteContentBlobSerializer(blob, data=request.data, partial=True)
@@ -70,6 +73,8 @@ def site_content_blob(request):
 @permission_classes([IsAdminUser])
 @parser_classes([MultiPartParser, FormParser])
 def upload_media(request):
+    if not has_any_edit_permission(request.user):
+        return Response({"detail": "Authentication required."}, status=401)
     if "file" not in request.FILES:
         return Response({"detail": "No file provided."}, status=400)
     upload = request.FILES["file"]
@@ -102,7 +107,7 @@ class AdminTeamMemberViewSet(viewsets.ModelViewSet):
 
     queryset = TeamMember.objects.all()
     serializer_class = TeamMemberSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("team")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
 
@@ -111,6 +116,22 @@ class AdminNewsUpdateViewSet(viewsets.ModelViewSet):
 
     queryset = NewsUpdate.objects.all()
     serializer_class = NewsUpdateSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("news")]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class JobViewSet(viewsets.ReadOnlyModelViewSet):
+    """Public API endpoint for active jobs."""
+    
+    queryset = Job.objects.filter(is_active=True)
+    serializer_class = JobSerializer
+
+
+class AdminJobViewSet(viewsets.ModelViewSet):
+    """Admin CRUD for jobs."""
+
+    queryset = Job.objects.all()
+    serializer_class = AdminJobSerializer
+    permission_classes = [AdminSectionPermission.for_resource("jobs")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 

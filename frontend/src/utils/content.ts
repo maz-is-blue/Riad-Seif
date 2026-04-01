@@ -171,6 +171,10 @@ export const content = {
           email: "Email"
       }
     },
+    joinUs: {
+      noJobsTitle: "No Opportunities Right Now",
+      noJobs: "We're not hiring at the moment, but follow us on social media for future opportunities. Your passion for human rights will be remembered!"
+    },
     footer: {
       desc: "Dedicated to the memory and values of the Damascus Spring, working towards a free and democratic Syria for all its citizens.",
       navTitle: "Navigation",
@@ -346,6 +350,10 @@ export const content = {
           phone: "الهاتف",
           email: "البريد الإلكتروني"
       }
+    },
+    joinUs: {
+      noJobsTitle: "لا توجد فرص متاحة حالياً",
+      noJobs: "لا نستقبل طلبات حالياً، لكن تابعونا على وسائل التواصل للفرص المستقبلية. شغفك بحقوق الإنسان سيُحفظ!"
     },
     footer: {
       desc: "مكرسة لذكرى وقيم ربيع دمشق، وتعمل نحو سوريا حرة وديمقراطية لجميع مواطنيها.",

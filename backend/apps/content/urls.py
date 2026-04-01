@@ -10,15 +10,19 @@ from .views import (
     NewsUpdateViewSet,
     AdminTeamMemberViewSet,
     AdminNewsUpdateViewSet,
+    JobViewSet,
+    AdminJobViewSet,
 )
 
 router = DefaultRouter()
 router.register(r'team', TeamMemberViewSet, basename='team')
 router.register(r'news', NewsUpdateViewSet, basename='news')
+router.register(r'jobs', JobViewSet, basename='jobs')
 
 admin_router = DefaultRouter()
 admin_router.register(r'admin/team', AdminTeamMemberViewSet, basename='admin-team')
 admin_router.register(r'admin/news', AdminNewsUpdateViewSet, basename='admin-news')
+admin_router.register(r'admin/jobs', AdminJobViewSet, basename='admin-jobs')
 
 urlpatterns = [
     path('settings/', get_site_settings, name='site-settings'),

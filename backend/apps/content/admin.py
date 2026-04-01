@@ -124,3 +124,27 @@ class SiteContentBlobAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    """Admin for job opportunities."""
+    
+    list_display = ['title_en', 'is_active', 'created_at']
+    list_filter = ['is_active']
+    search_fields = ['title_en', 'title_ar', 'description_en']
+    date_hierarchy = 'created_at'
+    ordering = ['-created_at']
+    list_editable = ['is_active']
+    
+    fieldsets = (
+        ('English', {
+            'fields': ('title_en', 'description_en', 'requirements_en', 'apply_info_en'),
+        }),
+        ('العربية Arabic', {
+            'fields': ('title_ar', 'description_ar', 'requirements_ar', 'apply_info_ar'),
+        }),
+        ('Display', {
+            'fields': ('is_active',),
+        }),
+    )
+

@@ -2,6 +2,7 @@ from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
+from apps.content.permissions import AdminSectionPermission
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.utils import timezone
 from .models import Event, MemoryPhoto, ArchiveItem
@@ -68,20 +69,20 @@ class ArchiveItemViewSet(viewsets.ReadOnlyModelViewSet):
 class AdminEventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("events")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
 
 class AdminMemoryPhotoViewSet(viewsets.ModelViewSet):
     queryset = MemoryPhoto.objects.all()
     serializer_class = MemoryPhotoSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("memory")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
 
 class AdminArchiveItemViewSet(viewsets.ModelViewSet):
     queryset = ArchiveItem.objects.all()
     serializer_class = ArchiveItemSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [AdminSectionPermission.for_resource("archive")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 

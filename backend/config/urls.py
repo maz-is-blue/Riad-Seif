@@ -6,13 +6,22 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from apps.content.auth_views import ChangePasswordView, ObtainAuthTokenView
+from apps.content.auth_views import (
+    ChangePasswordView,
+    ObtainAuthTokenView,
+    AdminMeView,
+    AdminUsersView,
+    AdminUserDetailView,
+)
 
 urlpatterns = [
     # Admin
     path('dj-admin/', admin.site.urls),
     path('api/auth/token/', ObtainAuthTokenView.as_view(), name='api-token-auth'),
     path('api/auth/change-password/', ChangePasswordView.as_view(), name='api-change-password'),
+    path('api/auth/me/', AdminMeView.as_view(), name='api-admin-me'),
+    path('api/auth/users/', AdminUsersView.as_view(), name='api-admin-users'),
+    path('api/auth/users/<int:user_id>/', AdminUserDetailView.as_view(), name='api-admin-user-detail'),
     
     # API endpoints
     path('api/', include('apps.publications.urls')),

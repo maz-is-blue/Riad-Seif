@@ -8,6 +8,7 @@ import Center from "./components/pages/Center";
 import Forum from "./components/pages/Forum";
 import Publications from "./components/pages/Publications";
 import Contact from "./components/pages/Contact";
+import JoinUs from "./components/pages/JoinUs";
 import { content } from "./utils/content";
 
 export default function App() {
@@ -25,11 +26,12 @@ export default function App() {
         <Route path="/center" component={() => <Center {...props} />} />
         <Route path="/forum" component={() => <Forum {...props} />} />
         <Route path="/publications" component={() => <Publications {...props} />} />
+        <Route path="/join-us" component={() => <JoinUs {...props} />} />
         <Route path="/contact" component={() => <Contact {...props} />} />
-        
         {/* Fallback to Home */}
         <Route component={() => <Home {...props} />} />
       </Switch>
     </Layout>
   );
 }
+

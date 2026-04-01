@@ -134,3 +134,31 @@ class SiteContentBlobSerializer(serializers.ModelSerializer):
         model = SiteContentBlob
         fields = ["content", "updated_at"]
 
+
+class JobSerializer(serializers.ModelSerializer):
+    """Serializer for job opportunities (public)."""
+    
+    class Meta:
+        model = Job
+        fields = [
+            'id',
+            'title_en',
+            'title_ar',
+            'description_en',
+            'description_ar',
+            'requirements_en',
+            'requirements_ar',
+            'apply_info_en',
+            'apply_info_ar',
+            'is_active',
+            'created_at',
+        ]
+
+
+class AdminJobSerializer(serializers.ModelSerializer):
+    """Full serializer for admin CRUD."""
+    
+    class Meta:
+        model = Job
+        fields = '__all__'
+
