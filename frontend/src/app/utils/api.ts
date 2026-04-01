@@ -104,10 +104,11 @@ type ContactPayload = {
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, init);
+  const payload = await response.json().catch(() => null);
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    throw { status: response.status, ...(payload ?? {}) };
   }
-  return response.json() as Promise<T>;
+  return payload as T;
 }
 
 function normalizeList<T>(payload: T[] | PaginatedResponse<T>) {

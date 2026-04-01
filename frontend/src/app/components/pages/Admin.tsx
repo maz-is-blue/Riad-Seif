@@ -253,6 +253,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const [draft, setDraft] = useState<SiteContent>(content);
   const [status, setStatus] = useState("");
   const [resourceStatus, setResourceStatus] = useState("");
+  const [saving, setSaving] = useState(false);
   const [token, setToken] = useState(() => window.localStorage.getItem("rs_admin_token") ?? "");
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [passwordForm, setPasswordForm] = useState({
@@ -356,14 +357,27 @@ export default function Admin({ lang, content, onContentUpdate }) {
       setStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
       return;
     }
+    setSaving(true);
     updateSiteContent(draft as unknown as Record<string, unknown>, token)
       .then((response) => {
         const payload = response?.content as SiteContent;
         onContentUpdate(payload);
         setStatus(isRTL ? "تم الحفظ بنجاح." : "Saved successfully.");
       })
-      .catch(() => {
-        setStatus(isRTL ? "فشل الحفظ على الخادم." : "Failed to save to server.");
+      .catch((error) => {
+        const message =
+          error?.detail ??
+          (error?.status === 401
+            ? isRTL
+              ? "غير مصرح. يرجى تسجيل الدخول."
+              : "Unauthorized. Please log in."
+            : isRTL
+            ? "فشل الحفظ على الخادم."
+            : "Failed to save to server.");
+        setStatus(Array.isArray(message) ? message[0] : message);
+      })
+      .finally(() => {
+        setSaving(false);
       });
   };
 
@@ -764,7 +778,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
         </div>
 
         {token ? (
-          <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6">
+          <>
+            <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6">
             <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
               <div>
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
@@ -856,10 +871,13 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
                   <button
                     type="button"
-                    className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
+                    className={`w-full rounded-lg px-4 py-3 text-white ${
+                      saving ? "bg-slate-500" : "bg-[#1c3944] hover:bg-[#122c35]"
+                    }`}
                     onClick={handleSave}
+                    disabled={saving}
                   >
-                    {isRTL ? "حفظ التغييرات" : "Save Changes"}
+                    {saving ? (isRTL ? "جارٍ الحفظ..." : "Saving...") : isRTL ? "حفظ التغييرات" : "Save Changes"}
                   </button>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
@@ -1026,62 +1044,66 @@ export default function Admin({ lang, content, onContentUpdate }) {
                 </div>
               )}
 
-              <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-4">
-                <div className="text-lg font-semibold text-[#1c3944]">
-                  {isRTL ? "تغيير كلمة المرور" : "Change Password"}
-                </div>
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="space-y-2">
-                    <label className="block text-xs font-semibold text-slate-500">
-                      {isRTL ? "كلمة المرور الحالية" : "Current Password"}
-                    </label>
-                    <input
-                      type="password"
-                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                      value={passwordForm.currentPassword}
-                      onChange={(event) =>
-                        setPasswordForm({ ...passwordForm, currentPassword: event.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-xs font-semibold text-slate-500">
-                      {isRTL ? "كلمة المرور الجديدة" : "New Password"}
-                    </label>
-                    <input
-                      type="password"
-                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                      value={passwordForm.newPassword}
-                      onChange={(event) =>
-                        setPasswordForm({ ...passwordForm, newPassword: event.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-xs font-semibold text-slate-500">
-                      {isRTL ? "تأكيد كلمة المرور" : "Confirm Password"}
-                    </label>
-                    <input
-                      type="password"
-                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                      value={passwordForm.confirmPassword}
-                      onChange={(event) =>
-                        setPasswordForm({ ...passwordForm, confirmPassword: event.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="w-full md:w-auto rounded-lg bg-[#1c3944] text-white px-4 py-2 hover:bg-[#122c35]"
-                  onClick={handlePasswordChange}
-                >
-                  {isRTL ? "تحديث كلمة المرور" : "Update Password"}
-                </button>
-                {passwordStatus && <div className="text-sm text-slate-600">{passwordStatus}</div>}
-              </div>
             </div>
-          </div>
+            </div>
+            <div className="mt-10 bg-white border border-slate-200 rounded-xl p-6 space-y-4">
+              <div className="text-lg font-semibold text-[#1c3944]">
+                {isRTL ? "إعدادات الحساب" : "Account Settings"}
+              </div>
+              <div className="text-sm text-slate-600">
+                {isRTL ? "يمكنك تغيير كلمة مرور لوحة التحكم من هنا." : "Update the dashboard password here."}
+              </div>
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold text-slate-500">
+                    {isRTL ? "كلمة المرور الحالية" : "Current Password"}
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                    value={passwordForm.currentPassword}
+                    onChange={(event) =>
+                      setPasswordForm({ ...passwordForm, currentPassword: event.target.value })
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold text-slate-500">
+                    {isRTL ? "كلمة المرور الجديدة" : "New Password"}
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                    value={passwordForm.newPassword}
+                    onChange={(event) =>
+                      setPasswordForm({ ...passwordForm, newPassword: event.target.value })
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold text-slate-500">
+                    {isRTL ? "تأكيد كلمة المرور" : "Confirm Password"}
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                    value={passwordForm.confirmPassword}
+                    onChange={(event) =>
+                      setPasswordForm({ ...passwordForm, confirmPassword: event.target.value })
+                    }
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                className="w-full md:w-auto rounded-lg bg-[#1c3944] text-white px-4 py-2 hover:bg-[#122c35]"
+                onClick={handlePasswordChange}
+              >
+                {isRTL ? "تحديث كلمة المرور" : "Update Password"}
+              </button>
+              {passwordStatus && <div className="text-sm text-slate-600">{passwordStatus}</div>}
+            </div>
+          </>
         ) : (
           <div className="bg-white border border-slate-200 rounded-xl p-6 max-w-md">
               <h2 className="text-xl font-semibold text-[#1c3944] mb-4">
