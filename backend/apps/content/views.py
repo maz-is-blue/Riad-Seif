@@ -1,8 +1,10 @@
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.conf import settings
+from django.core.files.storage import default_storage
 from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
 from .serializers import (
     SiteSettingsSerializer,
@@ -62,6 +64,18 @@ def site_content_blob(request):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
+
+
+@api_view(["POST"])
+@permission_classes([IsAdminUser])
+@parser_classes([MultiPartParser, FormParser])
+def upload_media(request):
+    if "file" not in request.FILES:
+        return Response({"detail": "No file provided."}, status=400)
+    upload = request.FILES["file"]
+    path = default_storage.save(f"uploads/{upload.name}", upload)
+    url = request.build_absolute_uri(settings.MEDIA_URL + path)
+    return Response({"url": url}, status=200)
 
 
 class TeamMemberViewSet(viewsets.ReadOnlyModelViewSet):

@@ -166,6 +166,18 @@ export async function updateSiteContent(content: Record<string, unknown>, token:
   });
 }
 
+export async function uploadMedia(token: string, file: File) {
+  const form = new FormData();
+  form.append("file", file);
+  return request<{ url: string }>("/upload/", {
+    method: "POST",
+    headers: {
+      ...authHeaders(token),
+    },
+    body: form,
+  });
+}
+
 export async function fetchPublications(): Promise<Publication[]> {
   const response = await request<Publication[] | PaginatedResponse<Publication>>("/publications/");
   if (Array.isArray(response)) {

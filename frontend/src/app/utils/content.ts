@@ -30,6 +30,40 @@ export const content = {
       btnPubs: "Publications"
     },
     home: {
+        heroSlides: [
+            {
+                image: "https://images.unsplash.com/photo-1643276500881-281d554a72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Building a Just and Democratic Syria",
+                titleAr: "بناء سوريا عادلة وديمقراطية",
+                descEn: "Riad Seif Foundation for Human Rights - A non-governmental, non-profit organization based in Damascus promoting justice, human rights, and democratic reform",
+                descAr: "مؤسسة رياض سيف لحقوق الإنسان - منظمة غير حكومية وغير ربحية مقرها دمشق تعمل على تعزيز العدالة وحقوق الإنسان والإصلاح الديمقراطي",
+                link: "/about"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1719159381916-062fa9f435a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Human Rights Center",
+                titleAr: "مركز حقوق الإنسان",
+                descEn: "Specialized training programs in human rights, transitional justice, and democracy",
+                descAr: "برامج تدريبية متخصصة في حقوق الإنسان والعدالة الانتقالية والديمقراطية",
+                link: "/center"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1695891835429-04bb13f65196?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "National Dialogue Forum",
+                titleAr: "منتدى الحوار الوطني",
+                descEn: "Platform for constructive dialogue promoting democratic discussion culture",
+                descAr: "منصة للحوار البنّاء وتعزيز ثقافة النقاش الديمقراطي والتفاهم",
+                link: "/forum"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1734278095046-f31918334855?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Riad Seif",
+                titleAr: "رياض سيف",
+                descEn: "Pioneer of democratic reform and courageous human rights advocate in Syria",
+                descAr: "رائد الإصلاح الديمقراطي والمدافع الشجاع عن حقوق الإنسان في سوريا",
+                link: "/founder"
+            }
+        ],
         aboutSection: {
             title: "About the Foundation",
             text: "Our mission is to advance justice, human rights, and inclusive democratic reform by empowering civil society actors, especially women and marginalized groups, fostering public dialogue, and promoting accountability.",
@@ -357,6 +391,40 @@ export const content = {
       btnPubs: "الإصدارات"
     },
     home: {
+        heroSlides: [
+            {
+                image: "https://images.unsplash.com/photo-1643276500881-281d554a72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Building a Just and Democratic Syria",
+                titleAr: "بناء سوريا عادلة وديمقراطية",
+                descEn: "Riad Seif Foundation for Human Rights - A non-governmental, non-profit organization based in Damascus promoting justice, human rights, and democratic reform",
+                descAr: "مؤسسة رياض سيف لحقوق الإنسان - منظمة غير حكومية وغير ربحية مقرها دمشق تعمل على تعزيز العدالة وحقوق الإنسان والإصلاح الديمقراطي",
+                link: "/about"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1719159381916-062fa9f435a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Human Rights Center",
+                titleAr: "مركز حقوق الإنسان",
+                descEn: "Specialized training programs in human rights, transitional justice, and democracy",
+                descAr: "برامج تدريبية متخصصة في حقوق الإنسان والعدالة الانتقالية والديمقراطية",
+                link: "/center"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1695891835429-04bb13f65196?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "National Dialogue Forum",
+                titleAr: "منتدى الحوار الوطني",
+                descEn: "Platform for constructive dialogue promoting democratic discussion culture",
+                descAr: "منصة للحوار البنّاء وتعزيز ثقافة النقاش الديمقراطي والتفاهم",
+                link: "/forum"
+            },
+            {
+                image: "https://images.unsplash.com/photo-1734278095046-f31918334855?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+                titleEn: "Riad Seif",
+                titleAr: "رياض سيف",
+                descEn: "Pioneer of democratic reform and courageous human rights advocate in Syria",
+                descAr: "رائد الإصلاح الديمقراطي والمدافع الشجاع عن حقوق الإنسان في سوريا",
+                link: "/founder"
+            }
+        ],
         aboutSection: {
             title: "عن المؤسسة",
             text: "رسالتنا هي تعزيز العدالة وحقوق الإنسان والإصلاح الديمقراطي الشامل من خلال تمكين فاعلي المجتمع المدني، وخاصة النساء والفئات المهمشة، وتعزيز الحوار العام والمساءلة.",

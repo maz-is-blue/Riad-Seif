@@ -12,7 +12,7 @@ export default function Home({ lang, content }) {
   const [newsItems, setNewsItems] = useState<NewsUpdate[]>([]);
 
   // Slider content
-  const slides = [
+  const defaultSlides = [
     {
       image: 'https://images.unsplash.com/photo-1643276500881-281d554a72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
       titleAr: 'بناء سوريا عادلة وديموقراطية',
@@ -54,6 +54,10 @@ export default function Home({ lang, content }) {
       color: '#f7c20e'
     }
   ];
+
+  const slides = Array.isArray(t.home?.heroSlides) && t.home.heroSlides.length
+    ? t.home.heroSlides
+    : defaultSlides;
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -5,6 +5,7 @@ from .views import (
     get_page_content,
     get_all_page_content,
     site_content_blob,
+    upload_media,
     TeamMemberViewSet,
     NewsUpdateViewSet,
     AdminTeamMemberViewSet,
@@ -24,6 +25,7 @@ urlpatterns = [
     path('pages/', get_all_page_content, name='all-pages'),
     path('pages/<str:page>/', get_page_content, name='page-content'),
     path('site-content/', site_content_blob, name='site-content'),
+    path('upload/', upload_media, name='upload-media'),
     path('', include(router.urls)),
     path('', include(admin_router.urls)),
 ]

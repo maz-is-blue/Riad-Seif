@@ -5,6 +5,7 @@ import {
   loginAdmin,
   changeAdminPassword,
   updateSiteContent,
+  uploadMedia,
   adminListNews,
   adminUpsertNews,
   adminDeleteNews,
@@ -262,6 +263,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
     confirmPassword: "",
   });
   const [passwordStatus, setPasswordStatus] = useState("");
+  const [uploading, setUploading] = useState<Record<string, boolean>>({});
   const [activeRoot, setActiveRoot] = useState("ar");
   const [activeMode, setActiveMode] = useState<"content" | "resource">("content");
   const [activeContentKey, setActiveContentKey] = useState("home");
@@ -507,6 +509,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
       if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
       const useTextarea = value.length > 120 || value.includes("\n");
       const isUrl = /url|image|photo|cover|logo/i.test(keyLabel);
+      const pathKey = pathToString(path);
       return (
         <div className="space-y-2">
           <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
@@ -524,6 +527,32 @@ export default function Admin({ lang, content, onContentUpdate }) {
               onChange={(event) => handleFieldChange(path, event.target.value)}
             />
           )}
+          {isUrl ? (
+            <div className="flex items-center gap-3 text-xs text-slate-500">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (!file || !token) return;
+                  setUploading((prev) => ({ ...prev, [pathKey]: true }));
+                  uploadMedia(token, file)
+                    .then((res) => {
+                      if (res?.url) {
+                        handleFieldChange(path, res.url);
+                      }
+                    })
+                    .catch(() => {
+                      setStatus(isRTL ? "فشل رفع الصورة." : "Image upload failed.");
+                    })
+                    .finally(() => {
+                      setUploading((prev) => ({ ...prev, [pathKey]: false }));
+                    });
+                }}
+              />
+              {uploading[pathKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
+            </div>
+          ) : null}
           {isUrl && value && value.startsWith("http") ? (
             <img src={value} alt={keyLabel} className="mt-2 max-h-40 rounded-md border" />
           ) : null}
