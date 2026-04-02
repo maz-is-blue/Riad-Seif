@@ -76,16 +76,6 @@ export default function Publications({ lang, content }) {
   };
 
   const dynamicItems = useMemo<PublicationCard[]>(() => {
-    if (!apiPublications.length) {
-      return t.publications.items.map((item) => ({
-        cat: item.cat,
-        title: item.title,
-        date: item.date,
-        desc: item.desc,
-        type: normalizeCategoryKey(item.type || item.cat),
-      }));
-    }
-
     return apiPublications.map((item) => {
       const [displayEn, displayAr] = item.category_display.split('/').map((part) => part.trim());
       const type = normalizeCategoryKey(item.category);
@@ -105,7 +95,7 @@ export default function Publications({ lang, content }) {
         pdfUrl: item.pdf_url,
       };
     });
-  }, [apiPublications, lang, t.publications.items]);
+  }, [apiPublications, lang]);
 
   const categories = useMemo(() => {
     const fromData = Array.from(new Set(dynamicItems.map((item) => item.type)));
