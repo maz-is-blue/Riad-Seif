@@ -4,6 +4,8 @@ import { Calendar, Award, Users, Heart } from 'lucide-react';
 export default function Founder({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
+  const founder = t.founder ?? {};
+  const portrait = founder.portrait;
 
   const timelineIcons = [Calendar, Award, Users, Heart, Award];
   
@@ -73,7 +75,9 @@ export default function Founder({ lang, content }) {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="aspect-[3/4] bg-gradient-to-br from-slate-200 to-slate-300 relative overflow-hidden">
-                  {/* Placeholder for Riad Seif Portrait */}
+                {portrait ? (
+                  <img src={portrait} alt={isRTL ? 'رياض سيف' : 'Riad Seif'} className="w-full h-full object-cover" />
+                ) : (
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center text-slate-400 text-sm"
                     initial={{ opacity: 0 }}
@@ -82,6 +86,7 @@ export default function Founder({ lang, content }) {
                   >
                     Portrait
                   </motion.div>
+                )}
               </div>
               <div className="text-center text-xs text-slate-500 mt-2 italic">
                 {isRTL ? 'رياض سيف' : 'Riad Seif'}

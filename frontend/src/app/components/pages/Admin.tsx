@@ -1,6 +1,7 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { content as defaultContent } from "../../utils/content";
+import RichTextEditor from "../RichTextEditor";
 import {
   fetchSiteContent,
   updateSiteContent,
@@ -294,9 +295,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const [adminPermissions, setAdminPermissions] = useState<Record<string, any>>({});
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [uploading, setUploading] = useState<Record<string, boolean>>({});
-  const [activeRoot, setActiveRoot] = useState("ar");
   const [activeMode, setActiveMode] = useState<"content" | "resource">("content");
-  const [activeContentKey, setActiveContentKey] = useState("home-hero");
+  const [activeContentKey, setActiveContentKey] = useState("home-hero-1");
   const [activeResourceKey, setActiveResourceKey] = useState<ResourceKey>("news");
   const [search, setSearch] = useState("");
   const [collapsed, setCollapsed] = useState(() => new Set<string>());
@@ -337,16 +337,13 @@ export default function Admin({ lang, content, onContentUpdate }) {
       });
   }, [token]);
 
-  const rootKeys = useMemo(() => Object.keys(draft ?? {}), [draft]);
-
-  useEffect(() => {
-    if (!rootKeys.includes(activeRoot) && rootKeys.length > 0) {
-      setActiveRoot(rootKeys[0]);
-    }
-  }, [activeRoot, rootKeys]);
-
   const isPlainObject = (value: unknown) =>
     value !== null && typeof value === "object" && !Array.isArray(value);
+
+  const isSharedMediaPath = (path: Array<string | number>) =>
+    typeof path[0] === "string" &&
+    ["en", "ar"].includes(path[0] as string) &&
+    /(image|photo|cover|logo|portrait)/i.test(String(path[path.length - 1] ?? ""));
 
   const mergeContent = (base: any, override: any): any => {
     if (override === undefined || override === null) return base;
@@ -510,7 +507,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const canEditResource = (key) => isSuperAdmin || Boolean(adminPermissions?.[key]?.edit);
   const canDeleteResource = (key) => isSuperAdmin || Boolean(adminPermissions?.[key]?.delete);
   const handleFieldChange = (path: Array<string | number>, value: any) => {
-    setDraft((prev) => updateAtPath(prev, path, value));
+    setDraft((prev) => {
+      const next = updateAtPath(prev, path, value);
+      if (!isSharedMediaPath(path)) {
+        return next;
+      }
+      const siblingRoot = path[0] === "en" ? "ar" : "en";
+      return updateAtPath(next, [siblingRoot, ...path.slice(1)], value);
+    });
   };
 
   const handleAddArrayItem = (path: Array<string | number>, template: any) => {
@@ -549,19 +553,19 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const keyLabel = label || path[path.length - 1]?.toString() || "";
     if (typeof value === "string") {
       if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
-      const useTextarea = value.length > 120 || value.includes("\n");
-      const isUrl = /url|image|photo|cover|logo/i.test(keyLabel);
+      const isUrl = /url|image|photo|cover|logo|portrait/i.test(keyLabel);
       const pathKey = pathToString(path);
       return (
         <div className="space-y-2">
           <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
-          {useTextarea ? (
-            <textarea
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm leading-6"
-              rows={4}
+          {isUrl ? (
+            <input
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
               value={value}
               onChange={(event) => handleFieldChange(path, event.target.value)}
             />
+          ) : value.length > 90 || value.includes("\n") || /text|description|summary|content|quote|message|bio|lead/i.test(keyLabel) ? (
+            <RichTextEditor value={value} onChange={(nextValue) => handleFieldChange(path, nextValue)} />
           ) : (
             <input
               className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -593,6 +597,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
                 }}
               />
               {uploading[pathKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
+              {isSharedMediaPath(path) ? (
+                <span>{isRTL ? "سيتم استخدام الصورة نفسها في العربية والإنجليزية." : "This image will be shared across Arabic and English."}</span>
+              ) : null}
             </div>
           ) : null}
           {isUrl && value && value.startsWith("http") ? (
@@ -731,12 +738,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
       { key: "about", label: isRTL ? "عن المؤسسة" : "About Us", path: ["about"] },
       { key: "jumana", label: isRTL ? "جمانة سيف" : "Joumana Seif", path: ["jumana"] },
       { key: "founder", label: isRTL ? "عن رياض سيف" : "About Riad Seif", path: ["founder"] },
+      { key: "founder-portrait", label: isRTL ? "عن رياض سيف - الصورة" : "About Riad Seif - Portrait", path: ["founder", "portrait"] },
       { key: "center", label: isRTL ? "مركز حقوق الإنسان" : "Human Rights Center", path: ["center"] },
       { key: "forum", label: isRTL ? "منتدى الحوار" : "Dialogue Forum", path: ["forum"] },
       { key: "publications", label: isRTL ? "الإصدارات" : "Publications", path: ["publications"] },
       { key: "joinUs", label: isRTL ? "انضم إلينا" : "Join Us", path: ["joinUs"] },
       { key: "contact", label: isRTL ? "اتصل بنا" : "Contact", path: ["contact"] },
       { key: "footer", label: isRTL ? "تذييل الموقع" : "Footer", path: ["footer"] },
+      { key: "footer-contact", label: isRTL ? "التذييل - بيانات التواصل" : "Footer - Contact Info", path: ["contact"] },
       { key: "topBar", label: isRTL ? "الشريط العلوي" : "Top Bar", path: ["topBar"] },
       { key: "nav", label: isRTL ? "التنقل" : "Navigation", path: ["nav"] },
     ],
@@ -776,7 +785,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
       setSearch("");
       setCollapsed(new Set());
     }
-  }, [activeMode, activeContentKey, activeRoot]);
+  }, [activeMode, activeContentKey]);
 
   const handleResourceChange = (key: ResourceKey, field: string, value: any) => {
     setResourceState((prev) => ({
@@ -844,11 +853,15 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const activeSection = contentSections.find((section) => section.key === activeContentKey) ??
     contentSections[0];
-  const activeSectionPath = [activeRoot, ...(activeSection?.path ?? [])];
-  const activeSectionValue = activeSectionPath.reduce(
-    (acc, key) => (acc ? acc[key as keyof typeof acc] : undefined),
-    draft as any,
-  );
+  const getSectionValue = (root: "ar" | "en") =>
+    [root, ...(activeSection?.path ?? [])].reduce(
+      (acc, key) => (acc ? acc[key as keyof typeof acc] : undefined),
+      draft as any,
+    );
+  const activeArabicPath = ["ar", ...(activeSection?.path ?? [])];
+  const activeEnglishPath = ["en", ...(activeSection?.path ?? [])];
+  const activeArabicValue = getSectionValue("ar");
+  const activeEnglishValue = getSectionValue("en");
 
   return (
     <section className="py-16 lg:py-24 bg-slate-50">
@@ -933,21 +946,10 @@ export default function Admin({ lang, content, onContentUpdate }) {
             <div className="space-y-6">
               {activeMode === "content" ? (
                 <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
-                  <div className="flex flex-wrap gap-2">
-                    {rootKeys.map((key) => (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => setActiveRoot(key)}
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          activeRoot === key
-                            ? "bg-[#1c3944] text-white"
-                            : "bg-slate-100 text-slate-700"
-                        }`}
-                      >
-                        {toLabel(key)}
-                      </button>
-                    ))}
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                    {isRTL
+                      ? "الحقول العربية والإنجليزية تظهر معاً داخل الصفحة نفسها. الصور المشتركة ستُحدَّث في اللغتين معاً."
+                      : "Arabic and English fields are shown together on the same page. Shared images will update both languages together."}
                   </div>
 
                   <input
@@ -958,13 +960,32 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     onChange={(event) => setSearch(event.target.value)}
                   />
 
-                  {activeSectionValue === undefined ? (
-                    <div className="text-sm text-slate-500">
-                      {isRTL ? "لا يوجد محتوى لهذا القسم." : "No content found for this section."}
+                  <div className="grid xl:grid-cols-2 gap-6">
+                    <div className="space-y-4 rounded-xl border border-slate-200 p-4">
+                      <div className="text-sm font-semibold text-[#1c3944]">
+                        {isRTL ? "العربية" : "Arabic"}
+                      </div>
+                      {activeArabicValue === undefined ? (
+                        <div className="text-sm text-slate-500">
+                          {isRTL ? "لا يوجد محتوى عربي لهذا القسم." : "No Arabic content found for this section."}
+                        </div>
+                      ) : (
+                        renderValue(activeArabicValue, activeArabicPath, activeSection.label, 0)
+                      )}
                     </div>
-                  ) : (
-                    renderValue(activeSectionValue, activeSectionPath, activeSection.label, 0)
-                  )}
+                    <div className="space-y-4 rounded-xl border border-slate-200 p-4">
+                      <div className="text-sm font-semibold text-[#1c3944]">
+                        {isRTL ? "الإنجليزية" : "English"}
+                      </div>
+                      {activeEnglishValue === undefined ? (
+                        <div className="text-sm text-slate-500">
+                          {isRTL ? "لا يوجد محتوى إنجليزي لهذا القسم." : "No English content found for this section."}
+                        </div>
+                      ) : (
+                        renderValue(activeEnglishValue, activeEnglishPath, activeSection.label, 0)
+                      )}
+                    </div>
+                  </div>
 
                   <button
                     type="button"
@@ -1056,7 +1077,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                               className="text-xs text-red-600"
                               onClick={() => handleResourceDelete(activeResourceKey, item.id)}
                             >
-                              {isRTL ? "???" : "Delete"}
+                              {isRTL ? "حذف" : "Delete"}
                               
                             </button>
                           </div>
@@ -1086,18 +1107,16 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       {resourceConfigs[activeResourceKey].fields.map((field) => {
                         const value = resourceState[activeResourceKey].form[field.name] ?? "";
                         const label = field.label[isRTL ? "ar" : "en"];
-                        const isUrlField = /url|image|photo|cover|logo|pdf/i.test(field.name);
+                        const isUrlField = /url|image|photo|cover|logo|portrait|pdf/i.test(field.name);
                         const uploadKey = `resource:${activeResourceKey}.${field.name}`;
                         if (field.type === "textarea") {
                           return (
                             <div key={field.name} className="space-y-2">
                               <label className="block text-xs font-semibold text-slate-500">{label}</label>
-                              <textarea
-                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm leading-6"
-                                rows={4}
+                              <RichTextEditor
                                 value={value}
-                                onChange={(event) =>
-                                  handleResourceChange(activeResourceKey, field.name, event.target.value)
+                                onChange={(nextValue) =>
+                                  handleResourceChange(activeResourceKey, field.name, nextValue)
                                 }
                               />
                               {isUrlField ? (
