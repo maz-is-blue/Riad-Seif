@@ -104,56 +104,56 @@ export default function Forum({ lang, content }) {
     {
       id: 1,
       image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'Ù…Ø§Ø±Ø³ 2024' : 'March 2024',
-      title: lang === 'ar' ? 'Ø¬Ù„Ø³Ø© Ø­ÙˆÙ„ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ÙŠØ©' : 'Session on Transitional Justice',
-      titleAr: 'Ø¬Ù„Ø³Ø© Ø­ÙˆÙ„ Ø§Ù„Ø¹Ø¯Ø§Ù„Ø© Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ÙŠØ©',
+      date: lang === 'ar' ? 'مارس 2024' : 'March 2024',
+      title: lang === 'ar' ? 'جلسة حول العدالة الانتقالية' : 'Session on Transitional Justice',
+      titleAr: 'جلسة حول العدالة الانتقالية',
       description: 'A powerful dialogue session featuring civil society activists, lawyers, and survivors discussing pathways to accountability and reconciliation. Over 50 participants engaged in meaningful conversations about truth, justice, and guarantees of non-recurrence.',
-      descriptionAr: 'Ø¬Ù„Ø³Ø© Ø­ÙˆØ§Ø± Ù‚ÙˆÙŠØ© Ø¶Ù…Øª Ù†Ø§Ø´Ø·ÙŠÙ† Ù…Ù† Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ ÙˆÙ…Ø­Ø§Ù…ÙŠÙ† ÙˆÙ†Ø§Ø¬ÙŠÙ† Ù„Ù…Ù†Ø§Ù‚Ø´Ø© Ù…Ø³Ø§Ø±Ø§Øª Ø§Ù„Ù…Ø³Ø§Ø¡Ù„Ø© ÙˆØ§Ù„Ù…ØµØ§Ù„Ø­Ø©. Ø´Ø§Ø±Ùƒ Ø£ÙƒØ«Ø± Ù…Ù† 50 Ù…Ø´Ø§Ø±ÙƒØ§Ù‹ ÙÙŠ Ù…Ø­Ø§Ø¯Ø«Ø§Øª Ù‡Ø§Ø¯ÙØ© Ø­ÙˆÙ„ Ø§Ù„Ø­Ù‚ÙŠÙ‚Ø© ÙˆØ§Ù„Ø¹Ø¯Ø§Ù„Ø© ÙˆØ¶Ù…Ø§Ù†Ø§Øª Ø¹Ø¯Ù… Ø§Ù„ØªÙƒØ±Ø§Ø±.'
+      descriptionAr: 'جلسة حوارية جمعت ناشطين ومحامين وناجين لمناقشة سبل المساءلة والمصالحة، مع تركيز على الحقيقة والعدالة وضمانات عدم التكرار.'
     },
     {
       id: 2,
       image: 'https://images.unsplash.com/photo-1560523159-4a9692d222ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'ÙŠÙ†Ø§ÙŠØ± 2024' : 'January 2024',
-      title: lang === 'ar' ? 'ÙˆØ±Ø´Ø© Ø¹Ù…Ù„: Ø¯ÙˆØ± Ø§Ù„Ù…Ø±Ø£Ø© ÙÙŠ Ø¨Ø§Ø¡ Ø§Ù„Ø³Ù„Ø§Ù…' : 'Workshop: Women\'s Role in Peacebuilding',
-      titleAr: 'ÙˆØ±Ø´Ø© Ø¹Ù…Ù„: Ø¯ÙˆØ± Ø§Ù„Ù…Ø±Ø£Ø© ÙÙŠ Ø¨Ù†Ø§Ø¡ Ø§Ù„Ø³Ù„Ø§Ù…',
+      date: lang === 'ar' ? 'يناير 2024' : 'January 2024',
+      title: lang === 'ar' ? 'ورشة عمل: دور المرأة في بناء السلام' : 'Workshop: Women\'s Role in Peacebuilding',
+      titleAr: 'ورشة عمل: دور المرأة في بناء السلام',
       description: 'An intensive workshop bringing together women leaders and activists to discuss strategies for inclusive political participation and constitutional reform. The event emphasized the critical role of women in Syria\'s democratic transition.',
-      descriptionAr: 'ÙˆØ±Ø´Ø© Ø¹Ù…Ù„ Ù…ÙƒØ«ÙØ© Ø¬Ù…Ø¹Øª Ù‚Ø§Ø¦Ø¯Ø§Øª ÙˆÙ†Ø§Ø´Ø·Ø§Øª Ù„Ù…Ù†Ø§Ù‚Ø´Ø© Ø§Ø³ØªØ±Ø§ØªÙŠØ¬ÙŠØ§Øª Ø§Ù„Ù…Ø´Ø§Ø±ÙƒØ© Ø§Ù„Ø³ÙŠØ§Ø³ÙŠØ© Ø§Ù„Ø´Ø§Ù…Ù„Ø© ÙˆØ§Ù„Ø¥ØµÙ„Ø§Ø­ Ø§Ù„Ø¯Ø³ØªÙˆØ±ÙŠ. Ø£ÙƒØ¯ Ø§Ù„Ø­Ø¯Ø« Ø¹Ù„Ù‰ Ø§Ù„Ø¯ÙˆØ± Ø§Ù„Ø­Ø§Ø³Ù… Ù„Ù„Ù…Ø±Ø£Ø© ÙÙŠ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ ÙÙŠ Ø³ÙˆØ±ÙŠØ§.'
+      descriptionAr: 'ورشة عمل جمعت قيادات نسوية وناشطات لمناقشة المشاركة السياسية الشاملة والإصلاح الدستوري، مع التأكيد على الدور الحاسم للمرأة في الانتقال الديمقراطي.'
     },
     {
       id: 3,
       image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'Ù†ÙˆÙÙ…Ø¨Ø± 2023' : 'November 2023',
-      title: lang === 'ar' ? 'Ù„Ù‚Ø§Ø¡ Ù…Ø¹ Ø®Ø¨Ø±Ø§Ø¡ Ø¯ÙˆÙ„ÙŠÙŠÙ†' : 'Meeting with International Experts',
-      titleAr: 'Ù„Ù‚Ø§Ø¡ Ù…Ø¹ Ø®Ø¨Ø±Ø§Ø¡ Ø¯ÙˆÙ„ÙŠÙŠÙ†',
+      date: lang === 'ar' ? 'نوفمبر 2023' : 'November 2023',
+      title: lang === 'ar' ? 'لقاء مع خبراء دوليين' : 'Meeting with International Experts',
+      titleAr: 'لقاء مع خبراء دوليين',
       description: 'Forum members met with international experts on democratic transitions and human rights to exchange experiences and learn from best practices in post-conflict contexts around the world.',
-      descriptionAr: 'Ø§Ù„ØªÙ‚Ù‰ Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„Ù…Ù†ØªØ¯Ù‰ Ø¨Ø®Ø¨Ø±Ø§Ø¡ Ø¯ÙˆÙ„ÙŠÙŠÙ† ÙÙŠ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ© ÙˆØ­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù† Ù„ØªØ¨Ø§Ø¯Ù„ Ø§Ù„Ø®Ø¨Ø±Ø§Øª ÙˆØ§Ù„ØªØ¹Ù„Ù… Ù…Ù† Ø£ÙØ¶Ù„ Ø§Ù„Ù…Ù…Ø§Ø±Ø³Ø§Øª ÙÙŠ Ø³ÙŠØ§Ù‚Ø§Øª Ù…Ø§ Ø¨Ø¹Ø¯ Ø§Ù„Ù†Ø²Ø§Ø¹ Ø­ÙˆÙ„ Ø§Ù„Ø¹Ø§Ù„Ù….'
+      descriptionAr: 'التقى أعضاء المنتدى بخبراء دوليين في الانتقالات الديمقراطية وحقوق الإنسان لتبادل الخبرات والتعلم من أفضل الممارسات في سياقات ما بعد النزاع.'
     },
     {
       id: 4,
       image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'Ø³Ø¨ØªÙ…Ø¨Ø± 2023' : 'September 2023',
-      title: lang === 'ar' ? 'Ø§Ø­ØªÙØ§Ù„ Ø§Ù„Ø°ÙƒØ±Ù‰ Ø§Ù„Ø³Ù†ÙˆÙŠØ© Ø§Ù„Ø£ÙˆÙ„Ù‰' : 'First Anniversary Celebration',
-      titleAr: 'Ø§Ø­ØªÙØ§Ù„ Ø§Ù„Ø°ÙƒØ±Ù‰ Ø§Ù„Ø³Ù†ÙˆÙŠØ© Ø§Ù„Ø£ÙˆÙ„Ù‰',
+      date: lang === 'ar' ? 'سبتمبر 2023' : 'September 2023',
+      title: lang === 'ar' ? 'احتفال الذكرى السنوية الأولى' : 'First Anniversary Celebration',
+      titleAr: 'احتفال الذكرى السنوية الأولى',
       description: 'The Forum celebrated its first anniversary with a special event honoring Riad Seif\'s legacy and the Damascus Spring. Prominent civil society figures and activists gathered to reflect on achievements and plan future initiatives.',
-      descriptionAr: 'Ø§Ø­ØªÙÙ„ Ø§Ù„Ù…Ù†ØªØ¯Ù‰ Ø¨Ø°ÙƒØ±Ø§Ù‡ Ø§Ù„Ø³Ù†ÙˆÙŠØ© Ø§Ù„Ø£ÙˆÙ„Ù‰ Ø¨Ø­Ø¯Ø« Ø®Ø§Øµ Ù„ØªÙƒØ±ÙŠÙ… Ø¥Ø±Ø« Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ ÙˆØ±Ø¨ÙŠØ¹ Ø¯Ù…Ø´Ù‚. Ø§Ø¬ØªÙ…Ø¹ Ø´Ø®ØµÙŠØ§Øª Ø¨Ø§Ø±Ø²Ø© Ù…Ù† Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ ÙˆØ§Ù„Ù†Ø§Ø´Ø·ÙŠÙ† Ù„Ù„ØªÙÙƒÙŠØ± ÙÙŠ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²Ø§Øª ÙˆØ§Ù„ØªØ®Ø·ÙŠØ· Ù„Ù„Ù…Ø¨Ø§Ø¯Ø±Ø§Øª Ø§Ù„Ù…Ø³ØªÙ‚Ø¨Ù„ÙŠØ©.'
+      descriptionAr: 'احتفل المنتدى بذكراه السنوية الأولى في فعالية خاصة استحضرت إرث رياض سيف وربيع دمشق، وناقشت الإنجازات والمبادرات القادمة.'
     },
     {
       id: 5,
       image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'ÙŠÙˆÙ„ÙŠÙˆ 2023' : 'July 2023',
-      title: lang === 'ar' ? 'Ø­Ù„Ù‚Ø© Ù†Ù‚Ø§Ø´: Ø§Ù„Ø­ÙƒÙ… Ø§Ù„Ù…Ø­Ù„ÙŠ ÙˆØ§Ù„Ø¥ØµÙ„Ø§Ø­' : 'Panel: Local Governance and Reform',
-      titleAr: 'Ø­Ù„Ù‚Ø© Ù†Ù‚Ø§Ø´: Ø§Ù„Ø­ÙƒÙ… Ø§Ù„Ù…Ø­Ù„ÙŠ ÙˆØ§Ù„Ø¥ØµÙ„Ø§Ø­',
+      date: lang === 'ar' ? 'يوليو 2023' : 'July 2023',
+      title: lang === 'ar' ? 'حلقة نقاش: الحكم المحلي والإصلاح' : 'Panel: Local Governance and Reform',
+      titleAr: 'حلقة نقاش: الحكم المحلي والإصلاح',
       description: 'A panel discussion exploring models of local governance, decentralization, and civic participation. Experts and community leaders shared insights on building accountable institutions from the ground up.',
-      descriptionAr: 'Ø­Ù„Ù‚Ø© Ù†Ù‚Ø§Ø´ Ø§Ø³ØªÙƒØ´ÙØª Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ø­ÙƒÙ… Ø§Ù„Ù…Ø­Ù„ÙŠ ÙˆØ§Ù„Ù„Ø§Ù…Ø±ÙƒØ²ÙŠØ© ÙˆØ§Ù„Ù…Ø´Ø§Ø±ÙƒØ© Ø§Ù„Ù…Ø¯Ù†ÙŠØ©. Ø´Ø§Ø±Ùƒ Ø§Ù„Ø®Ø¨Ø±Ø§Ø¡ ÙˆÙ‚Ø§Ø¯Ø© Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø±Ø¤Ø§Ù‡Ù… Ø­ÙˆÙ„ Ø¨Ù†Ø§Ø¡ Ù…Ø¤Ø³Ø³Ø§Øª Ø®Ø§Ø¶Ø¹Ø© Ù„Ù„Ù…Ø³Ø§Ø¡Ù„Ø© Ù…Ù† Ø§Ù„Ù‚Ø§Ø¹Ø¯Ø©.'
+      descriptionAr: 'حلقة نقاش استكشفت نماذج الحكم المحلي واللامركزية والمشاركة المدنية، وطرحت رؤى حول بناء مؤسسات خاضعة للمساءلة من القاعدة إلى القمة.'
     },
     {
       id: 6,
       image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'Ù…Ø§ÙŠÙˆ 2023' : 'May 2023',
-      title: lang === 'ar' ? 'Ø¬Ù„Ø³Ø© Ø§Ù„Ø´Ø¨Ø§Ø¨: Ø¨Ù†Ø§Ø¡ Ø§Ù„Ù…Ø³ØªÙ‚Ø¨Ù„' : 'Youth Session: Building the Future',
-      titleAr: 'Ø¬Ù„Ø³Ø© Ø§Ù„Ø´Ø¨Ø§Ø¨: Ø¨Ù†Ø§Ø¡ Ø§Ù„Ù…Ø³ØªÙ‚Ø¨Ù„',
+      date: lang === 'ar' ? 'مايو 2023' : 'May 2023',
+      title: lang === 'ar' ? 'جلسة الشباب: بناء المستقبل' : 'Youth Session: Building the Future',
+      titleAr: 'جلسة الشباب: بناء المستقبل',
       description: 'A special session dedicated to young activists and students, focusing on youth leadership, civic education, and intergenerational dialogue. The event emphasized the vital role of young people in shaping Syria\'s democratic future.',
-      descriptionAr: 'Ø¬Ù„Ø³Ø© Ø®Ø§ØµØ© Ù…Ø®ØµØµØ© Ù„Ù„Ù†Ø§Ø´Ø·ÙŠÙ† Ø§Ù„Ø´Ø¨Ø§Ø¨ ÙˆØ§Ù„Ø·Ù„Ø§Ø¨ØŒ ØªØ±ÙƒØ² Ø¹Ù„Ù‰ Ù‚ÙŠØ§Ø¯Ø© Ø§Ù„Ø´Ø¨Ø§Ø¨ ÙˆØ§Ù„ØªØ±Ø¨ÙŠØ© Ø§Ù„Ù…Ø¯Ù†ÙŠØ© ÙˆØ§Ù„Ø­ÙˆØ§Ø± Ø¨ÙŠÙ† Ø§Ù„Ø£Ø¬ÙŠØ§Ù„. Ø£ÙƒØ¯ Ø§Ù„Ø­Ø¯Ø« Ø¹Ù„Ù‰ Ø§Ù„Ø¯ÙˆØ± Ø§Ù„Ø­ÙŠÙˆÙŠ Ù„Ù„Ø´Ø¨Ø§Ø¨ ÙÙŠ ØªØ´ÙƒÙŠÙ„ Ù…Ø³ØªÙ‚Ø¨Ù„ Ø³ÙˆØ±ÙŠØ§ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ.'
+      descriptionAr: 'جلسة مخصصة للناشطين الشباب والطلاب ركزت على القيادة الشابة والتربية المدنية والحوار بين الأجيال، وأكدت دور الشباب في تشكيل مستقبل سوريا الديمقراطي.'
     }
   ];
 
@@ -170,43 +170,43 @@ export default function Forum({ lang, content }) {
     : [
     {
       id: 1,
-      type: lang === 'ar' ? 'Ù…Ù‚Ø§Ù„' : 'Article',
-      title: lang === 'ar' ? 'Ù…Ù†ØªØ¯Ù‰ Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ: Ø¥Ø­ÙŠØ§Ø¡ Ø±ÙˆØ­ Ø±Ø¨ÙŠØ¹ Ø¯Ù…Ø´Ù‚' : 'Riad Seif Forum: Reviving the Spirit of Damascus Spring',
-      titleAr: 'Ù…Ù†ØªØ¯Ù‰ Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ: Ø¥Ø­ÙŠØ§Ø¡ Ø±ÙˆØ­ Ø±Ø¨ÙŠØ¹ Ø¯Ù…Ø´Ù‚',
-      source: lang === 'ar' ? 'Ø§Ù„Ø´Ø±Ù‚ Ø§Ù„Ø£ÙˆØ³Ø·' : 'Al-Sharq Al-Awsat',
-      date: lang === 'ar' ? 'Ø¯ÙŠØ³Ù…Ø¨Ø± 2024' : 'December 2024',
+      type: lang === 'ar' ? 'مقال' : 'Article',
+      title: lang === 'ar' ? 'منتدى رياض سيف: إحياء روح ربيع دمشق' : 'Riad Seif Forum: Reviving the Spirit of Damascus Spring',
+      titleAr: 'منتدى رياض سيف: إحياء روح ربيع دمشق',
+      source: lang === 'ar' ? 'الشرق الأوسط' : 'Al-Sharq Al-Awsat',
+      date: lang === 'ar' ? 'ديسمبر 2024' : 'December 2024',
       excerpt: 'An in-depth analysis of how the Forum for National Dialogue continues the legacy of the Damascus Spring movement and its relevance to contemporary Syrian civil society.',
-      excerptAr: 'ØªØ­Ù„ÙŠÙ„ Ù…ØªØ¹Ù…Ù‚ Ù„ÙƒÙŠÙÙŠØ© Ø§Ø³ØªÙ…Ø±Ø§Ø± Ù…Ù†ØªØ¯Ù‰ Ø§Ù„Ø­ÙˆØ§Ø± Ø§Ù„ÙˆØ·Ù†ÙŠ ÙÙŠ Ø¥Ø±Ø« Ø­Ø±ÙƒØ© Ø±Ø¨ÙŠØ¹ Ø¯Ù…Ø´Ù‚ ÙˆØ£Ù‡Ù…ÙŠØªÙ‡ Ù„Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ Ø§Ù„Ø³ÙˆØ±ÙŠ Ø§Ù„Ù…Ø¹Ø§ØµØ±.'
+      excerptAr: 'تحليل يوضح كيف يواصل منتدى الحوار الوطني إرث ربيع دمشق، وما يمثله ذلك للمجتمع المدني السوري اليوم.'
     },
     {
       id: 2,
-      type: lang === 'ar' ? 'Ø¨Ø­Ø«' : 'Research',
-      title: lang === 'ar' ? 'Ø¯ÙˆØ± Ù…Ù†ØªØ¯ÙŠØ§Øª Ø§Ù„Ø­ÙˆØ§Ø± ÙÙŠ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©' : 'The Role of Dialogue Forums in Democratic Transitions',
-      titleAr: 'Ø¯ÙˆØ± Ù…Ù†ØªØ¯ÙŠØ§Øª Ø§Ù„Ø­ÙˆØ§Ø± ÙÙŠ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©',
-      source: lang === 'ar' ? 'Ù…Ø±ÙƒØ² Ø¯Ø±Ø§Ø³Ø§Øª Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©' : 'Center for Democracy Studies',
-      date: lang === 'ar' ? 'Ø£ÙƒØªÙˆØ¨Ø± 2024' : 'October 2024',
+      type: lang === 'ar' ? 'بحث' : 'Research',
+      title: lang === 'ar' ? 'دور منتديات الحوار في الانتقالات الديمقراطية' : 'The Role of Dialogue Forums in Democratic Transitions',
+      titleAr: 'دور منتديات الحوار في الانتقالات الديمقراطية',
+      source: lang === 'ar' ? 'مركز دراسات الديمقراطية' : 'Center for Democracy Studies',
+      date: lang === 'ar' ? 'أكتوبر 2024' : 'October 2024',
       excerpt: 'Academic research examining the impact of civil dialogue forums on democratic transitions, with case studies including the Riad Seif Forum.',
-      excerptAr: 'Ø¨Ø­Ø« Ø£ÙƒØ§Ø¯ÙŠÙ…ÙŠ ÙŠØ¯Ø±Ø³ ØªØ£Ø«ÙŠØ± Ù…Ù†ØªØ¯ÙŠØ§Øª Ø§Ù„Ø­ÙˆØ§Ø± Ø§Ù„Ù…Ø¯Ù†ÙŠ Ø¹Ù„Ù‰ Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„Ø§Øª Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©ØŒ Ù…Ø¹ Ø¯Ø±Ø§Ø³Ø§Øª Ø­Ø§Ù„Ø© ØªØ´Ù…Ù„ Ù…Ù†ØªØ¯Ù‰ Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ.'
+      excerptAr: 'بحث أكاديمي يدرس أثر منتديات الحوار المدني على الانتقالات الديمقراطية، مع دراسة حالة خاصة بمنتدى رياض سيف.'
     },
     {
       id: 3,
-      type: lang === 'ar' ? 'ÙƒØªØ§Ø¨' : 'Book',
-      title: lang === 'ar' ? 'Ø£ØµÙˆØ§Øª Ø§Ù„ØªØºÙŠÙŠØ±: Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ Ø§Ù„Ø³ÙˆØ±ÙŠ' : 'Voices of Change: Syrian Civil Society',
-      titleAr: 'Ø£ØµÙˆØ§Øª Ø§Ù„ØªØºÙŠÙŠØ±: Ø§Ù„Ù…Ø¬ØªÙ…Ø¹ Ø§Ù„Ù…Ø¯Ù†ÙŠ Ø§Ù„Ø³ÙˆØ±ÙŠ',
-      source: lang === 'ar' ? 'Ø¯Ø§Ø± Ø§Ù„Ù†Ø´Ø± Ø§Ù„Ø£ÙƒØ§Ø¯ÙŠÙ…ÙŠØ©' : 'Academic Press',
-      date: lang === 'ar' ? 'Ø³Ø¨ØªÙ…Ø¨Ø± 2024' : 'September 2024',
+      type: lang === 'ar' ? 'كتاب' : 'Book',
+      title: lang === 'ar' ? 'أصوات التغيير: المجتمع المدني السوري' : 'Voices of Change: Syrian Civil Society',
+      titleAr: 'أصوات التغيير: المجتمع المدني السوري',
+      source: lang === 'ar' ? 'دار النشر الأكاديمية' : 'Academic Press',
+      date: lang === 'ar' ? 'سبتمبر 2024' : 'September 2024',
       excerpt: 'A comprehensive book featuring chapters on the Forum for National Dialogue and its contributions to civic discourse and democratic reform in Syria.',
-      excerptAr: 'ÙƒØªØ§Ø¨ Ø´Ø§Ù… ÙŠØªØ¶Ù…Ù† ÙØµÙˆÙ„Ø§Ù‹ Ø¹Ù† Ù…Ù†ØªØ¯Ù‰ Ø§Ù„Ø­ÙˆØ§Ø± Ø§Ù„ÙˆØ·Ù†ÙŠ ÙˆÙ…Ø³Ø§Ù‡Ù…Ø§ØªÙ‡ ÙÙŠ Ø§Ù„Ø®Ø·Ø§Ø¨ Ø§Ù„Ù…Ø¯Ù†ÙŠ ÙˆØ§Ù„Ø¥ØµÙ„Ø§Ø­ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ ÙÙŠ Ø³ÙˆØ±ÙŠØ§.'
+      excerptAr: 'كتاب شامل يتضمن فصولاً عن منتدى الحوار الوطني ومساهماته في الخطاب المدني والإصلاح الديمقراطي في سوريا.'
     },
     {
       id: 4,
-      type: lang === 'ar' ? 'ØªÙ‚Ø±ÙŠØ±' : 'Report',
-      title: lang === 'ar' ? 'ØªÙ‚ÙŠÙŠÙ… Ø£Ù†Ø´Ø·Ø© Ø§Ù„Ù…Ù†ØªØ¯Ù‰ 2023-2024' : 'Forum Activities Assessment 2023-2024',
-      titleAr: 'ØªÙ‚ÙŠÙŠÙ… Ø£Ù†Ø´Ø·Ø© Ø§Ù„Ù…Ù†ØªØ¯Ù‰ 2023-2024',
-      source: lang === 'ar' ? 'Ù…Ø¤Ø³Ø³Ø© Ø±ÙŠØ§Ø¶ Ø³ÙŠÙ Ù„Ø­Ù‚ÙˆÙ‚ Ø§Ù„Ø¥Ù†Ø³Ø§Ù†' : 'Riad Seif Foundation for Human Rights',
-      date: lang === 'ar' ? 'ÙŠÙ†Ø§ÙŠØ± 2025' : 'January 2025',
+      type: lang === 'ar' ? 'تقرير' : 'Report',
+      title: lang === 'ar' ? 'تقييم أنشطة المنتدى 2023-2024' : 'Forum Activities Assessment 2023-2024',
+      titleAr: 'تقييم أنشطة المنتدى 2023-2024',
+      source: lang === 'ar' ? 'مؤسسة رياض سيف لحقوق الإنسان' : 'Riad Seif Foundation for Human Rights',
+      date: lang === 'ar' ? 'يناير 2025' : 'January 2025',
       excerpt: 'Annual report documenting the Forum\'s activities, impact, and key achievements in promoting dialogue and democratic participation.',
-      excerptAr: 'ØªÙ‚Ø±ÙŠØ± Ø³Ù†ÙˆÙŠ ÙŠÙˆØ«Ù‚ Ø£Ù†Ø´Ø·Ø© Ø§Ù„Ù…Ù†ØªØ¯Ù‰ ÙˆØªØ£Ø«ÙŠØ±Ù‡ ÙˆØ§Ù„Ø¥Ù†Ø¬Ø§Ø²Ø§Øª Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© ÙÙŠ ØªØ¹Ø²ÙŠØ² Ø§Ù„Ø­ÙˆØ§Ø± ÙˆØ§Ù„Ù…Ø´Ø§Ø±ÙƒØ© Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠØ©.'
+      excerptAr: 'تقرير سنوي يوثق أنشطة المنتدى وتأثيره والإنجازات الرئيسية في تعزيز الحوار والمشاركة الديمقراطية.'
     }
   ];
 
@@ -337,12 +337,12 @@ export default function Forum({ lang, content }) {
              transition={{ delay: 0.5 }}
            >
              {[
-               { label: lang === 'ar' ? 'Ø§Ù„ØªØ§Ø±ÙŠØ®' : 'History', icon: Calendar },
-               { label: lang === 'ar' ? 'Ø§Ù„Ø¬Ù„Ø³Ø§Øª' : 'Sessions', icon: MessageSquare },
-               { label: lang === 'ar' ? 'Ø§Ù„ÙØ¹Ø§Ù„ÙŠØ§Øª' : 'Events', icon: Users },
-               { label: lang === 'ar' ? 'Ø§Ù„Ø°Ø§ÙƒØ±Ø©' : 'Memory', icon: Camera },
-               { label: lang === 'ar' ? 'Ø§Ù„Ø£Ø±Ø´ÙŠÙ' : 'Archive', icon: FileText },
-               { label: lang === 'ar' ? 'Ø§Ù„Ø§Ø¯Ø§Ø±Ø©' : 'Management', icon: UserCheck }
+               { label: lang === 'ar' ? 'التاريخ' : 'History', icon: Calendar },
+               { label: lang === 'ar' ? 'الجلسات' : 'Sessions', icon: MessageSquare },
+               { label: lang === 'ar' ? 'الفعاليات' : 'Events', icon: Users },
+               { label: lang === 'ar' ? 'الذاكرة' : 'Memory', icon: Camera },
+               { label: lang === 'ar' ? 'الأرشيف' : 'Archive', icon: FileText },
+               { label: lang === 'ar' ? 'الإدارة' : 'Management', icon: UserCheck }
              ].map((tab, idx) => (
                <motion.button
                  key={idx}
@@ -391,7 +391,7 @@ export default function Forum({ lang, content }) {
                      whileHover={{ scale: 1.02 }}
                    >
                        "{lang === 'ar' 
-                         ? 'Ù„Ø·Ø§Ù„Ù…Ø§ ÙƒØ§Ù† Ù…Ù†ØªØ¯Ù‰ Ø§Ù„Ø­ÙˆØ§Ø± Ø§Ù„ÙˆØ·Ù†ÙŠ Ø±Ù…Ø²Ø§Ù‹ Ù„Ù„ØªÙˆÙ‚ Ø§Ù„Ø¯ÙŠÙ…Ù‚Ø±Ø§Ø·ÙŠ ÙÙŠ Ø³ÙˆØ±ÙŠØ§. Ø§Ù„ÙŠÙˆÙ…ØŒ Ù†Ø¹ÙŠØ¯ Ø¥Ø­ÙŠØ§Ø¡Ù‡.' 
+                         ? 'لطالما كان منتدى الحوار الوطني رمزاً للتطلع الديمقراطي في سوريا. واليوم نعيد إحياءه.' 
                          : 'The Forum for National Dialogue has long been a symbol of democratic aspiration in Syria. Today, we revive it.'}"
                    </motion.div>
                </div>
@@ -415,10 +415,10 @@ export default function Forum({ lang, content }) {
                            >
                                <MessageSquare className="text-[#2c1d5f] mb-4" size={32} />
                                <h4 className={`text-lg ${t.serif} font-bold text-[#1c3944] mb-2`}>
-                                 {lang === 'ar' ? `Ù†Ø´Ø§Ø· ${i}` : `Activity ${i}`}
+                                 {lang === 'ar' ? `نشاط ${i}` : `Activity ${i}`}
                                </h4>
                                <p className="text-slate-700">
-                                   {lang === 'ar' ? 'Ø¬Ù„Ø³Ø© Ø­ÙˆØ§Ø± Ø´Ù‡Ø±ÙŠØ© Ø­ÙˆÙ„ Ù…ÙˆØ¶ÙˆØ¹Ø§Øª Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„' : 'Monthly dialogue session on transition themes'}
+                                   {lang === 'ar' ? 'جلسة حوار شهرية حول موضوعات الانتقال' : 'Monthly dialogue session on transition themes'}
                                </p>
                            </motion.div>
                        ))}
@@ -492,7 +492,7 @@ export default function Forum({ lang, content }) {
                        </h3>
                        <p className="text-slate-300 mb-8 font-light text-lg leading-relaxed">
                            {lang === 'ar'
-                             ? 'ÙƒÙ† Ø¬Ø²Ø¡Ø§Ù‹ Ù…Ù† Ø§Ù„Ø­ÙˆØ§Ø±. Ø´Ø§Ø±Ùƒ ÙÙŠ ÙØ¹Ø§Ù„ÙŠØ§ØªÙ†Ø§ Ø§Ù„Ù‚Ø§Ø¯Ù…Ø© ÙˆØ³Ø§Ù‡Ù… ÙÙŠ Ø¨Ù†Ø§Ø¡ Ù…Ø³ØªÙ‚Ø¨Ù„ Ø³ÙˆØ±ÙŠØ§.'
+                             ? 'كن جزءاً من الحوار. شارك في فعالياتنا القادمة وساهم في بناء مستقبل سوريا.'
                              : 'Be part of the dialogue. Join our upcoming events and contribute to building Syria\'s future.'}
                        </p>
 
@@ -502,7 +502,7 @@ export default function Forum({ lang, content }) {
                              whileHover={{ backgroundColor: '#ffffff', scale: 1.05 }}
                              whileTap={{ scale: 0.95 }}
                            >
-                               {lang === 'ar' ? 'ØªÙˆØ§ØµÙ„ Ù…Ø¹Ù†Ø§ Ù„Ù„Ø­Ø¶ÙˆØ±' : 'Contact Us to Attend'}
+                               {lang === 'ar' ? 'تواصل معنا للحضور' : 'Contact Us to Attend'}
                            </motion.span>
                        </Link>
                      </div>
@@ -646,7 +646,7 @@ export default function Forum({ lang, content }) {
                        </h3>
                        <p className="text-slate-300 mb-8 font-light text-lg leading-relaxed">
                            {lang === 'ar'
-                             ? 'Ø§ÙƒØªØ´Ù Ø£Ø±Ø´ÙŠÙÙ†Ø§. Ù‚Ù… Ø¨ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù‚Ø§Ù„Ø§Øª ÙˆØ§Ù„Ø¨Ø­ÙˆØ« ÙˆØ§Ù„ÙƒØªØ¨ ÙˆØ§Ù„ØªÙ‚Ø§Ø±ÙŠØ± Ø°Ø§Øª Ø§Ù„ØµÙ„Ø© Ø¨Ù…Ù†ØªØ¯Ù‰ Ø§Ù„Ø­ÙˆØ§Ø± Ø§Ù„ÙˆØ·Ù†ÙŠ.'
+                             ? 'اكتشف أرشيفنا. حمّل المقالات والأبحاث والكتب والتقارير ذات الصلة بمنتدى الحوار الوطني.'
                              : 'Discover our archive. Download articles, research, books, and reports related to the Forum for National Dialogue.'}
                        </p>
 
@@ -656,7 +656,7 @@ export default function Forum({ lang, content }) {
                              whileHover={{ backgroundColor: '#ffffff', scale: 1.05 }}
                              whileTap={{ scale: 0.95 }}
                            >
-                               {lang === 'ar' ? 'ØªÙˆØ§ØµÙ„ Ù…Ø¹Ù†Ø§ Ù„Ù„Ø­ØµÙˆÙ„ Ø¹Ù„Ù‰ Ø§Ù„Ù…Ù„ÙØ§Øª' : 'Contact Us to Get Files'}
+                               {lang === 'ar' ? 'تواصل معنا للحصول على الملفات' : 'Contact Us to Get Files'}
                            </motion.span>
                        </Link>
                      </div>
@@ -709,8 +709,8 @@ export default function Forum({ lang, content }) {
                              className={`mt-4 text-[#1c3944] font-semibold text-sm flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
                              whileHover={{ x: isRTL ? -5 : 5 }}
                            >
-                             <span>{lang === 'ar' ? 'Ø§Ù‚Ø±Ø£ Ø§Ù„Ù…Ø²ÙŠØ¯' : 'Read More'}</span>
-                             <span className="text-[#f7c20e]">â†’</span>
+                             <span>{lang === 'ar' ? 'اقرأ المزيد' : 'Read More'}</span>
+                             <span className="text-[#f7c20e]">→</span>
                            </motion.div>
                          </div>
                        </motion.div>
