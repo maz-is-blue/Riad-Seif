@@ -427,8 +427,13 @@ export default function Admin({ lang, content, onContentUpdate }) {
         setStatus(isRTL ? "تم حفظ التغييرات بنجاح." : "Saved successfully.");
       })
       .catch((error) => {
+        const firstErrorKey = error && typeof error === "object" ? Object.keys(error).find((k) => !["status", "detail"].includes(k)) : "";
+        const firstErrorValue = firstErrorKey ? error[firstErrorKey] : "";
         const message =
-          error?.detail ??
+          (typeof error?.detail === "string" ? error.detail : "") ||
+          (Array.isArray(error?.detail) ? error.detail[0] : "") ||
+          (typeof firstErrorValue === "string" ? firstErrorValue : "") ||
+          (Array.isArray(firstErrorValue) ? firstErrorValue[0] : "") ||
           (error?.status === 401
             ? isRTL
               ? "غير مصرح. يرجى تسجيل الدخول."
@@ -549,95 +554,77 @@ export default function Admin({ lang, content, onContentUpdate }) {
     return label.toLowerCase().includes(search.trim().toLowerCase());
   };
 
-  const renderValue = (value: any, path: Array<string | number>, label: string, depth: number) => {
+  const getByPath = (root: "ar" | "en", path: Array<string | number>) =>
+    [root, ...path].reduce((acc, key) => (acc ? acc[key as keyof typeof acc] : undefined), draft as any);
+
+  const setBilingualPathValue = (path: Array<string | number>, value: any) => {
+    handleFieldChange(["ar", ...path], value);
+    handleFieldChange(["en", ...path], value);
+  };
+
+  const moveBilingualArrayItem = (path: Array<string | number>, from: number, to: number) => {
+    setDraft((prev) => {
+      const moveOne = (lang: "ar" | "en", source: any) => {
+        const listPath = [lang, ...path];
+        const target = listPath.reduce((acc, key) => (acc ? acc[key as any] : undefined), source as any);
+        if (!Array.isArray(target)) return source;
+        const copy = target.slice();
+        const [item] = copy.splice(from, 1);
+        copy.splice(to, 0, item);
+        return updateAtPath(source, listPath, copy);
+      };
+      return moveOne("en", moveOne("ar", prev));
+    });
+  };
+
+  const addBilingualArrayItem = (path: Array<string | number>, templateAr: any, templateEn: any) => {
+    setDraft((prev) => {
+      const addOne = (lang: "ar" | "en", item: any, source: any) => {
+        const listPath = [lang, ...path];
+        const target = listPath.reduce((acc, key) => (acc ? acc[key as any] : undefined), source as any);
+        if (!Array.isArray(target)) return source;
+        return updateAtPath(source, listPath, target.concat([item]));
+      };
+      return addOne("en", templateEn, addOne("ar", templateAr, prev));
+    });
+  };
+
+  const removeBilingualArrayItem = (path: Array<string | number>, index: number) => {
+    setDraft((prev) => {
+      const removeOne = (lang: "ar" | "en", source: any) => removeAtPath(source, [lang, ...path, index]);
+      return removeOne("en", removeOne("ar", prev));
+    });
+  };
+
+  const renderBilingualValue = (
+    arValue: any,
+    enValue: any,
+    path: Array<string | number>,
+    label: string,
+    depth: number,
+  ) => {
     const keyLabel = label || path[path.length - 1]?.toString() || "";
-    if (typeof value === "string") {
-      if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
-      const isUrl = /url|image|photo|cover|logo|portrait/i.test(keyLabel);
-      const pathKey = pathToString(path);
-      return (
-        <div className="space-y-2">
-          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
-          {isUrl ? (
-            <input
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-              value={value}
-              onChange={(event) => handleFieldChange(path, event.target.value)}
-            />
-          ) : value.length > 90 || value.includes("\n") || /text|description|summary|content|quote|message|bio|lead/i.test(keyLabel) ? (
-            <RichTextEditor value={value} onChange={(nextValue) => handleFieldChange(path, nextValue)} />
-          ) : (
-            <input
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-              value={value}
-              onChange={(event) => handleFieldChange(path, event.target.value)}
-            />
-          )}
-          {isUrl ? (
-            <div className="flex items-center gap-3 text-xs text-slate-500">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (!file || !token) return;
-                  setUploading((prev) => ({ ...prev, [pathKey]: true }));
-                  uploadMedia(token, file)
-                    .then((res) => {
-                      if (res?.url) {
-                        handleFieldChange(path, res.url);
-                      }
-                    })
-                    .catch(() => {
-                      setStatus(isRTL ? "فشل رفع الصورة." : "Image upload failed.");
-                    })
-                    .finally(() => {
-                      setUploading((prev) => ({ ...prev, [pathKey]: false }));
-                    });
-                }}
-              />
-              {uploading[pathKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
-              {isSharedMediaPath(path) ? (
-                <span>{isRTL ? "سيتم استخدام الصورة نفسها في العربية والإنجليزية." : "This image will be shared across Arabic and English."}</span>
-              ) : null}
-            </div>
-          ) : null}
-          {isUrl && value && value.startsWith("http") ? (
-            <img src={value} alt={keyLabel} className="mt-2 max-h-40 rounded-md border" />
-          ) : null}
-        </div>
-      );
-    }
-    if (typeof value === "number") {
-      if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
-      return (
-        <div className="space-y-2">
-          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
-          <input
-            type="number"
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-            value={value}
-            onChange={(event) => handleFieldChange(path, Number(event.target.value))}
-          />
-        </div>
-      );
-    }
-    if (typeof value === "boolean") {
-      if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
-      return (
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={value}
-            onChange={(event) => handleFieldChange(path, event.target.checked)}
-          />
-          {toLabel(keyLabel)}
-        </label>
-      );
-    }
-    if (Array.isArray(value)) {
-      if (!matchesSearch(keyLabel) && !matchesSearch(pathToString(path))) return null;
-      const template = value.length > 0 ? value[0] : "";
+    const pathText = pathToString(path);
+    const isUrl = /url|image|photo|cover|logo|portrait/i.test(keyLabel);
+    const isLongText = /text|description|summary|content|quote|message|bio|lead|requirements|apply/i.test(keyLabel);
+    const isBoolean =
+      typeof arValue === "boolean" ||
+      typeof enValue === "boolean";
+    const isNumber =
+      (typeof arValue === "number" || typeof enValue === "number") && !isBoolean;
+    const isString =
+      typeof arValue === "string" ||
+      typeof enValue === "string";
+    const normalizedAr = arValue ?? (isNumber ? 0 : isBoolean ? false : "");
+    const normalizedEn = enValue ?? (isNumber ? 0 : isBoolean ? false : "");
+
+    if (Array.isArray(arValue) || Array.isArray(enValue)) {
+      if (!matchesSearch(keyLabel) && !matchesSearch(pathText)) return null;
+      const listAr = Array.isArray(arValue) ? arValue : [];
+      const listEn = Array.isArray(enValue) ? enValue : [];
+      const maxItems = Math.max(listAr.length, listEn.length);
+      const templateAr = listAr[0] ?? "";
+      const templateEn = listEn[0] ?? templateAr;
       return (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -645,12 +632,12 @@ export default function Admin({ lang, content, onContentUpdate }) {
             <button
               type="button"
               className="text-sm text-[#1c3944] font-semibold"
-              onClick={() => handleAddArrayItem(path, template)}
+              onClick={() => addBilingualArrayItem(path, templateAr, templateEn)}
             >
               {isRTL ? "إضافة عنصر" : "Add Item"}
             </button>
           </div>
-          {value.map((item, index) => (
+          {Array.from({ length: maxItems }).map((_, index) => (
             <div key={`${path.join(".")}-${index}`} className="rounded-lg border border-slate-200 p-3 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-xs text-slate-500">
@@ -661,16 +648,16 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     <button
                       type="button"
                       className="text-xs text-slate-600"
-                      onClick={() => moveArrayItem(path, index, index - 1)}
+                      onClick={() => moveBilingualArrayItem(path, index, index - 1)}
                     >
                       {isRTL ? "أعلى" : "Up"}
                     </button>
                   )}
-                  {index < value.length - 1 && (
+                  {index < maxItems - 1 && (
                     <button
                       type="button"
                       className="text-xs text-slate-600"
-                      onClick={() => moveArrayItem(path, index, index + 1)}
+                      onClick={() => moveBilingualArrayItem(path, index, index + 1)}
                     >
                       {isRTL ? "أسفل" : "Down"}
                     </button>
@@ -678,22 +665,26 @@ export default function Admin({ lang, content, onContentUpdate }) {
                   <button
                     type="button"
                     className="text-xs text-red-600 hover:text-red-800"
-                    onClick={() => handleRemoveArrayItem([...path, index])}
+                    onClick={() => removeBilingualArrayItem(path, index)}
                   >
                     {isRTL ? "حذف" : "Remove"}
                   </button>
                 </div>
               </div>
-              {renderValue(item, [...path, index], `${keyLabel} ${index + 1}`, depth + 1)}
+              {renderBilingualValue(listAr[index], listEn[index], [...path, index], `${keyLabel} ${index + 1}`, depth + 1)}
             </div>
           ))}
         </div>
       );
     }
-    if (isPlainObject(value)) {
-      const sectionKey = pathToString(path);
+
+    if (isPlainObject(arValue) || isPlainObject(enValue)) {
+      const arObj = isPlainObject(arValue) ? arValue : {};
+      const enObj = isPlainObject(enValue) ? enValue : {};
+      const sectionKey = pathText;
       const isCollapsed = collapsed.has(sectionKey);
-      const entries = Object.entries(value).filter(([key]) => matchesSearch(key) || matchesSearch(sectionKey));
+      const keys = Array.from(new Set([...Object.keys(arObj), ...Object.keys(enObj)]));
+      const entries = keys.filter((key) => matchesSearch(key) || matchesSearch(sectionKey));
       if (!entries.length && search.trim()) return null;
       return (
         <div className="space-y-3">
@@ -711,9 +702,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
           )}
           {!isCollapsed && (
             <div className="space-y-4">
-              {entries.map(([key, nested]) => (
+              {entries.map((key) => (
                 <div key={`${path.join(".")}-${key}`} className="bg-white border border-slate-200 rounded-lg p-4">
-                  {renderValue(nested, [...path, key], key, depth + 1)}
+                  {renderBilingualValue(arObj[key], enObj[key], [...path, key], key, depth + 1)}
                 </div>
               ))}
             </div>
@@ -721,6 +712,143 @@ export default function Admin({ lang, content, onContentUpdate }) {
         </div>
       );
     }
+
+    if (!matchesSearch(keyLabel) && !matchesSearch(pathText)) return null;
+
+    if (isUrl) {
+      const sharedPath = ["ar", ...path];
+      const pathKey = pathToString(sharedPath);
+      const urlValue = normalizedAr || normalizedEn || "";
+      return (
+        <div className="space-y-2">
+          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
+          <input
+            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+            value={urlValue}
+            onChange={(event) => setBilingualPathValue(path, event.target.value)}
+          />
+          <div className="flex items-center gap-3 text-xs text-slate-500">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (!file || !token) return;
+                setUploading((prev) => ({ ...prev, [pathKey]: true }));
+                uploadMedia(token, file)
+                  .then((res) => {
+                    if (res?.url) {
+                      setBilingualPathValue(path, res.url);
+                    }
+                  })
+                  .catch(() => {
+                    setStatus(isRTL ? "فشل رفع الصورة." : "Image upload failed.");
+                  })
+                  .finally(() => {
+                    setUploading((prev) => ({ ...prev, [pathKey]: false }));
+                  });
+              }}
+            />
+            {uploading[pathKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
+            <span>{isRTL ? "سيتم استخدام الصورة نفسها في العربية والإنجليزية." : "This image will be shared across Arabic and English."}</span>
+          </div>
+          {urlValue && String(urlValue).startsWith("http") ? (
+            <img src={urlValue} alt={keyLabel} className="mt-2 max-h-40 rounded-md border" />
+          ) : null}
+        </div>
+      );
+    }
+
+    if (isBoolean) {
+      return (
+        <div className="space-y-2">
+          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
+          <div className="grid md:grid-cols-2 gap-3">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={Boolean(normalizedAr)}
+                onChange={(event) => handleFieldChange(["ar", ...path], event.target.checked)}
+              />
+              {isRTL ? `${toLabel(keyLabel)} Ar` : `${toLabel(keyLabel)} AR`}
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={Boolean(normalizedEn)}
+                onChange={(event) => handleFieldChange(["en", ...path], event.target.checked)}
+              />
+              {isRTL ? `${toLabel(keyLabel)} En` : `${toLabel(keyLabel)} EN`}
+            </label>
+          </div>
+        </div>
+      );
+    }
+
+    if (isNumber) {
+      return (
+        <div className="space-y-2">
+          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
+          <div className="grid md:grid-cols-2 gap-3">
+            <input
+              type="number"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+              value={normalizedAr}
+              onChange={(event) => handleFieldChange(["ar", ...path], Number(event.target.value))}
+              placeholder={`${toLabel(keyLabel)} AR`}
+            />
+            <input
+              type="number"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+              value={normalizedEn}
+              onChange={(event) => handleFieldChange(["en", ...path], Number(event.target.value))}
+              placeholder={`${toLabel(keyLabel)} EN`}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    if (isString) {
+      const renderAsRichText =
+        String(normalizedAr).length > 90 ||
+        String(normalizedAr).includes("\n") ||
+        String(normalizedEn).length > 90 ||
+        String(normalizedEn).includes("\n") ||
+        isLongText;
+      return (
+        <div className="space-y-2">
+          <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
+          <div className="space-y-3">
+            <div>
+              <div className="mb-1 text-xs text-slate-500">{`${toLabel(keyLabel)} AR`}</div>
+              {renderAsRichText ? (
+                <RichTextEditor value={String(normalizedAr)} onChange={(nextValue) => handleFieldChange(["ar", ...path], nextValue)} />
+              ) : (
+                <input
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  value={String(normalizedAr)}
+                  onChange={(event) => handleFieldChange(["ar", ...path], event.target.value)}
+                />
+              )}
+            </div>
+            <div>
+              <div className="mb-1 text-xs text-slate-500">{`${toLabel(keyLabel)} EN`}</div>
+              {renderAsRichText ? (
+                <RichTextEditor value={String(normalizedEn)} onChange={(nextValue) => handleFieldChange(["en", ...path], nextValue)} />
+              ) : (
+                <input
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  value={String(normalizedEn)}
+                  onChange={(event) => handleFieldChange(["en", ...path], event.target.value)}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return <div className="text-sm text-slate-500">{isRTL ? "نوع غير مدعوم" : "Unsupported type"}</div>;
   };
 
@@ -738,7 +866,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
       { key: "about", label: isRTL ? "عن المؤسسة" : "About Us", path: ["about"] },
       { key: "jumana", label: isRTL ? "جمانة سيف" : "Joumana Seif", path: ["jumana"] },
       { key: "founder", label: isRTL ? "عن رياض سيف" : "About Riad Seif", path: ["founder"] },
-      { key: "founder-portrait", label: isRTL ? "عن رياض سيف - الصورة" : "About Riad Seif - Portrait", path: ["founder", "portrait"] },
       { key: "center", label: isRTL ? "مركز حقوق الإنسان" : "Human Rights Center", path: ["center"] },
       { key: "forum", label: isRTL ? "منتدى الحوار" : "Dialogue Forum", path: ["forum"] },
       { key: "publications", label: isRTL ? "الإصدارات" : "Publications", path: ["publications"] },
@@ -829,8 +956,16 @@ export default function Admin({ lang, content, onContentUpdate }) {
         handleResourceNew(key);
         loadResource(key);
       })
-      .catch(() => {
-        setResourceStatus(isRTL ? "فشل الحفظ." : "Save failed.");
+      .catch((error) => {
+        const firstErrorKey = error && typeof error === "object" ? Object.keys(error).find((k) => !["status", "detail"].includes(k)) : "";
+        const firstErrorValue = firstErrorKey ? error[firstErrorKey] : "";
+        const parsedError =
+          (typeof error?.detail === "string" ? error.detail : "") ||
+          (Array.isArray(error?.detail) ? error.detail[0] : "") ||
+          (typeof firstErrorValue === "string" ? firstErrorValue : "") ||
+          (Array.isArray(firstErrorValue) ? firstErrorValue[0] : "") ||
+          "";
+        setResourceStatus(parsedError || (isRTL ? "فشل الحفظ." : "Save failed."));
       });
   };
 
@@ -851,17 +986,10 @@ export default function Admin({ lang, content, onContentUpdate }) {
       });
   };
 
-  const activeSection = contentSections.find((section) => section.key === activeContentKey) ??
-    contentSections[0];
-  const getSectionValue = (root: "ar" | "en") =>
-    [root, ...(activeSection?.path ?? [])].reduce(
-      (acc, key) => (acc ? acc[key as keyof typeof acc] : undefined),
-      draft as any,
-    );
-  const activeArabicPath = ["ar", ...(activeSection?.path ?? [])];
-  const activeEnglishPath = ["en", ...(activeSection?.path ?? [])];
-  const activeArabicValue = getSectionValue("ar");
-  const activeEnglishValue = getSectionValue("en");
+  const activeSection = contentSections.find((section) => section.key === activeContentKey) ?? contentSections[0];
+  const activeBasePath = activeSection?.path ?? [];
+  const activeArabicValue = getByPath("ar", activeBasePath);
+  const activeEnglishValue = getByPath("en", activeBasePath);
 
   return (
     <section className="py-16 lg:py-24 bg-slate-50">
@@ -960,31 +1088,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     onChange={(event) => setSearch(event.target.value)}
                   />
 
-                  <div className="grid xl:grid-cols-2 gap-6">
-                    <div className="space-y-4 rounded-xl border border-slate-200 p-4">
-                      <div className="text-sm font-semibold text-[#1c3944]">
-                        {isRTL ? "العربية" : "Arabic"}
+                  <div className="space-y-4 rounded-xl border border-slate-200 p-4">
+                    {(activeArabicValue === undefined && activeEnglishValue === undefined) ? (
+                      <div className="text-sm text-slate-500">
+                        {isRTL ? "لا يوجد محتوى لهذا القسم." : "No content found for this section."}
                       </div>
-                      {activeArabicValue === undefined ? (
-                        <div className="text-sm text-slate-500">
-                          {isRTL ? "لا يوجد محتوى عربي لهذا القسم." : "No Arabic content found for this section."}
-                        </div>
-                      ) : (
-                        renderValue(activeArabicValue, activeArabicPath, activeSection.label, 0)
-                      )}
-                    </div>
-                    <div className="space-y-4 rounded-xl border border-slate-200 p-4">
-                      <div className="text-sm font-semibold text-[#1c3944]">
-                        {isRTL ? "الإنجليزية" : "English"}
-                      </div>
-                      {activeEnglishValue === undefined ? (
-                        <div className="text-sm text-slate-500">
-                          {isRTL ? "لا يوجد محتوى إنجليزي لهذا القسم." : "No English content found for this section."}
-                        </div>
-                      ) : (
-                        renderValue(activeEnglishValue, activeEnglishPath, activeSection.label, 0)
-                      )}
-                    </div>
+                    ) : (
+                      renderBilingualValue(activeArabicValue, activeEnglishValue, activeBasePath, activeSection.label, 0)
+                    )}
                   </div>
 
                   <button
