@@ -9,6 +9,7 @@ class EventSerializer(serializers.ModelSerializer):
     is_upcoming = serializers.BooleanField(read_only=True)
     is_past = serializers.BooleanField(read_only=True)
     cover_url = serializers.SerializerMethodField()
+    cover_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
     
     class Meta:
         model = Event
@@ -27,9 +28,11 @@ class EventSerializer(serializers.ModelSerializer):
             'online_link',
             'registration_url',
             'cover_url',
+            'cover_upload_url',
             'is_upcoming',
             'is_past',
             'is_featured',
+            'is_published',
         ]
     
     def get_cover_url(self, obj):
@@ -39,6 +42,14 @@ class EventSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.cover_image.url)
             return obj.cover_image.url
         return None
+
+    def create(self, validated_data):
+        validated_data.pop('cover_upload_url', None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop('cover_upload_url', None)
+        return super().update(instance, validated_data)
 
 
 class EventListSerializer(serializers.ModelSerializer):
@@ -65,6 +76,7 @@ class EventListSerializer(serializers.ModelSerializer):
 
 class MemoryPhotoSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
+    image_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
 
     class Meta:
         model = MemoryPhoto
@@ -75,6 +87,7 @@ class MemoryPhotoSerializer(serializers.ModelSerializer):
             "description_en",
             "description_ar",
             "image_url",
+            "image_upload_url",
             "date",
             "is_published",
             "order",
@@ -87,6 +100,14 @@ class MemoryPhotoSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.image.url)
             return obj.image.url
         return None
+
+    def create(self, validated_data):
+        validated_data.pop("image_upload_url", None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop("image_upload_url", None)
+        return super().update(instance, validated_data)
 
 
 class ArchiveItemSerializer(serializers.ModelSerializer):

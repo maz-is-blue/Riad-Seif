@@ -355,7 +355,7 @@ export default function Center({ lang, content }) {
                        whileTap={{ scale: 0.95 }}
                      >
                          <TrendingUp size={20} />
-                         {lang === 'ar' ? 'تقدم بطلب للمشاركة' : 'Apply for Participation'}
+                         {lang === 'ar' ? 'استمارة المشاركة' : 'Apply for Participation'}
                      </motion.span>
                   </Link>
               </motion.div>

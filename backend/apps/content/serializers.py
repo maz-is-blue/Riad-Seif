@@ -56,6 +56,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
     """Serializer for team members."""
     
     photo_url = serializers.SerializerMethodField()
+    photo_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
     
     class Meta:
         model = TeamMember
@@ -68,8 +69,11 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             'bio_en',
             'bio_ar',
             'photo_url',
+            'photo_upload_url',
             'email',
             'linkedin_url',
+            'order',
+            'is_active',
         ]
     
     def get_photo_url(self, obj):
@@ -80,11 +84,20 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             return obj.photo.url
         return None
 
+    def create(self, validated_data):
+        validated_data.pop('photo_upload_url', None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop('photo_upload_url', None)
+        return super().update(instance, validated_data)
+
 
 class NewsUpdateSerializer(serializers.ModelSerializer):
     """Serializer for news updates."""
     
     image_url = serializers.SerializerMethodField()
+    image_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
     
     class Meta:
         model = NewsUpdate
@@ -97,9 +110,11 @@ class NewsUpdateSerializer(serializers.ModelSerializer):
             'content_en',
             'content_ar',
             'image_url',
+            'image_upload_url',
             'external_link',
             'published_date',
             'is_featured',
+            'is_published',
         ]
     
     def get_image_url(self, obj):
@@ -109,6 +124,14 @@ class NewsUpdateSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.image.url)
             return obj.image.url
         return None
+
+    def create(self, validated_data):
+        validated_data.pop('image_upload_url', None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop('image_upload_url', None)
+        return super().update(instance, validated_data)
 
 
 class NewsUpdateListSerializer(serializers.ModelSerializer):

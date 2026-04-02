@@ -306,7 +306,7 @@ export default function Forum({ lang, content }) {
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.2 }}
              >
-               {t.nav.forum}
+               {t.forum?.title ?? t.nav.forum}
              </motion.span>
              <motion.h1
                className={`text-4xl lg:text-5xl ${t.serif} mb-6`}
@@ -314,7 +314,7 @@ export default function Forum({ lang, content }) {
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.3 }}
              >
-               {t.nav.forum}
+               {t.forum?.title ?? t.nav.forum}
              </motion.h1>
              <motion.p
                className="text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed"
