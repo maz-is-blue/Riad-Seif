@@ -607,6 +607,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const pathText = pathToString(path);
     const isUrl = /url|image|photo|cover|logo|portrait/i.test(keyLabel);
     const isLongText = /text|description|summary|content|quote|message|bio|lead|requirements|apply/i.test(keyLabel);
+    const fieldIsExplicitLanguageKey = /(?:_ar|_en)$/i.test(keyLabel) || /(Ar|En)$/.test(keyLabel);
     const isBoolean =
       typeof arValue === "boolean" ||
       typeof enValue === "boolean";
@@ -810,6 +811,24 @@ export default function Admin({ lang, content, onContentUpdate }) {
     }
 
     if (isString) {
+      if (fieldIsExplicitLanguageKey) {
+        const value = String(normalizedAr || normalizedEn || "");
+        const renderAsRichText = value.length > 90 || value.includes("\n") || isLongText;
+        return (
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold text-slate-500">{toLabel(keyLabel)}</label>
+            {renderAsRichText ? (
+              <RichTextEditor value={value} onChange={(nextValue) => setBilingualPathValue(path, nextValue)} />
+            ) : (
+              <input
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                value={value}
+                onChange={(event) => setBilingualPathValue(path, event.target.value)}
+              />
+            )}
+          </div>
+        );
+      }
       const renderAsRichText =
         String(normalizedAr).length > 90 ||
         String(normalizedAr).includes("\n") ||
