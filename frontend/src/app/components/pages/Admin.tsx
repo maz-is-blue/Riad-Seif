@@ -923,7 +923,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
               <div className="border-t border-slate-200 pt-4">
                 <Link href="/admin/account">
                   <span className="text-sm font-semibold text-[#1c3944] cursor-pointer">
-                    {isRTL ? "Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø­Ø³Ø§Ø¨" : "Account Settings"}
+                    {isRTL ? "إعدادات الحساب" : "Account Settings"}
                     
                   </span>
                 </Link>
