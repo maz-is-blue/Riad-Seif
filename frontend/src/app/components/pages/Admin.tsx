@@ -69,19 +69,19 @@ type ResourceKey =
 
 const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
   news: {
-    title: { en: "News Updates", ar: "???????" },
+    title: { en: "News Updates", ar: "أحدث الأخبار" },
     fields: [
-      { name: "title_en", label: { en: "Title (EN)", ar: "??????? (EN)" } },
-      { name: "title_ar", label: { en: "Title (AR)", ar: "??????? (AR)" } },
-      { name: "summary_en", label: { en: "Summary (EN)", ar: "?????? (EN)" }, type: "textarea" },
-      { name: "summary_ar", label: { en: "Summary (AR)", ar: "?????? (AR)" }, type: "textarea" },
-      { name: "content_en", label: { en: "Content (EN)", ar: "??????? (EN)" }, type: "textarea" },
-      { name: "content_ar", label: { en: "Content (AR)", ar: "??????? (AR)" }, type: "textarea" },
-      { name: "image_url", label: { en: "Image URL", ar: "???? ??????" } },
-      { name: "external_link", label: { en: "External Link", ar: "???? ?????" } },
-      { name: "published_date", label: { en: "Published Date", ar: "????? ?????" }, type: "date" },
-      { name: "is_featured", label: { en: "Featured", ar: "????" }, type: "checkbox" },
-      { name: "is_published", label: { en: "Published", ar: "?????" }, type: "checkbox" },
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "summary_en", label: { en: "Summary (EN)", ar: "الملخص (EN)" }, type: "textarea" },
+      { name: "summary_ar", label: { en: "Summary (AR)", ar: "الملخص (AR)" }, type: "textarea" },
+      { name: "content_en", label: { en: "Content (EN)", ar: "المحتوى (EN)" }, type: "textarea" },
+      { name: "content_ar", label: { en: "Content (AR)", ar: "المحتوى (AR)" }, type: "textarea" },
+      { name: "image_url", label: { en: "Image URL", ar: "رابط الصورة" } },
+      { name: "external_link", label: { en: "External Link", ar: "الرابط الخارجي" } },
+      { name: "published_date", label: { en: "Published Date", ar: "تاريخ النشر" }, type: "date" },
+      { name: "is_featured", label: { en: "Featured", ar: "مميز" }, type: "checkbox" },
+      { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
     ],
     list: adminListNews,
     upsert: adminUpsertNews,
@@ -131,19 +131,19 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
     },
   },
   team: {
-    title: { en: "Team Members", ar: "??????" },
+    title: { en: "Team Members", ar: "الفريق" },
     fields: [
-      { name: "name_en", label: { en: "Name (EN)", ar: "????? (EN)" } },
-      { name: "name_ar", label: { en: "Name (AR)", ar: "????? (AR)" } },
-      { name: "role_en", label: { en: "Role (EN)", ar: "????? (EN)" } },
-      { name: "role_ar", label: { en: "Role (AR)", ar: "????? (AR)" } },
-      { name: "bio_en", label: { en: "Bio (EN)", ar: "?????? (EN)" }, type: "textarea" },
-      { name: "bio_ar", label: { en: "Bio (AR)", ar: "?????? (AR)" }, type: "textarea" },
-      { name: "photo_url", label: { en: "Photo URL", ar: "???? ??????" } },
-      { name: "email", label: { en: "Email", ar: "?????? ??????????" } },
-      { name: "linkedin_url", label: { en: "LinkedIn URL", ar: "???? ???????" } },
-      { name: "order", label: { en: "Order", ar: "???????" }, type: "number" },
-      { name: "is_active", label: { en: "Active", ar: "???" }, type: "checkbox" },
+      { name: "name_en", label: { en: "Name (EN)", ar: "الاسم (EN)" } },
+      { name: "name_ar", label: { en: "Name (AR)", ar: "الاسم (AR)" } },
+      { name: "role_en", label: { en: "Role (EN)", ar: "المنصب (EN)" } },
+      { name: "role_ar", label: { en: "Role (AR)", ar: "المنصب (AR)" } },
+      { name: "bio_en", label: { en: "Bio (EN)", ar: "السيرة (EN)" }, type: "textarea" },
+      { name: "bio_ar", label: { en: "Bio (AR)", ar: "السيرة (AR)" }, type: "textarea" },
+      { name: "photo_url", label: { en: "Photo URL", ar: "رابط الصورة" } },
+      { name: "email", label: { en: "Email", ar: "البريد الإلكتروني" } },
+      { name: "linkedin_url", label: { en: "LinkedIn URL", ar: "رابط لينكدإن" } },
+      { name: "order", label: { en: "Order", ar: "الترتيب" }, type: "number" },
+      { name: "is_active", label: { en: "Active", ar: "نشط" }, type: "checkbox" },
     ],
     list: adminListTeam,
     upsert: adminUpsertTeam,
@@ -164,15 +164,15 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
     },
   },
   publications: {
-    title: { en: "Publications", ar: "?????????" },
+    title: { en: "Publications", ar: "الإصدارات" },
     fields: [
-      { name: "title_en", label: { en: "Title (EN)", ar: "??????? (EN)" } },
-      { name: "title_ar", label: { en: "Title (AR)", ar: "??????? (AR)" } },
-      { name: "description_en", label: { en: "Description (EN)", ar: "????? (EN)" }, type: "textarea" },
-      { name: "description_ar", label: { en: "Description (AR)", ar: "????? (AR)" }, type: "textarea" },
-      { name: "category", label: { en: "Category", ar: "???????" } },
-      { name: "pdf_url", label: { en: "PDF URL", ar: "???? PDF" } },
-      { name: "published_date", label: { en: "Published Date", ar: "????? ?????" }, type: "date" },
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
+      { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
+      { name: "category", label: { en: "Category", ar: "التصنيف" } },
+      { name: "pdf_url", label: { en: "PDF URL", ar: "رابط PDF" } },
+      { name: "published_date", label: { en: "Published Date", ar: "تاريخ النشر" }, type: "date" },
     ],
     list: adminListPublications,
     upsert: adminUpsertPublication,
@@ -189,22 +189,22 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
     },
   },
   events: {
-    title: { en: "Forum Events", ar: "??????? ???????" },
+    title: { en: "Forum Events", ar: "فعاليات المنتدى" },
     fields: [
-      { name: "title_en", label: { en: "Title (EN)", ar: "??????? (EN)" } },
-      { name: "title_ar", label: { en: "Title (AR)", ar: "??????? (AR)" } },
-      { name: "description_en", label: { en: "Description (EN)", ar: "????? (EN)" }, type: "textarea" },
-      { name: "description_ar", label: { en: "Description (AR)", ar: "????? (AR)" }, type: "textarea" },
-      { name: "event_type", label: { en: "Event Type", ar: "??? ????????" } },
-      { name: "date", label: { en: "Start Date", ar: "????? ???????" }, type: "date" },
-      { name: "end_date", label: { en: "End Date", ar: "????? ???????" }, type: "date" },
-      { name: "location", label: { en: "Location", ar: "??????" } },
-      { name: "is_online", label: { en: "Online", ar: "??? ????????" }, type: "checkbox" },
-      { name: "online_link", label: { en: "Online Link", ar: "???? ????????" } },
-      { name: "registration_url", label: { en: "Registration URL", ar: "???? ???????" } },
-      { name: "cover_url", label: { en: "Cover Image URL", ar: "???? ??????" } },
-      { name: "is_featured", label: { en: "Featured", ar: "????" }, type: "checkbox" },
-      { name: "is_published", label: { en: "Published", ar: "?????" }, type: "checkbox" },
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
+      { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
+      { name: "event_type", label: { en: "Event Type", ar: "نوع الفعالية" } },
+      { name: "date", label: { en: "Start Date", ar: "تاريخ البداية" }, type: "date" },
+      { name: "end_date", label: { en: "End Date", ar: "تاريخ النهاية" }, type: "date" },
+      { name: "location", label: { en: "Location", ar: "المكان" } },
+      { name: "is_online", label: { en: "Online", ar: "عبر الإنترنت" }, type: "checkbox" },
+      { name: "online_link", label: { en: "Online Link", ar: "رابط الحضور" } },
+      { name: "registration_url", label: { en: "Registration URL", ar: "رابط التسجيل" } },
+      { name: "cover_url", label: { en: "Cover Image URL", ar: "رابط صورة الغلاف" } },
+      { name: "is_featured", label: { en: "Featured", ar: "مميز" }, type: "checkbox" },
+      { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
     ],
     list: adminListEvents,
     upsert: adminUpsertEvent,
@@ -228,16 +228,16 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
     },
   },
   memory: {
-    title: { en: "Forum Memory", ar: "????? ???????" },
+    title: { en: "Forum Memory", ar: "ذاكرة المنتدى" },
     fields: [
-      { name: "title_en", label: { en: "Title (EN)", ar: "??????? (EN)" } },
-      { name: "title_ar", label: { en: "Title (AR)", ar: "??????? (AR)" } },
-      { name: "description_en", label: { en: "Description (EN)", ar: "????? (EN)" }, type: "textarea" },
-      { name: "description_ar", label: { en: "Description (AR)", ar: "????? (AR)" }, type: "textarea" },
-      { name: "image_url", label: { en: "Image URL", ar: "???? ??????" } },
-      { name: "date", label: { en: "Date", ar: "???????" }, type: "date" },
-      { name: "order", label: { en: "Order", ar: "???????" }, type: "number" },
-      { name: "is_published", label: { en: "Published", ar: "?????" }, type: "checkbox" },
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
+      { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
+      { name: "image_url", label: { en: "Image URL", ar: "رابط الصورة" } },
+      { name: "date", label: { en: "Date", ar: "التاريخ" }, type: "date" },
+      { name: "order", label: { en: "Order", ar: "الترتيب" }, type: "number" },
+      { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
     ],
     list: adminListMemory,
     upsert: adminUpsertMemory,
@@ -255,16 +255,16 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
     },
   },
   archive: {
-    title: { en: "Forum Archive", ar: "????? ???????" },
+    title: { en: "Forum Archive", ar: "أرشيف المنتدى" },
     fields: [
-      { name: "title_en", label: { en: "Title (EN)", ar: "??????? (EN)" } },
-      { name: "title_ar", label: { en: "Title (AR)", ar: "??????? (AR)" } },
-      { name: "description_en", label: { en: "Description (EN)", ar: "????? (EN)" }, type: "textarea" },
-      { name: "description_ar", label: { en: "Description (AR)", ar: "????? (AR)" }, type: "textarea" },
-      { name: "date", label: { en: "Date", ar: "???????" }, type: "date" },
-      { name: "external_link", label: { en: "External Link", ar: "???? ?????" } },
-      { name: "order", label: { en: "Order", ar: "???????" }, type: "number" },
-      { name: "is_published", label: { en: "Published", ar: "?????" }, type: "checkbox" },
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
+      { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
+      { name: "date", label: { en: "Date", ar: "التاريخ" }, type: "date" },
+      { name: "external_link", label: { en: "External Link", ar: "الرابط الخارجي" } },
+      { name: "order", label: { en: "Order", ar: "الترتيب" }, type: "number" },
+      { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
     ],
     list: adminListArchive,
     upsert: adminUpsertArchive,
@@ -415,11 +415,11 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const handleSave = () => {
     if (!token) {
-      setStatus(isRTL ? "???? ????? ?????? ?????." : "Please log in first.");
+      setStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
       return;
     }
     if (!isSuperAdmin && !adminPermissions?.content?.edit) {
-      setStatus(isRTL ? "??? ???? ?????? ???????." : "You do not have edit permission.");
+      setStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
       return;
     }
     setSaving(true);
@@ -427,17 +427,17 @@ export default function Admin({ lang, content, onContentUpdate }) {
       .then((response) => {
         const payload = response?.content as SiteContent;
         onContentUpdate(payload);
-        setStatus(isRTL ? "?? ????? ?????." : "Saved successfully.");
+        setStatus(isRTL ? "تم حفظ التغييرات بنجاح." : "Saved successfully.");
       })
       .catch((error) => {
         const message =
           error?.detail ??
           (error?.status === 401
             ? isRTL
-              ? "??? ????. ???? ????? ??????."
+              ? "غير مصرح. يرجى تسجيل الدخول."
               : "Unauthorized. Please log in."
             : isRTL
-            ? "??? ????? ??? ??????."
+            ? "فشل حفظ التغييرات على الخادم."
             : "Failed to save to server.");
         setStatus(Array.isArray(message) ? message[0] : message);
       })
@@ -448,21 +448,21 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const handleReset = () => {
     if (!token) {
-      setStatus(isRTL ? "???? ????? ?????? ?????." : "Please log in first.");
+      setStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
       return;
     }
     if (!isSuperAdmin && !adminPermissions?.content?.edit) {
-      setStatus(isRTL ? "??? ???? ?????? ???????." : "You do not have edit permission.");
+      setStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
       return;
     }
     updateSiteContent(defaultContent as unknown as Record<string, unknown>, token)
       .then(() => {
         onContentUpdate(defaultContent as SiteContent);
         setDraft(defaultContent as SiteContent);
-        setStatus(isRTL ? "??? ?????? ??? ?????? ??????????." : "Reset to defaults.");
+        setStatus(isRTL ? "تمت إعادة الضبط إلى القيم الافتراضية." : "Reset to defaults.");
       })
       .catch(() => {
-        setStatus(isRTL ? "???? ????? ?????." : "Reset failed.");
+        setStatus(isRTL ? "فشلت إعادة الضبط." : "Reset failed.");
       });
   };
 
@@ -474,36 +474,36 @@ export default function Admin({ lang, content, onContentUpdate }) {
           const merged = mergeContent(defaultContent as SiteContent, payload as SiteContent);
           setDraft(merged as SiteContent);
           onContentUpdate(merged as SiteContent);
-          setStatus(isRTL ? "?? ??????? ?? ??????." : "Loaded from server.");
+          setStatus(isRTL ? "تم التحميل من الخادم." : "Loaded from server.");
         } else {
-          setStatus(isRTL ? "?? ???? ????? ????? ??? ??????." : "No server content found.");
+          setStatus(isRTL ? "لا يوجد محتوى محفوظ على الخادم." : "No server content found.");
         }
       })
       .catch(() => {
-        setStatus(isRTL ? "??? ??????? ?? ??????." : "Failed to load from server.");
+        setStatus(isRTL ? "فشل التحميل من الخادم." : "Failed to load from server.");
       });
   };
 
   const handleLogin = () => {
     if (!credentials.username || !credentials.password) {
-      setStatus(isRTL ? "???? ?????? ??????." : "Enter credentials.");
+      setStatus(isRTL ? "أدخل بيانات الدخول." : "Enter credentials.");
       return;
     }
     loginAdmin(credentials.username, credentials.password)
       .then((response) => {
         window.localStorage.setItem("rs_admin_token", response.token);
         setToken(response.token);
-        setStatus(isRTL ? "?? ????? ??????." : "Logged in.");
+        setStatus(isRTL ? "تم تسجيل الدخول." : "Logged in.");
       })
       .catch(() => {
-        setStatus(isRTL ? "??? ????? ??????." : "Login failed.");
+        setStatus(isRTL ? "فشل تسجيل الدخول." : "Login failed.");
       });
   };
 
   const handleLogout = () => {
     window.localStorage.removeItem("rs_admin_token");
     setToken("");
-    setStatus(isRTL ? "?? ????? ??????." : "Logged out.");
+    setStatus(isRTL ? "تم تسجيل الخروج." : "Logged out.");
   };
 
 
@@ -585,14 +585,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       }
                     })
                     .catch(() => {
-                      setStatus(isRTL ? "??? ??? ??????." : "Image upload failed.");
+                      setStatus(isRTL ? "فشل رفع الصورة." : "Image upload failed.");
                     })
                     .finally(() => {
                       setUploading((prev) => ({ ...prev, [pathKey]: false }));
                     });
                 }}
               />
-              {uploading[pathKey] ? (isRTL ? "???? ?????..." : "Uploading...") : null}
+              {uploading[pathKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
             </div>
           ) : null}
           {isUrl && value && value.startsWith("http") ? (
@@ -640,14 +640,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
               className="text-sm text-[#1c3944] font-semibold"
               onClick={() => handleAddArrayItem(path, template)}
             >
-              {isRTL ? "????? ????" : "Add Item"}
+              {isRTL ? "إضافة عنصر" : "Add Item"}
             </button>
           </div>
           {value.map((item, index) => (
             <div key={`${path.join(".")}-${index}`} className="rounded-lg border border-slate-200 p-3 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-xs text-slate-500">
-                  {isRTL ? "????" : "Item"} {index + 1}
+                  {isRTL ? "عنصر" : "Item"} {index + 1}
                 </span>
                 <div className="flex gap-2">
                   {index > 0 && (
@@ -656,7 +656,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       className="text-xs text-slate-600"
                       onClick={() => moveArrayItem(path, index, index - 1)}
                     >
-                      {isRTL ? "????" : "Up"}
+                      {isRTL ? "أعلى" : "Up"}
                     </button>
                   )}
                   {index < value.length - 1 && (
@@ -665,7 +665,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       className="text-xs text-slate-600"
                       onClick={() => moveArrayItem(path, index, index + 1)}
                     >
-                      {isRTL ? "????" : "Down"}
+                      {isRTL ? "أسفل" : "Down"}
                     </button>
                   )}
                   <button
@@ -673,7 +673,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     className="text-xs text-red-600 hover:text-red-800"
                     onClick={() => handleRemoveArrayItem([...path, index])}
                   >
-                    {isRTL ? "???" : "Remove"}
+                    {isRTL ? "حذف" : "Remove"}
                   </button>
                 </div>
               </div>
@@ -698,7 +698,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
             >
               <span className="text-sm font-semibold text-[#1c3944]">{toLabel(keyLabel)}</span>
               <span className="text-xs text-slate-500">
-                {isCollapsed ? (isRTL ? "?????" : "Show") : isRTL ? "?????" : "Hide"}
+                {isCollapsed ? (isRTL ? "إظهار" : "Show") : isRTL ? "إخفاء" : "Hide"}
               </span>
             </button>
           )}
@@ -714,7 +714,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
         </div>
       );
     }
-    return <div className="text-sm text-slate-500">{isRTL ? "??? ??? ?????" : "Unsupported type"}</div>;
+    return <div className="text-sm text-slate-500">{isRTL ? "نوع غير مدعوم" : "Unsupported type"}</div>;
   };
 
   const contentSections = useMemo(
@@ -728,17 +728,17 @@ export default function Admin({ lang, content, onContentUpdate }) {
       { key: "home-center", label: isRTL ? "الرئيسية - مركز حقوق الإنسان" : "Home - Human Rights Center", path: ["home", "centerSection"] },
       { key: "home-foundation", label: isRTL ? "الرئيسية - عن المؤسسة" : "Home - About the Foundation", path: ["home", "aboutFoundationSection"] },
       { key: "home-quote", label: isRTL ? "الرئيسية - اقتباس رياض سيف" : "Home - Riad Seif Quote", path: ["home", "founderQuote"] },
-      { key: "about", label: isRTL ? "?? ???????" : "About Us", path: ["about"] },
-      { key: "jumana", label: isRTL ? "????? ???" : "Joumana Seif", path: ["jumana"] },
-      { key: "founder", label: isRTL ? "?? ???? ???" : "About Riad Seif", path: ["founder"] },
-      { key: "center", label: isRTL ? "???? ???? ???????" : "Human Rights Center", path: ["center"] },
-      { key: "forum", label: isRTL ? "????? ??????" : "Dialogue Forum", path: ["forum"] },
-      { key: "publications", label: isRTL ? "?????????" : "Publications", path: ["publications"] },
-      { key: "joinUs", label: isRTL ? "??? ?????" : "Join Us", path: ["joinUs"] },
-      { key: "contact", label: isRTL ? "???? ???" : "Contact", path: ["contact"] },
-      { key: "footer", label: isRTL ? "????? ??????" : "Footer", path: ["footer"] },
-      { key: "topBar", label: isRTL ? "?????? ??????" : "Top Bar", path: ["topBar"] },
-      { key: "nav", label: isRTL ? "???????" : "Navigation", path: ["nav"] },
+      { key: "about", label: isRTL ? "عن المؤسسة" : "About Us", path: ["about"] },
+      { key: "jumana", label: isRTL ? "جمانة سيف" : "Joumana Seif", path: ["jumana"] },
+      { key: "founder", label: isRTL ? "عن رياض سيف" : "About Riad Seif", path: ["founder"] },
+      { key: "center", label: isRTL ? "مركز حقوق الإنسان" : "Human Rights Center", path: ["center"] },
+      { key: "forum", label: isRTL ? "منتدى الحوار" : "Dialogue Forum", path: ["forum"] },
+      { key: "publications", label: isRTL ? "الإصدارات" : "Publications", path: ["publications"] },
+      { key: "joinUs", label: isRTL ? "انضم إلينا" : "Join Us", path: ["joinUs"] },
+      { key: "contact", label: isRTL ? "اتصل بنا" : "Contact", path: ["contact"] },
+      { key: "footer", label: isRTL ? "تذييل الموقع" : "Footer", path: ["footer"] },
+      { key: "topBar", label: isRTL ? "الشريط العلوي" : "Top Bar", path: ["topBar"] },
+      { key: "nav", label: isRTL ? "التنقل" : "Navigation", path: ["nav"] },
     ],
     [isRTL],
   );
@@ -760,7 +760,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
       .catch(() => {
         setResourceState((prev) => ({
           ...prev,
-          [key]: { ...prev[key], loading: false, error: isRTL ? "??? ???????." : "Failed to load." },
+          [key]: { ...prev[key], loading: false, error: isRTL ? "فشل التحميل." : "Failed to load." },
         }));
       });
   };
@@ -808,7 +808,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const handleResourceSave = (key: ResourceKey) => {
     if (!token) return;
     if (!canEditResource(key)) {
-      setResourceStatus(isRTL ? "No edit permission." : "You do not have edit permission.");
+      setResourceStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
       return;
     }
     const config = resourceConfigs[key];
@@ -816,29 +816,29 @@ export default function Admin({ lang, content, onContentUpdate }) {
     config
       .upsert(token, payload, resourceState[key].editingId ?? undefined)
       .then(() => {
-        setResourceStatus(isRTL ? "?? ?????." : "Saved.");
+        setResourceStatus(isRTL ? "تم الحفظ." : "Saved.");
         handleResourceNew(key);
         loadResource(key);
       })
       .catch(() => {
-        setResourceStatus(isRTL ? "??? ?????." : "Save failed.");
+        setResourceStatus(isRTL ? "فشل الحفظ." : "Save failed.");
       });
   };
 
   const handleResourceDelete = (key: ResourceKey, id: number) => {
     if (!token) return;
     if (!canDeleteResource(key)) {
-      setResourceStatus(isRTL ? "No delete permission." : "You do not have delete permission.");
+      setResourceStatus(isRTL ? "ليس لديك صلاحية الحذف." : "You do not have delete permission.");
       return;
     }
     resourceConfigs[key]
       .remove(token, id)
       .then(() => {
-        setResourceStatus(isRTL ? "?? ?????." : "Deleted.");
+        setResourceStatus(isRTL ? "تم الحذف." : "Deleted.");
         loadResource(key);
       })
       .catch(() => {
-        setResourceStatus(isRTL ? "??? ?????." : "Delete failed.");
+        setResourceStatus(isRTL ? "فشل الحذف." : "Delete failed.");
       });
   };
 
@@ -855,11 +855,11 @@ export default function Admin({ lang, content, onContentUpdate }) {
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col gap-4 mb-8">
           <h1 className="text-3xl lg:text-4xl font-semibold text-[#1c3944]">
-            {isRTL ? "???? ??????" : "Admin Dashboard"}
+            {isRTL ? "لوحة التحكم" : "Admin Dashboard"}
           </h1>
           <p className="text-slate-600 leading-7">
             {isRTL
-              ? "????? ????? ?? ?????? ????????? ?? ???? ?????? ?????."
+              ? "يمكنك تعديل جميع محتويات الموقع من خلال الحقول أدناه."
               : "Edit all website content using the fields below."}
           </p>
         </div>
@@ -870,7 +870,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
             <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
               <div>
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
-                  {isRTL ? "????? ??????" : "Pages"}
+                  {isRTL ? "أقسام الموقع" : "Pages"}
                 </div>
                 <div className="flex flex-col gap-2">
                   {contentSections.map((section) => {
@@ -896,7 +896,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
               <div>
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
-                  {isRTL ? "???????? ???????????" : "Dynamic Data"}
+                  {isRTL ? "المحتوى الديناميكي" : "Dynamic Data"}
                 </div>
                 <div className="flex flex-col gap-2">
                   {(Object.keys(resourceConfigs) as ResourceKey[]).map((key) => {
@@ -924,6 +924,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                 <Link href="/admin/account">
                   <span className="text-sm font-semibold text-[#1c3944] cursor-pointer">
                     {isRTL ? "Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø­Ø³Ø§Ø¨" : "Account Settings"}
+                    
                   </span>
                 </Link>
               </div>
@@ -951,14 +952,15 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
                   <input
                     className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-                    placeholder={isRTL ? "???? ?? ???..." : "Search fields..."}
+                    placeholder={isRTL ? "ابحث عن حقل..." : "Search fields..."}
+                    
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                   />
 
                   {activeSectionValue === undefined ? (
                     <div className="text-sm text-slate-500">
-                      {isRTL ? "?? ???? ????? ???? ?????." : "No content found for this section."}
+                      {isRTL ? "لا يوجد محتوى لهذا القسم." : "No content found for this section."}
                     </div>
                   ) : (
                     renderValue(activeSectionValue, activeSectionPath, activeSection.label, 0)
@@ -972,7 +974,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     onClick={handleSave}
                     disabled={saving}
                   >
-                    {saving ? (isRTL ? "???? ?????..." : "Saving...") : isRTL ? "??? ?????????" : "Save Changes"}
+                    {saving ? (isRTL ? "جارٍ الحفظ..." : "Saving...") : isRTL ? "حفظ التغييرات" : "Save Changes"}
                   </button>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
@@ -980,14 +982,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-3 hover:bg-slate-100"
                       onClick={handleLoadServer}
                     >
-                      {isRTL ? "????? ?? ??????" : "Load From Server"}
+                      {isRTL ? "تحميل من الخادم" : "Load From Server"}
                     </button>
                     <button
                       type="button"
                       className="w-full rounded-lg border border-red-200 text-red-700 px-4 py-3 hover:bg-red-50"
                       onClick={handleReset}
                     >
-                      {isRTL ? "????? ?????" : "Reset to Default"}
+                      {isRTL ? "إعادة الضبط" : "Reset to Default"}
                     </button>
                   </div>
                   <button
@@ -995,7 +997,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-2 hover:bg-slate-100"
                     onClick={handleLogout}
                   >
-                    {isRTL ? "????? ??????" : "Logout"}
+                    {isRTL ? "تسجيل الخروج" : "Logout"}
                   </button>
                   {status && <div className="text-sm text-slate-600">{status}</div>}
                 </div>
@@ -1011,12 +1013,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                         className="text-sm text-[#1c3944] font-semibold"
                         onClick={() => handleResourceNew(activeResourceKey)}
                       >
-                        {isRTL ? "???? ????" : "New Item"}
+                        {isRTL ? "عنصر جديد" : "New Item"}
+                        
                       </button>
                     </div>
                     {resourceState[activeResourceKey].loading && (
                       <div className="text-sm text-slate-500">
-                        {isRTL ? "???? ???????..." : "Loading..."}
+                        {isRTL ? "جارٍ التحميل..." : "Loading..."}
+                        
                       </div>
                     )}
                     {resourceState[activeResourceKey].error && (
@@ -1044,7 +1048,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                               className="text-xs text-slate-600"
                               onClick={() => handleResourceEdit(activeResourceKey, item)}
                             >
-                              {isRTL ? "?????" : "Edit"}
+                              {isRTL ? "تعديل" : "Edit"}
+                              
                             </button>
                             <button
                               type="button"
@@ -1052,6 +1057,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                               onClick={() => handleResourceDelete(activeResourceKey, item.id)}
                             >
                               {isRTL ? "???" : "Delete"}
+                              
                             </button>
                           </div>
                         </div>
@@ -1059,7 +1065,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       {resourceState[activeResourceKey].items.length === 0 &&
                         !resourceState[activeResourceKey].loading && (
                           <div className="text-sm text-slate-500">
-                            {isRTL ? "?? ???? ????? ???." : "No items yet."}
+                            {isRTL ? "لا توجد عناصر بعد." : "No items yet."}
+                            
                           </div>
                         )}
                     </div>
@@ -1069,10 +1076,10 @@ export default function Admin({ lang, content, onContentUpdate }) {
                     <div className="text-lg font-semibold text-[#1c3944]">
                       {resourceState[activeResourceKey].editingId
                         ? isRTL
-                          ? "????? ??????"
+                          ? "تعديل العنصر"
                           : "Edit Item"
                         : isRTL
-                        ? "????? ????"
+                        ? "إضافة عنصر"
                         : "Add Item"}
                     </div>
                     <div className="space-y-3">
@@ -1109,14 +1116,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                           }
                                         })
                                         .catch(() => {
-                                          setResourceStatus(isRTL ? "??? ??? ?????." : "Upload failed.");
+                                          setResourceStatus(isRTL ? "فشل الرفع." : "Upload failed.");
                                         })
                                         .finally(() => {
                                           setUploading((prev) => ({ ...prev, [uploadKey]: false }));
                                         });
                                     }}
                                   />
-                                  {uploading[uploadKey] ? (isRTL ? "???? ?????..." : "Uploading...") : null}
+                                  {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
                                 </div>
                               ) : null}
                             </div>
@@ -1167,14 +1174,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                         }
                                       })
                                       .catch(() => {
-                                        setResourceStatus(isRTL ? "??? ??? ?????." : "Upload failed.");
+                                        setResourceStatus(isRTL ? "فشل الرفع." : "Upload failed.");
                                       })
                                       .finally(() => {
                                         setUploading((prev) => ({ ...prev, [uploadKey]: false }));
                                       });
                                   }}
                                 />
-                                {uploading[uploadKey] ? (isRTL ? "???? ?????..." : "Uploading...") : null}
+                                {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
                               </div>
                             ) : null}
                           </div>
@@ -1186,7 +1193,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
                       className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-3 hover:bg-[#122c35]"
                       onClick={() => handleResourceSave(activeResourceKey)}
                     >
-                      {isRTL ? "???" : "Save"}
+                      {isRTL ? "حفظ" : "Save"}
                     </button>
                     {resourceStatus && <div className="text-sm text-slate-600">{resourceStatus}</div>}
                   </div>
@@ -1199,12 +1206,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
         ) : (
           <div className="bg-white border border-slate-200 rounded-xl p-6 max-w-md">
               <h2 className="text-xl font-semibold text-[#1c3944] mb-4">
-                {isRTL ? "????? ?????? ??? ???? ??????" : "Sign in to Admin"}
+                {isRTL ? "تسجيل الدخول إلى لوحة التحكم" : "Sign in to Admin"}
+                
               </h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm text-slate-600 mb-1">
-                    {isRTL ? "??? ????????" : "Username"}
+                    {isRTL ? "اسم المستخدم" : "Username"}
+                    
                   </label>
                   <input
                     className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
@@ -1216,7 +1225,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                 </div>
                 <div>
                   <label className="block text-sm text-slate-600 mb-1">
-                    {isRTL ? "???? ??????" : "Password"}
+                    {isRTL ? "كلمة المرور" : "Password"}
+                    
                   </label>
                   <input
                     type="password"
@@ -1232,7 +1242,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                   className="w-full rounded-lg bg-[#1c3944] text-white px-4 py-2 hover:bg-[#122c35]"
                   onClick={handleLogin}
                 >
-                  {isRTL ? "????? ??????" : "Login"}
+                  {isRTL ? "تسجيل الدخول" : "Login"}
+                  
                 </button>
                 {status && <div className="text-sm text-slate-600">{status}</div>}
               </div>
