@@ -262,27 +262,33 @@ export async function submitContact(payload: ContactPayload) {
 }
 
 export async function fetchNewsUpdates(): Promise<NewsUpdate[]> {
-  return request<NewsUpdate[]>("/news/");
+  const response = await request<NewsUpdate[] | PaginatedResponse<NewsUpdate>>("/news/");
+  return normalizeList(response);
 }
 
 export async function fetchTeamMembers(): Promise<TeamMember[]> {
-  return request<TeamMember[]>("/team/");
+  const response = await request<TeamMember[] | PaginatedResponse<TeamMember>>("/team/");
+  return normalizeList(response);
 }
 
 export async function fetchForumEvents(): Promise<ForumEvent[]> {
-  return request<ForumEvent[]>("/events/");
+  const response = await request<ForumEvent[] | PaginatedResponse<ForumEvent>>("/events/");
+  return normalizeList(response);
 }
 
 export async function fetchMemoryPhotos(): Promise<MemoryPhoto[]> {
-  return request<MemoryPhoto[]>("/memory/");
+  const response = await request<MemoryPhoto[] | PaginatedResponse<MemoryPhoto>>("/memory/");
+  return normalizeList(response);
 }
 
 export async function fetchArchiveItems(): Promise<ArchiveItem[]> {
-  return request<ArchiveItem[]>("/archive/");
+  const response = await request<ArchiveItem[] | PaginatedResponse<ArchiveItem>>("/archive/");
+  return normalizeList(response);
 }
 
 export async function fetchJobs(): Promise<JobOpportunity[]> {
-  return request<JobOpportunity[]>("/jobs/");
+  const response = await request<JobOpportunity[] | PaginatedResponse<JobOpportunity>>("/jobs/");
+  return normalizeList(response);
 }
 
 // Admin CRUD
