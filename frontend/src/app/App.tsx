@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <Router>
-      <Layout lang={lang} setLang={setLang} content={content}>
+      <Layout lang={lang} setLang={setLang} content={siteContent}>
         <Switch>
           <Route path="/" component={() => <Home {...props} />} />
           <Route path="/about" component={() => <About {...props} />} />
