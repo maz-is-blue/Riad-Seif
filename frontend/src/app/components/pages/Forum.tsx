@@ -1,7 +1,7 @@
 ﻿import { Calendar, MessageSquare, Users, Video, Globe, Camera, FileText, UserCheck, X } from 'lucide-react';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   fetchMemoryPhotos,
   fetchArchiveItems,
@@ -17,6 +17,7 @@ export default function Forum({ lang, content }) {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [eventFilter, setEventFilter] = useState('all');
   const [apiMemory, setApiMemory] = useState<MemoryPhoto[]>([]);
   const [apiArchive, setApiArchive] = useState<ArchiveItem[]>([]);
   const [apiEvents, setApiEvents] = useState<ForumEvent[]>([]);
@@ -46,33 +47,36 @@ export default function Forum({ lang, content }) {
   const resolveEventType = (event: ForumEvent) => {
     const raw = `${event.event_type ?? ''}`.toLowerCase();
     if (event.is_online || raw.includes('online')) {
-      return { label: lang === 'ar' ? 'عبر الإنترنت' : 'Online', icon: Video };
+      return { key: 'online', label: lang === 'ar' ? 'عبر الإنترنت' : 'Online', icon: Video };
     }
     if (raw.includes('hybrid')) {
-      return { label: lang === 'ar' ? 'هجيني' : 'Hybrid', icon: Globe };
+      return { key: 'hybrid', label: lang === 'ar' ? 'هجيني' : 'Hybrid', icon: Globe };
     }
     if (raw.includes('person') || raw.includes('in-person') || raw.includes('in person')) {
-      return { label: lang === 'ar' ? 'حضوري' : 'In-Person', icon: Users };
+      return { key: 'in_person', label: lang === 'ar' ? 'حضوري' : 'In-Person', icon: Users };
     }
-    return { label: lang === 'ar' ? 'فعالية' : 'Event', icon: Users };
+    return { key: raw || 'event', label: lang === 'ar' ? 'فعالية' : 'Event', icon: Users };
   };
 
   const fallbackEvents = [
     {
       date: lang === 'ar' ? 'يناير 2025' : 'January 2025',
       title: lang === 'ar' ? 'الجلسة 45: دور الشباب في الحكم المحلي' : 'Session 45: Youth Role in Local Governance',
+      key: 'online',
       type: lang === 'ar' ? 'عبر الإنترنت' : 'Online',
       icon: Video
     },
     {
       date: lang === 'ar' ? 'فبراير 2025' : 'February 2025',
       title: lang === 'ar' ? 'ورشة عمل: بناء السلام المجتمعي' : 'Workshop: Community Peacebuilding',
+      key: 'in_person',
       type: lang === 'ar' ? 'حضوري' : 'In-Person',
       icon: Users
     },
     {
       date: lang === 'ar' ? 'مارس 2025' : 'March 2025',
       title: lang === 'ar' ? 'حوار مفتوح: المرأة والإصلاح الدستوري' : 'Open Dialogue: Women and Constitutional Reform',
+      key: 'hybrid',
       type: lang === 'ar' ? 'هجيني' : 'Hybrid',
       icon: Globe
     }
@@ -82,6 +86,7 @@ export default function Forum({ lang, content }) {
     ? apiEvents.map((event) => {
         const type = resolveEventType(event);
         return {
+          key: type.key,
           date: formatDate(event.date),
           title: lang === 'ar' ? event.title_ar : event.title_en,
           type: type.label,
@@ -89,6 +94,15 @@ export default function Forum({ lang, content }) {
         };
       })
     : fallbackEvents;
+
+  const eventFilterOptions = useMemo(() => {
+    const keys = Array.from(new Set(upcomingEvents.map((event) => event.key)));
+    return ['all', ...keys];
+  }, [upcomingEvents]);
+
+  const filteredEvents = eventFilter === 'all'
+    ? upcomingEvents
+    : upcomingEvents.filter((event) => event.key === eventFilter);
 
   const memoryPhotos = apiMemory.length
     ? apiMemory.map((photo) => ({
@@ -434,9 +448,31 @@ export default function Forum({ lang, content }) {
                          {t.forum.events.text}
                      </p>
 
+                     <div className="flex flex-wrap gap-2 mb-6">
+                       {eventFilterOptions.map((key) => {
+                         const sample = upcomingEvents.find((event) => event.key === key);
+                         const label = key === 'all' ? (lang === 'ar' ? 'الكل' : 'All') : sample?.type ?? key;
+                         const active = eventFilter === key;
+                         return (
+                           <button
+                             key={key}
+                             type="button"
+                             className={`rounded-full px-4 py-2 text-sm border transition-colors ${
+                               active
+                                 ? 'bg-[#1c3944] text-white border-[#1c3944]'
+                                 : 'bg-white text-slate-700 border-slate-300 hover:border-[#f7c20e]'
+                             }`}
+                             onClick={() => setEventFilter(key)}
+                           >
+                             {label}
+                           </button>
+                         );
+                       })}
+                     </div>
+
                      {/* Event List */}
                      <div className="space-y-4">
-                       {upcomingEvents.map((event, idx) => (
+                       {filteredEvents.map((event, idx) => (
                          <motion.div
                            key={idx}
                            className="bg-white p-6 rounded-xl border-2 border-slate-200 hover:border-[#f7c20e] transition-all cursor-pointer"

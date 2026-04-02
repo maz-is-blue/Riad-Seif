@@ -154,6 +154,29 @@ function toFormData(payload: Record<string, any>) {
   return form;
 }
 
+function normalizePublicationCategory(input: unknown) {
+  const raw = String(input ?? "").trim().toLowerCase();
+  if (!raw) return "article";
+  if (["report", "تقرير"].includes(raw)) return "report";
+  if (["policy_brief", "policy brief", "سياسات", "ورقة سياسات"].includes(raw)) return "policy_brief";
+  if (["manual", "دليل"].includes(raw)) return "manual";
+  if (["research", "بحث"].includes(raw)) return "research";
+  if (["archive", "ارشيف", "أرشيف"].includes(raw)) return "archive";
+  if (["article", "مقال"].includes(raw)) return "article";
+  return "article";
+}
+
+function normalizeEventType(input: unknown) {
+  const raw = String(input ?? "").trim().toLowerCase();
+  if (!raw) return "dialogue";
+  if (["dialogue", "جلسة حوار", "حوار"].includes(raw)) return "dialogue";
+  if (["workshop", "ورشة", "ورشة عمل"].includes(raw)) return "workshop";
+  if (["conference", "مؤتمر"].includes(raw)) return "conference";
+  if (["webinar", "ندوة", "ندوة عبر الإنترنت"].includes(raw)) return "webinar";
+  if (["training", "تدريب"].includes(raw)) return "training";
+  return "dialogue";
+}
+
 export async function loginAdmin(username: string, password: string) {
   return request<{ token: string }>("/auth/token/", {
     method: "POST",
@@ -341,7 +364,11 @@ export async function adminListPublications(token: string) {
 export async function adminUpsertPublication(token: string, payload: Record<string, any>, id?: number) {
   const method = id ? "PATCH" : "POST";
   const path = id ? `/admin/publications/${id}/` : "/admin/publications/";
-  const body = toFormData(payload);
+  const normalizedPayload = { ...payload };
+  normalizedPayload.category = normalizePublicationCategory(normalizedPayload.category);
+  delete normalizedPayload.pdf_url;
+  delete normalizedPayload.cover_url;
+  const body = toFormData(normalizedPayload);
   return request<Publication>(path, { method, headers: authHeaders(token), body });
 }
 
@@ -360,7 +387,9 @@ export async function adminListEvents(token: string) {
 export async function adminUpsertEvent(token: string, payload: Record<string, any>, id?: number) {
   const method = id ? "PATCH" : "POST";
   const path = id ? `/admin/events/${id}/` : "/admin/events/";
-  const body = toFormData(payload);
+  const normalizedPayload = { ...payload };
+  normalizedPayload.event_type = normalizeEventType(normalizedPayload.event_type);
+  const body = toFormData(normalizedPayload);
   return request<ForumEvent>(path, { method, headers: authHeaders(token), body });
 }
 

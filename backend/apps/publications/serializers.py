@@ -8,6 +8,8 @@ class PublicationSerializer(serializers.ModelSerializer):
     category_display = serializers.CharField(source='get_category_display', read_only=True)
     pdf_url = serializers.SerializerMethodField()
     cover_url = serializers.SerializerMethodField()
+    pdf_file = serializers.FileField(write_only=True, required=False, allow_null=True)
+    cover_image = serializers.ImageField(write_only=True, required=False, allow_null=True)
     
     class Meta:
         model = Publication
@@ -21,6 +23,8 @@ class PublicationSerializer(serializers.ModelSerializer):
             'category_display',
             'pdf_url',
             'cover_url',
+            'pdf_file',
+            'cover_image',
             'published_date',
             'is_featured',
             'created_at',

@@ -5,11 +5,12 @@ class Publication(models.Model):
     """Publication model for reports, policy briefs, manuals, etc."""
     
     CATEGORY_CHOICES = [
-        ('report', 'Report / تقرير'),
-        ('policy_brief', 'Policy Brief / ورقة سياسات'),
-        ('manual', 'Manual / دليل'),
-        ('research', 'Research / بحث'),
-        ('article', 'Article / مقال'),
+        ('report', 'Report'),
+        ('policy_brief', 'Policy Brief'),
+        ('manual', 'Manual'),
+        ('research', 'Research'),
+        ('article', 'Article'),
+        ('archive', 'Archive'),
     ]
     
     # Bilingual content
@@ -49,4 +50,5 @@ class Publication(models.Model):
     def description(self):
         """Helper for templates"""
         return {'en': self.description_en, 'ar': self.description_ar}
+
 

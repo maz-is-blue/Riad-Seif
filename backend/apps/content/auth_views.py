@@ -14,18 +14,30 @@ from .permissions import get_admin_permissions
 def ensure_admin_profile(user):
     if not user:
         return None
+    default_permissions = {
+        "content": {"view": True, "edit": True, "delete": False},
+        "news": {"view": True, "edit": True, "delete": False},
+        "team": {"view": True, "edit": True, "delete": False},
+        "publications": {"view": True, "edit": True, "delete": False},
+        "events": {"view": True, "edit": True, "delete": False},
+        "memory": {"view": True, "edit": True, "delete": False},
+        "archive": {"view": True, "edit": True, "delete": False},
+        "jobs": {"view": True, "edit": True, "delete": False},
+    }
     profile, _ = AdminProfile.objects.get_or_create(user=user, defaults={
         "role": "super" if user.is_superuser else "sub",
-        "permissions": {} if user.is_superuser else {
-            "content": {"view": True, "edit": True, "delete": False},
-            "news": {"view": True, "edit": True, "delete": False},
-            "team": {"view": True, "edit": True, "delete": False},
-            "publications": {"view": True, "edit": True, "delete": False},
-            "events": {"view": True, "edit": True, "delete": False},
-            "memory": {"view": True, "edit": True, "delete": False},
-            "archive": {"view": True, "edit": True, "delete": False},
-        },
+        "permissions": {} if user.is_superuser else default_permissions,
     })
+    if not user.is_superuser:
+        changed = False
+        permissions = profile.permissions if isinstance(profile.permissions, dict) else {}
+        for resource, resource_permissions in default_permissions.items():
+            if resource not in permissions:
+                permissions[resource] = resource_permissions
+                changed = True
+        if changed:
+            profile.permissions = permissions
+            profile.save(update_fields=["permissions"])
     return profile
 
 

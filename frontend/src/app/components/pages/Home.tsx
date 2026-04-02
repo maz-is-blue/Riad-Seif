@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, Shield, Quote, Bird } from 'lucide-react';
+import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, Shield, Quote, Bird, X } from 'lucide-react';
 import { Link } from 'wouter';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
@@ -10,6 +10,13 @@ export default function Home({ lang, content }) {
   
   const [currentSlide, setCurrentSlide] = useState(0);
   const [newsItems, setNewsItems] = useState<NewsUpdate[]>([]);
+  const [newsStartIndex, setNewsStartIndex] = useState(0);
+  const [selectedNews, setSelectedNews] = useState<null | {
+    title: string;
+    summary: string;
+    content?: string;
+    date?: string;
+  }>(null);
 
   // Slider content
   const defaultSlides = [
@@ -81,6 +88,48 @@ export default function Home({ lang, content }) {
         setNewsItems([]);
       });
   }, []);
+
+  const normalizedNewsCards = newsItems.length
+    ? newsItems.map((item) => ({
+        type: lang === 'ar' ? item.summary_ar : item.summary_en,
+        title: lang === 'ar' ? item.title_ar : item.title_en,
+        date: item.published_date,
+        summary: lang === 'ar' ? item.summary_ar : item.summary_en,
+        content: lang === 'ar' ? item.content_ar : item.content_en,
+      }))
+    : t.publications.items.map((item) => ({
+        type: item.type,
+        title: item.title,
+        date: item.date,
+        summary: item.type,
+        content: '',
+      }));
+
+  const visibleNewsCards = normalizedNewsCards.length <= 3
+    ? normalizedNewsCards
+    : [0, 1, 2].map((offset) => normalizedNewsCards[(newsStartIndex + offset) % normalizedNewsCards.length]);
+
+  useEffect(() => {
+    if (normalizedNewsCards.length <= 3) return;
+    const interval = setInterval(() => {
+      setNewsStartIndex((prev) => (prev + 1) % normalizedNewsCards.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [normalizedNewsCards.length]);
+
+  useEffect(() => {
+    setNewsStartIndex(0);
+  }, [lang, newsItems.length]);
+
+  const nextNewsSlide = () => {
+    if (normalizedNewsCards.length <= 3) return;
+    setNewsStartIndex((prev) => (prev + 1) % normalizedNewsCards.length);
+  };
+
+  const prevNewsSlide = () => {
+    if (normalizedNewsCards.length <= 3) return;
+    setNewsStartIndex((prev) => (prev - 1 + normalizedNewsCards.length) % normalizedNewsCards.length);
+  };
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -292,20 +341,49 @@ export default function Home({ lang, content }) {
             </Link>
           </div>
 
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-sm text-slate-500">
+              {normalizedNewsCards.length > 3
+                ? (isRTL ? 'اسحب لمشاهدة المزيد من الأخبار' : 'Slide to see more news')
+                : ' '}
+            </div>
+            {normalizedNewsCards.length > 3 ? (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={prevNewsSlide}
+                  className="h-9 w-9 rounded-full border border-slate-300 text-slate-600 hover:border-[#f7c20e] hover:text-[#f7c20e]"
+                  aria-label={isRTL ? 'السابق' : 'Previous'}
+                >
+                  {isRTL ? <ArrowRight size={16} className="mx-auto" /> : <ArrowLeft size={16} className="mx-auto" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={nextNewsSlide}
+                  className="h-9 w-9 rounded-full border border-slate-300 text-slate-600 hover:border-[#f7c20e] hover:text-[#f7c20e]"
+                  aria-label={isRTL ? 'التالي' : 'Next'}
+                >
+                  {isRTL ? <ArrowLeft size={16} className="mx-auto" /> : <ArrowRight size={16} className="mx-auto" />}
+                </button>
+              </div>
+            ) : null}
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
-            {(newsItems.length
-              ? newsItems.map((item) => ({
-                  type: lang === 'ar' ? item.summary_ar : item.summary_en,
-                  title: lang === 'ar' ? item.title_ar : item.title_en,
-                  date: item.published_date,
-                }))
-              : t.publications.items
-            ).map((item, i) => (
+            {visibleNewsCards.map((item, i) => (
               <motion.div
-                key={i}
+                key={`${item.title}-${newsStartIndex}-${i}`}
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.3 }}
                 className="p-6 hover:shadow-lg transition-all duration-300 cursor-pointer border border-slate-200 hover:border-[#f7c20e]"
+                onClick={() =>
+                  setSelectedNews({
+                    title: item.title,
+                    summary: item.summary,
+                    content: item.content,
+                    date: item.date,
+                  })
+                }
               >
                 <div className="text-xs font-semibold text-[#f7c20e] mb-3 uppercase tracking-wide">{item.type}</div>
                 <h4 className={`text-lg ${t.serif} font-bold mb-3 text-[#1c3944] leading-snug`}>{item.title}</h4>
@@ -315,6 +393,38 @@ export default function Home({ lang, content }) {
           </div>
         </div>
       </section>
+
+      {selectedNews ? (
+        <div
+          className="fixed inset-0 z-[70] bg-black/55 flex items-center justify-center px-4"
+          onClick={() => setSelectedNews(null)}
+        >
+          <div
+            className="w-full max-w-2xl bg-white rounded-2xl p-6 lg:p-8 max-h-[85vh] overflow-y-auto"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <h3 className={`text-2xl ${t.serif} text-[#1c3944]`}>{selectedNews.title}</h3>
+              <button
+                type="button"
+                className="h-9 w-9 rounded-full border border-slate-300 text-slate-500 hover:text-slate-800"
+                onClick={() => setSelectedNews(null)}
+                aria-label={isRTL ? 'إغلاق' : 'Close'}
+              >
+                <X size={16} className="mx-auto" />
+              </button>
+            </div>
+            {selectedNews.date ? <div className="text-sm text-slate-500 mb-4">{selectedNews.date}</div> : null}
+            <p className="text-slate-700 leading-8 mb-4">{selectedNews.summary}</p>
+            {selectedNews.content ? (
+              <div
+                className="prose max-w-none text-slate-700"
+                dangerouslySetInnerHTML={{ __html: selectedNews.content }}
+              />
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       {/* Programs Section */}
       <section className="py-24 lg:py-32 xl:py-40 relative overflow-hidden">

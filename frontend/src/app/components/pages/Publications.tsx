@@ -1,7 +1,16 @@
-import { ChevronRight, ChevronLeft, ArrowRight, ArrowLeft, FileText, Download, Eye, Filter } from 'lucide-react';
+﻿import { ChevronRight, ChevronLeft, ArrowRight, ArrowLeft, FileText, Download, Eye, Filter, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchPublications, type Publication } from '../../utils/api';
+
+type PublicationCard = {
+  cat: string;
+  title: string;
+  date: string;
+  desc: string;
+  type: string;
+  pdfUrl?: string | null;
+};
 
 export default function Publications({ lang, content }) {
   const t = content[lang];
@@ -12,6 +21,13 @@ export default function Publications({ lang, content }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [apiPublications, setApiPublications] = useState<Publication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedPublication, setSelectedPublication] = useState<null | {
+    title: string;
+    description: string;
+    date: string;
+    category: string;
+    pdfUrl?: string | null;
+  }>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -37,34 +53,43 @@ export default function Publications({ lang, content }) {
     };
   }, []);
 
-  const categories = ['all', 'Report', 'Policy Brief', 'Manual', 'Research', 'Article', 'Archive'];
-  const categoryLabels = {
-    'all': lang === 'ar' ? 'الكل' : 'All',
-    'Report': lang === 'ar' ? 'تقرير' : 'Report',
-    'Policy Brief': lang === 'ar' ? 'ورقة سياسات' : 'Policy Brief',
-    'Manual': lang === 'ar' ? 'دليل' : 'Manual',
-    'Research': lang === 'ar' ? 'بحث' : 'Research',
-    'Article': lang === 'ar' ? 'مقال' : 'Article',
-    'Archive': lang === 'ar' ? 'أرشيف' : 'Archive'
+  const categoryLabels: Record<string, string> = {
+    all: lang === 'ar' ? 'الكل' : 'All',
+    report: lang === 'ar' ? 'تقرير' : 'Report',
+    policy_brief: lang === 'ar' ? 'ورقة سياسات' : 'Policy Brief',
+    manual: lang === 'ar' ? 'دليل' : 'Manual',
+    research: lang === 'ar' ? 'بحث' : 'Research',
+    article: lang === 'ar' ? 'مقال' : 'Article',
+    archive: lang === 'ar' ? 'أرشيف' : 'Archive',
   };
 
-  const apiCategoryMap: Record<string, string> = {
-    report: 'Report',
-    policy_brief: 'Policy Brief',
-    manual: 'Manual',
-    research: 'Research',
-    article: 'Article',
+  const normalizeCategoryKey = (value?: string) => {
+    const raw = `${value ?? ''}`.trim().toLowerCase();
+    if (!raw) return 'article';
+    if (['report', 'تقرير'].includes(raw)) return 'report';
+    if (['policy_brief', 'policy brief', 'سياسات', 'ورقة سياسات'].includes(raw)) return 'policy_brief';
+    if (['manual', 'دليل'].includes(raw)) return 'manual';
+    if (['research', 'بحث'].includes(raw)) return 'research';
+    if (['archive', 'ارشيف', 'أرشيف'].includes(raw)) return 'archive';
+    if (['article', 'مقال'].includes(raw)) return 'article';
+    return 'article';
   };
 
-  const dynamicItems = useMemo(() => {
+  const dynamicItems = useMemo<PublicationCard[]>(() => {
     if (!apiPublications.length) {
-      return t.publications.items;
+      return t.publications.items.map((item) => ({
+        cat: item.cat,
+        title: item.title,
+        date: item.date,
+        desc: item.desc,
+        type: normalizeCategoryKey(item.type || item.cat),
+      }));
     }
 
     return apiPublications.map((item) => {
-      const englishType = apiCategoryMap[item.category] ?? item.category;
       const [displayEn, displayAr] = item.category_display.split('/').map((part) => part.trim());
-      const categoryLabel = lang === 'ar' ? (displayAr ?? englishType) : (displayEn ?? englishType);
+      const type = normalizeCategoryKey(item.category);
+      const categoryLabel = lang === 'ar' ? (displayAr || categoryLabels[type]) : (displayEn || categoryLabels[type]);
       const publishedDate = new Date(item.published_date);
 
       return {
@@ -76,41 +101,33 @@ export default function Publications({ lang, content }) {
           day: 'numeric',
         }),
         desc: lang === 'ar' ? item.description_ar : item.description_en,
-        type: englishType,
+        type,
+        pdfUrl: item.pdf_url,
       };
     });
   }, [apiPublications, lang, t.publications.items]);
 
-  // Filter publications based on selected category
-  const filteredPublications = filter === 'all' 
-    ? dynamicItems
-    : dynamicItems.filter(item => item.type === filter || item.cat === filter);
+  const categories = useMemo(() => {
+    const fromData = Array.from(new Set(dynamicItems.map((item) => item.type)));
+    const ordered = ['report', 'policy_brief', 'manual', 'research', 'article', 'archive'];
+    return ['all', ...ordered.filter((key) => fromData.includes(key))];
+  }, [dynamicItems]);
+
+  const filteredPublications = filter === 'all' ? dynamicItems : dynamicItems.filter((item) => item.type === filter);
 
   return (
     <section className="py-24 bg-gradient-to-b from-[#1c3944] via-[#254b59] to-[#1c3944] text-white min-h-screen relative overflow-hidden">
-      {/* Animated Background Elements */}
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 bg-[#f7c20e] rounded-full opacity-30"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 2 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
+          style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+          animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 2 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
         />
       ))}
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        {/* Header */}
         <motion.div
           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-6"
           initial={{ opacity: 0, y: -30 }}
@@ -127,16 +144,11 @@ export default function Publications({ lang, content }) {
               <FileText className="text-[#f7c20e]" size={32} />
               <h2 className={`text-4xl ${t.serif}`}>{t.nav.publications}</h2>
             </motion.div>
-            <motion.p
-              className="text-slate-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
+            <motion.p className="text-slate-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
               {t.publications.latest.subtitle}
             </motion.p>
           </div>
-          
+
           <motion.div
             className="hidden md:flex items-center text-[#f7c20e] hover:text-white transition-colors text-sm uppercase tracking-widest font-bold cursor-pointer mt-4 md:mt-0"
             whileHover={{ x: 5 }}
@@ -148,41 +160,29 @@ export default function Publications({ lang, content }) {
           </motion.div>
         </motion.div>
 
-        {/* Filter Tabs */}
-        <motion.div
-          className="flex flex-wrap gap-3 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        <motion.div className="flex flex-wrap gap-3 mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
           <Filter className="text-[#f7c20e]" size={20} />
           {categories.map((cat) => (
             <motion.button
               key={cat}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                filter === cat
-                  ? 'bg-[#f7c20e] text-[#1c3944]'
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                filter === cat ? 'bg-[#f7c20e] text-[#1c3944]' : 'bg-white/10 text-white hover:bg-white/20'
               }`}
               onClick={() => setFilter(cat)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {categoryLabels[cat]}
+              {categoryLabels[cat] ?? cat}
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Publications Grid */}
-        {isLoading && (
-          <div className="mb-8 text-sm text-slate-300">
-            {lang === 'ar' ? 'جارٍ تحميل الإصدارات...' : 'Loading publications...'}
-          </div>
-        )}
+        {isLoading && <div className="mb-8 text-sm text-slate-300">{lang === 'ar' ? 'جاري تحميل الإصدارات...' : 'Loading publications...'}</div>}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPublications.map((item, i) => (
             <motion.div
-              key={i}
+              key={`${item.title}-${i}`}
               className="group relative"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -193,29 +193,32 @@ export default function Publications({ lang, content }) {
               <motion.div
                 className="bg-[#254b59] p-8 border-t-4 border-[#f7c20e] hover:bg-[#2c5a6b] transition-all cursor-pointer h-full rounded-lg overflow-hidden relative"
                 whileHover={{ y: -10 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                onClick={() =>
+                  setSelectedPublication({
+                    title: item.title,
+                    description: item.desc,
+                    date: item.date,
+                    category: item.cat,
+                    pdfUrl: item.pdfUrl,
+                  })
+                }
               >
-                {/* Hover Overlay */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-br from-[#f7c20e]/20 to-transparent opacity-0"
                   animate={{ opacity: hoveredIndex === i ? 1 : 0 }}
                   transition={{ duration: 0.3 }}
                 />
 
-                {/* Content */}
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <motion.span
-                        className="text-xs uppercase tracking-wider text-[#f7c20e] font-bold block mb-2"
-                        animate={{ x: hoveredIndex === i ? 5 : 0 }}
-                      >
+                      <motion.span className="text-xs uppercase tracking-wider text-[#f7c20e] font-bold block mb-2" animate={{ x: hoveredIndex === i ? 5 : 0 }}>
                         {item.cat}
                       </motion.span>
                       <span className="text-xs text-slate-300">{item.date}</span>
                     </div>
-                    
-                    {/* Action Icons */}
+
                     <motion.div
                       className="flex gap-2"
                       initial={{ opacity: 0, x: 10 }}
@@ -223,90 +226,67 @@ export default function Publications({ lang, content }) {
                       transition={{ duration: 0.2 }}
                     >
                       <motion.button
+                        type="button"
                         className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#f7c20e] flex items-center justify-center transition-colors"
                         whileHover={{ scale: 1.1, rotate: 360 }}
                         transition={{ duration: 0.3 }}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setSelectedPublication({
+                            title: item.title,
+                            description: item.desc,
+                            date: item.date,
+                            category: item.cat,
+                            pdfUrl: item.pdfUrl,
+                          });
+                        }}
                       >
                         <Eye size={16} />
                       </motion.button>
                       <motion.button
+                        type="button"
                         className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#f7c20e] flex items-center justify-center transition-colors"
                         whileHover={{ scale: 1.1, rotate: 360 }}
                         transition={{ duration: 0.3 }}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          if (item.pdfUrl) {
+                            window.open(item.pdfUrl, '_blank', 'noopener,noreferrer');
+                          } else {
+                            setSelectedPublication({
+                              title: item.title,
+                              description: item.desc,
+                              date: item.date,
+                              category: item.cat,
+                              pdfUrl: item.pdfUrl,
+                            });
+                          }
+                        }}
                       >
                         <Download size={16} />
                       </motion.button>
                     </motion.div>
                   </div>
 
-                  <h3 className={`text-xl ${t.serif} mb-3 leading-snug group-hover:text-[#f7c20e] transition-colors`}>
-                    {item.title}
-                  </h3>
+                  <h3 className={`text-xl ${t.serif} mb-3 leading-snug group-hover:text-[#f7c20e] transition-colors`}>{item.title}</h3>
                   <p className="text-slate-300 text-sm mb-6 line-clamp-3">{item.desc}</p>
-                  
-                  <motion.div
-                    className="flex items-center gap-2 text-sm font-bold text-[#f7c20e]"
-                    animate={{ x: hoveredIndex === i ? 5 : 0 }}
-                  >
+
+                  <motion.div className="flex items-center gap-2 text-sm font-bold text-[#f7c20e]" animate={{ x: hoveredIndex === i ? 5 : 0 }}>
                     {t.publications.latest.readMore} <ArrowIcon size={14} />
                   </motion.div>
                 </div>
 
-                {/* Corner Decoration */}
                 <motion.div
                   className="absolute bottom-0 right-0 w-24 h-24 bg-[#f7c20e] opacity-5 rounded-tl-full"
-                  animate={{
-                    scale: hoveredIndex === i ? 1.5 : 1,
-                    opacity: hoveredIndex === i ? 0.1 : 0.05,
-                  }}
+                  animate={{ scale: hoveredIndex === i ? 1.5 : 1, opacity: hoveredIndex === i ? 0.1 : 0.05 }}
                   transition={{ duration: 0.3 }}
                 />
               </motion.div>
             </motion.div>
           ))}
-
-          {/* Archive Card */}
-          <motion.div
-            className="group relative"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            onHoverStart={() => setHoveredIndex(999)}
-            onHoverEnd={() => setHoveredIndex(null)}
-          >
-            <motion.div
-              className="bg-[#254b59] p-8 border-t-4 hover:bg-[#2c5a6b] transition-all cursor-pointer opacity-75 hover:opacity-100 h-full rounded-lg"
-              style={{ borderTopColor: '#475569' }}
-              whileHover={{ y: -10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-               <div className="flex justify-between items-center mb-4 text-xs uppercase tracking-wider text-slate-300">
-                  <span className="text-slate-400 font-bold">{lang === 'ar' ? 'أرشيف' : 'Archive'}</span>
-                  <span>2023</span>
-               </div>
-               <h3 className={`text-xl ${t.serif} mb-3 leading-snug group-hover:text-[#f7c20e] transition-colors`}>
-                 {lang === 'ar' ? 'تقرير حقوق الإنسان السنوي 2023' : 'Annual Human Rights Report 2023'}
-               </h3>
-               <p className="text-slate-300 text-sm mb-6 line-clamp-3">
-                 {lang === 'ar' ? 'تحميل التقرير الكامل بصيغة PDF' : 'Download full report in PDF format.'}
-               </p>
-               <motion.div
-                 className="flex items-center gap-2 text-sm font-bold text-slate-400 group-hover:text-[#f7c20e]"
-                 animate={{ x: hoveredIndex === 999 ? 5 : 0 }}
-               >
-                  {t.publications.latest.readMore} <ArrowIcon size={14} />
-               </motion.div>
-            </motion.div>
-          </motion.div>
         </div>
 
-        {/* Load More Button */}
-        <motion.div
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-        >
+        <motion.div className="text-center mt-16" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}>
           <motion.button
             className="px-8 py-4 bg-white/10 hover:bg-[#f7c20e] text-white hover:text-[#1c3944] border-2 border-white/20 hover:border-[#f7c20e] rounded-lg font-bold transition-all"
             whileHover={{ scale: 1.05 }}
@@ -316,6 +296,46 @@ export default function Publications({ lang, content }) {
           </motion.button>
         </motion.div>
       </div>
+
+      {selectedPublication ? (
+        <div className="fixed inset-0 z-[70] bg-black/60 flex items-center justify-center px-4" onClick={() => setSelectedPublication(null)}>
+          <div
+            className="w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white text-slate-800 p-6 lg:p-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div>
+                <div className="text-xs uppercase tracking-wide text-[#f7c20e] font-bold mb-1">{selectedPublication.category}</div>
+                <h3 className={`text-2xl ${t.serif} text-[#1c3944]`}>{selectedPublication.title}</h3>
+              </div>
+              <button
+                type="button"
+                className="h-9 w-9 rounded-full border border-slate-300 text-slate-500 hover:text-slate-800"
+                onClick={() => setSelectedPublication(null)}
+              >
+                <X size={16} className="mx-auto" />
+              </button>
+            </div>
+            <div className="text-sm text-slate-500 mb-4">{selectedPublication.date}</div>
+            <p className="text-slate-700 leading-8 mb-6">{selectedPublication.description}</p>
+            {selectedPublication.pdfUrl ? (
+              <a
+                href={selectedPublication.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#1c3944] px-4 py-2 text-white hover:bg-[#16303a]"
+              >
+                <Download size={16} />
+                {lang === 'ar' ? 'تحميل PDF' : 'Download PDF'}
+              </a>
+            ) : (
+              <div className="text-sm text-slate-500">
+                {lang === 'ar' ? 'لا يوجد ملف PDF مرفق لهذا الإصدار.' : 'No PDF file is attached to this publication.'}
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

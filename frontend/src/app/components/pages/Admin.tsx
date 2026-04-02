@@ -40,13 +40,14 @@ const toLabel = (value: string) =>
 
 const pathToString = (path: Array<string | number>) => path.join(".");
 
-type FieldType = "text" | "textarea" | "date" | "checkbox" | "number";
+type FieldType = "text" | "textarea" | "date" | "checkbox" | "number" | "file" | "select";
 
 type FieldDef = {
   name: string;
   label: { en: string; ar: string };
   type?: FieldType;
   placeholder?: { en?: string; ar?: string };
+  options?: Array<{ value: string; label: { en: string; ar: string } }>;
 };
 
 type ResourceConfig = {
@@ -171,8 +172,20 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
       { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
       { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
-      { name: "category", label: { en: "Category", ar: "التصنيف" } },
-      { name: "pdf_url", label: { en: "PDF URL", ar: "رابط PDF" } },
+      {
+        name: "category",
+        label: { en: "Category", ar: "التصنيف" },
+        type: "select",
+        options: [
+          { value: "report", label: { en: "Report", ar: "تقرير" } },
+          { value: "policy_brief", label: { en: "Policy Brief", ar: "ورقة سياسات" } },
+          { value: "manual", label: { en: "Manual", ar: "دليل" } },
+          { value: "research", label: { en: "Research", ar: "بحث" } },
+          { value: "article", label: { en: "Article", ar: "مقال" } },
+          { value: "archive", label: { en: "Archive", ar: "أرشيف" } },
+        ],
+      },
+      { name: "pdf_file", label: { en: "PDF File", ar: "ملف PDF" }, type: "file" },
       { name: "published_date", label: { en: "Published Date", ar: "تاريخ النشر" }, type: "date" },
     ],
     list: adminListPublications,
@@ -184,8 +197,8 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       title_ar: "",
       description_en: "",
       description_ar: "",
-      category: "",
-      pdf_url: "",
+      category: "article",
+      pdf_file: null,
       published_date: "",
     },
   },
@@ -196,14 +209,25 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
       { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
       { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
-      { name: "event_type", label: { en: "Event Type", ar: "نوع الفعالية" } },
+      {
+        name: "event_type",
+        label: { en: "Event Type", ar: "نوع الفعالية" },
+        type: "select",
+        options: [
+          { value: "dialogue", label: { en: "Dialogue Session", ar: "جلسة حوار" } },
+          { value: "workshop", label: { en: "Workshop", ar: "ورشة عمل" } },
+          { value: "conference", label: { en: "Conference", ar: "مؤتمر" } },
+          { value: "webinar", label: { en: "Webinar", ar: "ندوة عبر الإنترنت" } },
+          { value: "training", label: { en: "Training", ar: "تدريب" } },
+        ],
+      },
       { name: "date", label: { en: "Start Date", ar: "تاريخ البداية" }, type: "date" },
       { name: "end_date", label: { en: "End Date", ar: "تاريخ النهاية" }, type: "date" },
       { name: "location", label: { en: "Location", ar: "المكان" } },
       { name: "is_online", label: { en: "Online", ar: "عبر الإنترنت" }, type: "checkbox" },
       { name: "online_link", label: { en: "Online Link", ar: "رابط الحضور" } },
       { name: "registration_url", label: { en: "Registration URL", ar: "رابط التسجيل" } },
-      { name: "cover_upload_url", label: { en: "Cover Image URL", ar: "رابط صورة الغلاف" } },
+      { name: "cover_image", label: { en: "Cover Image", ar: "صورة الغلاف" }, type: "file" },
       { name: "is_featured", label: { en: "Featured", ar: "مميز" }, type: "checkbox" },
       { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
     ],
@@ -223,7 +247,7 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       is_online: false,
       online_link: "",
       registration_url: "",
-      cover_upload_url: "",
+      cover_image: null,
       is_featured: false,
       is_published: true,
     },
@@ -321,7 +345,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   });
 
   useEffect(() => {
-    setDraft(mergeContent(defaultContent as SiteContent, content as SiteContent));
+    setDraft(normalizeContentForAdmin(mergeContent(defaultContent as SiteContent, content as SiteContent)));
   }, [content]);
 
   useEffect(() => {
@@ -359,6 +383,46 @@ export default function Admin({ lang, content, onContentUpdate }) {
       return result;
     }
     return override;
+  };
+
+  const normalizeHeroSlide = (slide: any) => {
+    if (!isPlainObject(slide)) return slide;
+    const normalized = { ...slide };
+    const titleAr = normalized.titleAr ?? normalized.title_ar ?? normalized.title?.ar;
+    const titleEn = normalized.titleEn ?? normalized.title_en ?? normalized.title?.en;
+    const descAr = normalized.descAr ?? normalized.desc_ar ?? normalized.description?.ar;
+    const descEn = normalized.descEn ?? normalized.desc_en ?? normalized.description?.en;
+
+    if (titleAr !== undefined) normalized.titleAr = titleAr;
+    if (titleEn !== undefined) normalized.titleEn = titleEn;
+    if (descAr !== undefined) normalized.descAr = descAr;
+    if (descEn !== undefined) normalized.descEn = descEn;
+
+    delete normalized.title_ar;
+    delete normalized.title_en;
+    delete normalized.desc_ar;
+    delete normalized.desc_en;
+    delete normalized.title;
+    delete normalized.description;
+    return normalized;
+  };
+
+  const normalizeContentForAdmin = (value: any): any => {
+    if (!isPlainObject(value)) return value;
+    const next = { ...value } as any;
+    (["ar", "en"] as const).forEach((locale) => {
+      const slides = next?.[locale]?.home?.heroSlides;
+      if (Array.isArray(slides)) {
+        next[locale] = {
+          ...next[locale],
+          home: {
+            ...next[locale].home,
+            heroSlides: slides.map(normalizeHeroSlide),
+          },
+        };
+      }
+    });
+    return next;
   };
 
   const updateAtPath = (value: any, path: Array<string | number>, nextValue: any) => {
@@ -420,10 +484,12 @@ export default function Admin({ lang, content, onContentUpdate }) {
       return;
     }
     setSaving(true);
-    updateSiteContent(draft as unknown as Record<string, unknown>, token)
+    const normalizedDraft = normalizeContentForAdmin(draft);
+    updateSiteContent(normalizedDraft as unknown as Record<string, unknown>, token)
       .then((response) => {
-        const payload = response?.content as SiteContent;
+        const payload = normalizeContentForAdmin(response?.content as SiteContent);
         onContentUpdate(payload);
+        setDraft(payload);
         setStatus(isRTL ? "تم حفظ التغييرات بنجاح." : "Saved successfully.");
       })
       .catch((error) => {
@@ -459,8 +525,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
     }
     updateSiteContent(defaultContent as unknown as Record<string, unknown>, token)
       .then(() => {
-        onContentUpdate(defaultContent as SiteContent);
-        setDraft(defaultContent as SiteContent);
+        const normalized = normalizeContentForAdmin(defaultContent as SiteContent);
+        onContentUpdate(normalized as SiteContent);
+        setDraft(normalized as SiteContent);
         setStatus(isRTL ? "تمت إعادة الضبط إلى القيم الافتراضية." : "Reset to defaults.");
       })
       .catch(() => {
@@ -473,7 +540,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
       .then((response) => {
         const payload = response?.content;
         if (payload && Object.keys(payload).length > 0) {
-          const merged = mergeContent(defaultContent as SiteContent, payload as SiteContent);
+          const merged = normalizeContentForAdmin(mergeContent(defaultContent as SiteContent, payload as SiteContent));
           setDraft(merged as SiteContent);
           onContentUpdate(merged as SiteContent);
           setStatus(isRTL ? "تم التحميل من الخادم." : "Loaded from server.");
@@ -1239,6 +1306,47 @@ export default function Admin({ lang, content, onContentUpdate }) {
                         const label = field.label[isRTL ? "ar" : "en"];
                         const isUrlField = /url|image|photo|cover|logo|portrait|pdf/i.test(field.name);
                         const uploadKey = `resource:${activeResourceKey}.${field.name}`;
+                        const handleUploadUrl = (file: File) => {
+                          if (!token) return;
+                          setUploading((prev) => ({ ...prev, [uploadKey]: true }));
+                          uploadMedia(token, file)
+                            .then((res) => {
+                              if (res?.url) {
+                                handleResourceChange(activeResourceKey, field.name, res.url);
+                              }
+                            })
+                            .catch(() => {
+                              setResourceStatus(isRTL ? "فشل الرفع." : "Upload failed.");
+                            })
+                            .finally(() => {
+                              setUploading((prev) => ({ ...prev, [uploadKey]: false }));
+                            });
+                        };
+                        if (field.type === "file") {
+                          const selectedName =
+                            value && typeof value === "object" && "name" in value
+                              ? (value as File).name
+                              : "";
+                          return (
+                            <div key={field.name} className="space-y-2">
+                              <label className="block text-xs font-semibold text-slate-500">{label}</label>
+                              <input
+                                type="file"
+                                accept={field.name.toLowerCase().includes("pdf") ? "application/pdf" : "image/*"}
+                                onChange={(event) => {
+                                  const file = event.target.files?.[0];
+                                  if (!file) return;
+                                  handleResourceChange(activeResourceKey, field.name, file);
+                                }}
+                              />
+                              {selectedName ? (
+                                <div className="text-xs text-slate-500">
+                                  {isRTL ? "الملف المحدد:" : "Selected file:"} {selectedName}
+                                </div>
+                              ) : null}
+                            </div>
+                          );
+                        }
                         if (field.type === "textarea") {
                           return (
                             <div key={field.name} className="space-y-2">
@@ -1256,20 +1364,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                     accept={field.name.toLowerCase().includes("pdf") ? "application/pdf" : "image/*"}
                                     onChange={(event) => {
                                       const file = event.target.files?.[0];
-                                      if (!file || !token) return;
-                                      setUploading((prev) => ({ ...prev, [uploadKey]: true }));
-                                      uploadMedia(token, file)
-                                        .then((res) => {
-                                          if (res?.url) {
-                                            handleResourceChange(activeResourceKey, field.name, res.url);
-                                          }
-                                        })
-                                        .catch(() => {
-                                          setResourceStatus(isRTL ? "فشل الرفع." : "Upload failed.");
-                                        })
-                                        .finally(() => {
-                                          setUploading((prev) => ({ ...prev, [uploadKey]: false }));
-                                        });
+                                      if (!file) return;
+                                      handleUploadUrl(file);
                                     }}
                                   />
                                   {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
@@ -1290,6 +1386,26 @@ export default function Admin({ lang, content, onContentUpdate }) {
                               />
                               {label}
                             </label>
+                          );
+                        }
+                        if (field.type === "select") {
+                          return (
+                            <div key={field.name} className="space-y-2">
+                              <label className="block text-xs font-semibold text-slate-500">{label}</label>
+                              <select
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                value={value}
+                                onChange={(event) =>
+                                  handleResourceChange(activeResourceKey, field.name, event.target.value)
+                                }
+                              >
+                                {(field.options ?? []).map((option) => (
+                                  <option key={option.value} value={option.value}>
+                                    {option.label[isRTL ? "ar" : "en"]}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           );
                         }
                         return (
@@ -1314,20 +1430,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
                                   accept={field.name.toLowerCase().includes("pdf") ? "application/pdf" : "image/*"}
                                   onChange={(event) => {
                                     const file = event.target.files?.[0];
-                                    if (!file || !token) return;
-                                    setUploading((prev) => ({ ...prev, [uploadKey]: true }));
-                                    uploadMedia(token, file)
-                                      .then((res) => {
-                                        if (res?.url) {
-                                          handleResourceChange(activeResourceKey, field.name, res.url);
-                                        }
-                                      })
-                                      .catch(() => {
-                                        setResourceStatus(isRTL ? "فشل الرفع." : "Upload failed.");
-                                      })
-                                      .finally(() => {
-                                        setUploading((prev) => ({ ...prev, [uploadKey]: false }));
-                                      });
+                                    if (!file) return;
+                                    handleUploadUrl(file);
                                   }}
                                 />
                                 {uploading[uploadKey] ? (isRTL ? "جارٍ الرفع..." : "Uploading...") : null}
