@@ -78,6 +78,13 @@ def upload_media(request):
     if "file" not in request.FILES:
         return Response({"detail": "No file provided."}, status=400)
     upload = request.FILES["file"]
+    max_size = getattr(settings, "MAX_UPLOAD_SIZE", 100 * 1024 * 1024)
+    max_size_mb = getattr(settings, "MAX_UPLOAD_SIZE_MB", 100)
+    if upload.size > max_size:
+        return Response(
+            {"detail": f"File is too large. Maximum allowed size is {max_size_mb} MB."},
+            status=400,
+        )
     path = default_storage.save(f"uploads/{upload.name}", upload)
     url = request.build_absolute_uri(settings.MEDIA_URL + path)
     return Response({"url": url}, status=200)

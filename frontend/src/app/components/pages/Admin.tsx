@@ -199,7 +199,7 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       description_ar: "",
       category: "article",
       pdf_file: null,
-      published_date: "",
+      published_date: new Date().toISOString().slice(0, 10),
     },
   },
   events: {

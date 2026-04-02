@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.conf import settings
 from .models import Publication
 
 
@@ -29,6 +30,24 @@ class PublicationSerializer(serializers.ModelSerializer):
             'is_featured',
             'created_at',
         ]
+
+    def validate_pdf_file(self, value):
+        if not value:
+            return value
+        if value.size > settings.MAX_UPLOAD_SIZE:
+            raise serializers.ValidationError(
+                f"PDF is too large. Maximum allowed size is {settings.MAX_UPLOAD_SIZE_MB} MB."
+            )
+        return value
+
+    def validate_cover_image(self, value):
+        if not value:
+            return value
+        if value.size > settings.MAX_UPLOAD_SIZE:
+            raise serializers.ValidationError(
+                f"Image is too large. Maximum allowed size is {settings.MAX_UPLOAD_SIZE_MB} MB."
+            )
+        return value
     
     def get_pdf_url(self, obj):
         if obj.pdf_file:
