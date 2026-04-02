@@ -418,20 +418,10 @@ export const content = {
     },
     joinUs: {
       title: "Join Us",
-      intro: "Explore current opportunities at the foundation. When positions are open, you can apply directly using the details below.",
+      intro: "Explore work opportunities at the foundation. Open positions will appear here with the role details, requirements, and application instructions.",
+      emptyTitle: "No Opportunities Right Now",
       emptyState: "There are no opportunities at the moment. Follow us for future openings.",
-      jobs: [
-        {
-          title: "Program Officer",
-          description: "Lead program coordination, partner engagement, and reporting for human rights initiatives.",
-          requirements: [
-            "3+ years of relevant experience in civil society or humanitarian programs",
-            "Strong Arabic and English communication skills",
-            "Experience with reporting and monitoring frameworks"
-          ],
-          howToApply: "Send your CV and a short cover letter to jobs@riadseiffoundation.org"
-        }
-      ]
+      jobs: []
     },
     footer: {
       desc: "Dedicated to the memory and values of the Damascus Spring, working towards a free and democratic Syria for all its citizens.",
@@ -856,20 +846,10 @@ export const content = {
     },
     joinUs: {
       title: "انضم إلينا",
-      intro: "اطلع على فرص العمل الحالية في المؤسسة. عند توفر وظائف يمكنك التقديم مباشرة عبر التفاصيل أدناه.",
-      emptyState: "لا توجد فرص متاحة حالياً. تابعنا لفرص قادمة.",
-      jobs: [
-        {
-          title: "منسق برامج",
-          description: "قيادة تنسيق البرامج والتواصل مع الشركاء وإعداد التقارير لمبادرات حقوق الإنسان.",
-          requirements: [
-            "خبرة لا تقل عن 3 سنوات في برامج المجتمع المدني أو العمل الإنساني",
-            "مهارات تواصل قوية بالعربية والإنجليزية",
-            "خبرة في إعداد التقارير وأطر المتابعة والتقييم"
-          ],
-          howToApply: "أرسل السيرة الذاتية ورسالة تعريفية قصيرة إلى jobs@riadseiffoundation.org"
-        }
-      ]
+      intro: "اطلع على فرص العمل في المؤسسة. ستظهر الوظائف الشاغرة هنا مع الوصف، المتطلبات، وطريقة التقديم.",
+      emptyTitle: "لا توجد فرص حالياً",
+      emptyState: "لا توجد فرص متاحة حالياً. تابعنا لمعرفة الفرص القادمة.",
+      jobs: []
     },
     footer: {
       desc: "مكرسة لذكرى وقيم ربيع دمشق، وتعمل نحو سوريا حرة وديمقراطية لجميع مواطنيها.",

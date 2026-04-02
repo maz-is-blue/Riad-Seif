@@ -10,6 +10,9 @@ import {
   adminListNews,
   adminUpsertNews,
   adminDeleteNews,
+  adminListJobs,
+  adminUpsertJob,
+  adminDeleteJob,
   adminListTeam,
   adminUpsertTeam,
   adminDeleteTeam,
@@ -57,6 +60,7 @@ type ResourceConfig = {
 
 type ResourceKey =
   | "news"
+  | "jobs"
   | "team"
   | "publications"
   | "events"
@@ -95,6 +99,35 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       published_date: "",
       is_featured: false,
       is_published: true,
+    },
+  },
+  jobs: {
+    title: { en: "Job Opportunities", ar: "الفرص الوظيفية" },
+    fields: [
+      { name: "title_en", label: { en: "Job Title (EN)", ar: "اسم الوظيفة (EN)" } },
+      { name: "title_ar", label: { en: "Job Title (AR)", ar: "اسم الوظيفة (AR)" } },
+      { name: "description_en", label: { en: "Description (EN)", ar: "الوصف (EN)" }, type: "textarea" },
+      { name: "description_ar", label: { en: "Description (AR)", ar: "الوصف (AR)" }, type: "textarea" },
+      { name: "requirements_en", label: { en: "Requirements (EN)", ar: "المتطلبات (EN)" }, type: "textarea" },
+      { name: "requirements_ar", label: { en: "Requirements (AR)", ar: "المتطلبات (AR)" }, type: "textarea" },
+      { name: "apply_info_en", label: { en: "How To Apply (EN)", ar: "طريقة التقديم (EN)" }, type: "textarea" },
+      { name: "apply_info_ar", label: { en: "How To Apply (AR)", ar: "طريقة التقديم (AR)" }, type: "textarea" },
+      { name: "is_active", label: { en: "Active", ar: "نشط" }, type: "checkbox" },
+    ],
+    list: adminListJobs,
+    upsert: adminUpsertJob,
+    remove: adminDeleteJob,
+    summary: (item, lang) => (lang === "ar" ? item.title_ar : item.title_en),
+    initial: {
+      title_en: "",
+      title_ar: "",
+      description_en: "",
+      description_ar: "",
+      requirements_en: "",
+      requirements_ar: "",
+      apply_info_en: "",
+      apply_info_ar: "",
+      is_active: true,
     },
   },
   team: {

@@ -13,6 +13,7 @@ import {
 const DEFAULT_PERMISSIONS = {
   content: { view: true, edit: true, delete: false },
   news: { view: true, edit: true, delete: false },
+  jobs: { view: true, edit: true, delete: false },
   team: { view: true, edit: true, delete: false },
   publications: { view: true, edit: true, delete: false },
   events: { view: true, edit: true, delete: false },

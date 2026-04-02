@@ -103,6 +103,20 @@ export type ArchiveItem = {
   order?: number;
 };
 
+export type JobOpportunity = {
+  id: number;
+  title_en: string;
+  title_ar: string;
+  description_en: string;
+  description_ar: string;
+  requirements_en: string;
+  requirements_ar: string;
+  apply_info_en: string;
+  apply_info_ar: string;
+  is_active?: boolean;
+  created_at?: string;
+};
+
 type ContactPayload = {
   name: string;
   email: string;
@@ -267,6 +281,10 @@ export async function fetchArchiveItems(): Promise<ArchiveItem[]> {
   return request<ArchiveItem[]>("/archive/");
 }
 
+export async function fetchJobs(): Promise<JobOpportunity[]> {
+  return request<JobOpportunity[]>("/jobs/");
+}
+
 // Admin CRUD
 export async function adminListNews(token: string) {
   const response = await request<NewsUpdate[] | PaginatedResponse<NewsUpdate>>(
@@ -380,4 +398,23 @@ export async function adminUpsertArchive(token: string, payload: Record<string, 
 
 export async function adminDeleteArchive(token: string, id: number) {
   return request<void>(`/admin/archive/${id}/`, { method: "DELETE", headers: authHeaders(token) });
+}
+
+export async function adminListJobs(token: string) {
+  const response = await request<JobOpportunity[] | PaginatedResponse<JobOpportunity>>(
+    "/admin/jobs/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
+}
+
+export async function adminUpsertJob(token: string, payload: Record<string, any>, id?: number) {
+  const method = id ? "PATCH" : "POST";
+  const path = id ? `/admin/jobs/${id}/` : "/admin/jobs/";
+  const body = toFormData(payload);
+  return request<JobOpportunity>(path, { method, headers: authHeaders(token), body });
+}
+
+export async function adminDeleteJob(token: string, id: number) {
+  return request<void>(`/admin/jobs/${id}/`, { method: "DELETE", headers: authHeaders(token) });
 }
