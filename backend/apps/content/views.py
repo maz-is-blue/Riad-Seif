@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.conf import settings
 from django.core.files.storage import default_storage
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob, Job
 from .permissions import AdminSectionPermission, has_permission, has_any_edit_permission
 from .serializers import (
     SiteSettingsSerializer,
@@ -134,4 +134,3 @@ class AdminJobViewSet(viewsets.ModelViewSet):
     serializer_class = AdminJobSerializer
     permission_classes = [AdminSectionPermission.for_resource("jobs")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
-

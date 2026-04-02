@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob, Job
 
 
 @admin.register(SiteSettings)

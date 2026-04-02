@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob
+from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob, Job
 
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
