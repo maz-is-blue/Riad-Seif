@@ -719,14 +719,15 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const contentSections = useMemo(
     () => [
-      { key: "home-hero", label: isRTL ? "???????? - ????????" : "Home - Hero Slides", path: ["home", "heroSlides"] },
-      { key: "home-about", label: isRTL ? "???????? - ?? ???????" : "Home - About Section", path: ["home", "aboutSection"] },
-      { key: "home-founder", label: isRTL ? "???????? - ?? ???? ???" : "Home - Founder Section", path: ["home", "founderSection"] },
-      { key: "home-programs", label: isRTL ? "???????? - ???????" : "Home - Programs Section", path: ["home", "programsSection"] },
-      { key: "home-center", label: isRTL ? "???????? - ????? ???? ???????" : "Home - Human Rights Center", path: ["home", "centerSection"] },
-      { key: "home-foundation", label: isRTL ? "???????? - ?? ???????" : "Home - About Foundation", path: ["home", "aboutFoundationSection"] },
-      { key: "home-quote", label: isRTL ? "???????? - ???? ?????" : "Home - Founder Quote", path: ["home", "founderQuote"] },
-      { key: "home-news", label: isRTL ? "???????? - ??? ?????????" : "Home - News Section", path: ["home", "newsSection"] },
+      { key: "home-hero-1", label: isRTL ? "الرئيسية - الشريحة 1" : "Home - Slide 1", path: ["home", "heroSlides", 0] },
+      { key: "home-hero-2", label: isRTL ? "الرئيسية - الشريحة 2" : "Home - Slide 2", path: ["home", "heroSlides", 1] },
+      { key: "home-hero-3", label: isRTL ? "الرئيسية - الشريحة 3" : "Home - Slide 3", path: ["home", "heroSlides", 2] },
+      { key: "home-hero-4", label: isRTL ? "الرئيسية - الشريحة 4" : "Home - Slide 4", path: ["home", "heroSlides", 3] },
+      { key: "home-news", label: isRTL ? "الرئيسية - أحدث الأخبار" : "Home - Latest Updates", path: ["home", "newsSection"] },
+      { key: "home-programs", label: isRTL ? "الرئيسية - البرامج" : "Home - Programs", path: ["home", "programsSection"] },
+      { key: "home-center", label: isRTL ? "الرئيسية - مركز حقوق الإنسان" : "Home - Human Rights Center", path: ["home", "centerSection"] },
+      { key: "home-foundation", label: isRTL ? "الرئيسية - عن المؤسسة" : "Home - About the Foundation", path: ["home", "aboutFoundationSection"] },
+      { key: "home-quote", label: isRTL ? "الرئيسية - اقتباس رياض سيف" : "Home - Riad Seif Quote", path: ["home", "founderQuote"] },
       { key: "about", label: isRTL ? "?? ???????" : "About Us", path: ["about"] },
       { key: "jumana", label: isRTL ? "????? ???" : "Joumana Seif", path: ["jumana"] },
       { key: "founder", label: isRTL ? "?? ???? ???" : "About Riad Seif", path: ["founder"] },
