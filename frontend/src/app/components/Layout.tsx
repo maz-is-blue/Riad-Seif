@@ -27,6 +27,8 @@ export default function Layout({ children, lang, setLang, content }) {
 
   const isRTL = lang === 'ar';
   const t = content[lang];
+  const contactInfo = t.contact?.info ?? {};
+  const contactSocial = t.contact?.social ?? {};
 
   const navLinks = [
     { label: t.nav.home, href: '/' },
@@ -159,7 +161,7 @@ export default function Layout({ children, lang, setLang, content }) {
               </div>
               <div className="flex gap-4">
                 <a
-                  href="https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr"
+                  href={contactSocial.facebook || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
@@ -168,7 +170,7 @@ export default function Layout({ children, lang, setLang, content }) {
                   <Facebook className="cursor-pointer" size={20} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/company/riad-seif-human-rights-foundation/"
+                  href={contactSocial.linkedin || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -177,7 +179,7 @@ export default function Layout({ children, lang, setLang, content }) {
                   <Linkedin className="cursor-pointer" size={20} />
                 </a>
                 <a
-                  href="https://www.instagram.com/rshrfndn/"
+                  href={contactSocial.instagram || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -186,7 +188,7 @@ export default function Layout({ children, lang, setLang, content }) {
                   <Instagram className="cursor-pointer" size={20} />
                 </a>
                 <a
-                  href="https://x.com/Rscomms130366"
+                  href={contactSocial.x || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X"
@@ -222,15 +224,15 @@ export default function Layout({ children, lang, setLang, content }) {
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-3">
                   <MapPin size={16} className="text-[#f7c20e] shrink-0 mt-0.5" />
-                  <span>{t.topBar.location}</span>
+                  <span>{contactInfo.addressValue || t.topBar.location}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone size={16} className="text-[#f7c20e] shrink-0" />
-                  <span>+961 1 234 567</span>
+                  <span>{contactInfo.phoneValue || '+963 961 234 567'}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail size={16} className="text-[#f7c20e] shrink-0" />
-                  <span>info@riadseiflb.org</span>
+                  <span>{contactInfo.emailValue || 'info@riadseiflb.org'}</span>
                 </li>
               </ul>
             </div>

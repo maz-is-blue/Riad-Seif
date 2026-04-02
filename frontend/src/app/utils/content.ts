@@ -404,6 +404,7 @@ export const content = {
     },
     contact: {
       title: "Contact Us",
+      intro: "We're here to listen. Reach out to us for any inquiries or suggestions.",
       form: {
           name: "Name",
           email: "Email",
@@ -412,8 +413,18 @@ export const content = {
       },
       info: {
           address: "Address",
+          addressValue: "Damascus, Syria",
           phone: "Phone",
-          email: "Email"
+          phoneValue: "+963 961 234 567",
+          email: "Email",
+          emailValue: "info@riadseiflb.org"
+      },
+      social: {
+          title: "Follow Us",
+          facebook: "https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr",
+          linkedin: "https://www.linkedin.com/company/riad-seif-human-rights-foundation/",
+          instagram: "https://www.instagram.com/rshrfndn/",
+          x: "https://x.com/Rscomms130366"
       }
     },
     joinUs: {
@@ -832,6 +843,7 @@ export const content = {
     },
     contact: {
       title: "اتصل بنا",
+      intro: "نحن هنا للاستماع إليك. تواصل معنا لأي استفسار أو اقتراح.",
       form: {
           name: "الاسم",
           email: "البريد الإلكتروني",
@@ -840,8 +852,18 @@ export const content = {
       },
       info: {
           address: "العنوان",
+          addressValue: "دمشق، سوريا",
           phone: "الهاتف",
-          email: "البريد الإلكتروني"
+          phoneValue: "+963 961 234 567",
+          email: "البريد الإلكتروني",
+          emailValue: "info@riadseiflb.org"
+      },
+      social: {
+          title: "تابعنا",
+          facebook: "https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr",
+          linkedin: "https://www.linkedin.com/company/riad-seif-human-rights-foundation/",
+          instagram: "https://www.instagram.com/rshrfndn/",
+          x: "https://x.com/Rscomms130366"
       }
     },
     joinUs: {
