@@ -1,5 +1,27 @@
 from rest_framework import serializers
+from django.conf import settings
+from urllib.parse import urlparse
 from .models import Event, MemoryPhoto, ArchiveItem
+
+
+def _media_url_to_relative_path(value: str | None):
+    if not value:
+        return None
+    raw = str(value).strip()
+    if not raw:
+        return None
+
+    parsed = urlparse(raw)
+    path = parsed.path if parsed.scheme or parsed.netloc else raw
+    media_prefix = settings.MEDIA_URL if settings.MEDIA_URL.startswith("/") else f"/{settings.MEDIA_URL}"
+    if not media_prefix.endswith("/"):
+        media_prefix = f"{media_prefix}/"
+
+    if path.startswith(media_prefix):
+        return path[len(media_prefix) :]
+    if not path.startswith("/"):
+        return path
+    return None
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -44,11 +66,17 @@ class EventSerializer(serializers.ModelSerializer):
         return None
 
     def create(self, validated_data):
-        validated_data.pop('cover_upload_url', None)
+        upload_url = validated_data.pop('cover_upload_url', None)
+        relative_path = _media_url_to_relative_path(upload_url)
+        if relative_path:
+            validated_data['cover_image'] = relative_path
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        validated_data.pop('cover_upload_url', None)
+        upload_url = validated_data.pop('cover_upload_url', None)
+        relative_path = _media_url_to_relative_path(upload_url)
+        if relative_path:
+            validated_data['cover_image'] = relative_path
         return super().update(instance, validated_data)
 
 
@@ -102,11 +130,17 @@ class MemoryPhotoSerializer(serializers.ModelSerializer):
         return None
 
     def create(self, validated_data):
-        validated_data.pop("image_upload_url", None)
+        upload_url = validated_data.pop("image_upload_url", None)
+        relative_path = _media_url_to_relative_path(upload_url)
+        if relative_path:
+            validated_data["image"] = relative_path
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        validated_data.pop("image_upload_url", None)
+        upload_url = validated_data.pop("image_upload_url", None)
+        relative_path = _media_url_to_relative_path(upload_url)
+        if relative_path:
+            validated_data["image"] = relative_path
         return super().update(instance, validated_data)
 
 
