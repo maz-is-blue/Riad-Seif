@@ -1,4 +1,4 @@
-const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "http://127.0.0.1:8000/api";
+const RAW_API_BASE_URL = ((import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim() || "/api");
 const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, "");
 
 type PaginatedResponse<T> = {
@@ -136,12 +136,35 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     }
   })() : null;
   if (!response.ok) {
+    const firstNestedError = (obj: unknown): string => {
+      if (!obj || typeof obj !== "object") return "";
+      for (const value of Object.values(obj as Record<string, unknown>)) {
+        if (Array.isArray(value) && typeof value[0] === "string") {
+          return value[0];
+        }
+        if (typeof value === "string") {
+          return value;
+        }
+      }
+      return "";
+    };
+
     const detailFromPayload =
       (payload && typeof payload === "object" && "detail" in payload && typeof (payload as any).detail === "string")
         ? (payload as any).detail
         : "";
+    const messageFromPayload =
+      (payload && typeof payload === "object" && "message" in payload && typeof (payload as any).message === "string")
+        ? (payload as any).message
+        : "";
+    const validationFromPayload =
+      (payload && typeof payload === "object" && "errors" in payload)
+        ? firstNestedError((payload as any).errors)
+        : "";
     const detail =
       detailFromPayload ||
+      messageFromPayload ||
+      validationFromPayload ||
       `${response.status} ${response.statusText}`.trim() ||
       "Request failed";
     throw { status: response.status, detail, ...(payload ?? {}) };

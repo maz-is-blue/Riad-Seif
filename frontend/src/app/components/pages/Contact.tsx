@@ -58,12 +58,29 @@ export default function Contact({ lang, content }) {
         setSubmitted(false);
         setFormData({ name: '', email: '', message: '' });
       }, 3000);
-    } catch {
-      setSubmitError(
-        lang === 'ar'
-          ? 'تعذر إرسال الرسالة الآن. يرجى المحاولة لاحقاً.'
-          : 'Unable to send your message right now. Please try again later.',
-      );
+    } catch (error: any) {
+      const status = Number(error?.status ?? 0);
+      const detail = typeof error?.detail === 'string' ? error.detail : '';
+      const validation = error?.errors && typeof error.errors === 'object'
+        ? Object.values(error.errors).flat().find((v: any) => typeof v === 'string')
+        : '';
+      if (status === 429) {
+        setSubmitError(
+          lang === 'ar'
+            ? 'تم إرسال عدد كبير من الرسائل. يرجى المحاولة بعد قليل.'
+            : 'Too many messages were sent. Please try again shortly.',
+        );
+      } else if (validation) {
+        setSubmitError(String(validation));
+      } else if (detail && !/^\d{3}\s/.test(detail)) {
+        setSubmitError(detail);
+      } else {
+        setSubmitError(
+          lang === 'ar'
+            ? 'تعذر إرسال الرسالة الآن. يرجى المحاولة لاحقاً.'
+            : 'Unable to send your message right now. Please try again later.',
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
