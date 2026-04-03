@@ -4,6 +4,35 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { fetchTeamMembers, type TeamMember } from '../../utils/api';
 
+type AboutMember = {
+  id: number | string;
+  name: string;
+  nameAr: string;
+  role: string;
+  roleAr: string;
+  image: string;
+  bio: string;
+  bioAr: string;
+  detailedBio: string;
+  detailedBioAr: string;
+};
+
+const TEAM_IMAGE_FALLBACK =
+  'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800';
+
+const normalizeMember = (member: Partial<AboutMember>, fallbackId: string): AboutMember => ({
+  id: member.id ?? fallbackId,
+  name: String(member.name ?? '').trim(),
+  nameAr: String(member.nameAr ?? '').trim(),
+  role: String(member.role ?? '').trim(),
+  roleAr: String(member.roleAr ?? '').trim(),
+  image: String(member.image ?? '').trim() || TEAM_IMAGE_FALLBACK,
+  bio: String(member.bio ?? '').trim(),
+  bioAr: String(member.bioAr ?? '').trim(),
+  detailedBio: String(member.detailedBio ?? member.bio ?? '').trim(),
+  detailedBioAr: String(member.detailedBioAr ?? member.bioAr ?? '').trim(),
+});
+
 export default function About({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
@@ -18,20 +47,54 @@ export default function About({ lang, content }) {
       .catch(() => setApiTeam([]));
   }, []);
 
-  const mappedTeam = apiTeam.length
-    ? apiTeam.map((member) => ({
+  const fallbackTeamRaw = Array.isArray(t?.about?.team?.members) ? t.about.team.members : [];
+  const fallbackTeam: AboutMember[] = fallbackTeamRaw.map((member, index) =>
+    normalizeMember(member, `fallback-${index}`),
+  );
+
+  const apiMappedTeam: AboutMember[] = apiTeam.map((member, index) =>
+    normalizeMember(
+      {
         id: member.id,
         name: member.name_en,
         nameAr: member.name_ar,
         role: member.role_en,
         roleAr: member.role_ar,
-        image: member.photo_url,
+        image: member.photo_url || '',
         bio: member.bio_en,
         bioAr: member.bio_ar,
         detailedBio: member.bio_en,
         detailedBioAr: member.bio_ar,
-      }))
-    : t.about.team.members;
+      },
+      `api-${index}`,
+    ),
+  );
+
+  const mappedTeam: AboutMember[] = (() => {
+    if (!apiMappedTeam.length) {
+      return fallbackTeam;
+    }
+
+    const fallbackById = new Map<string, AboutMember>();
+    fallbackTeam.forEach((member) => {
+      fallbackById.set(String(member.id), member);
+    });
+
+    const merged = apiMappedTeam.map((member, index) => {
+      const fallback = fallbackById.get(String(member.id));
+      fallbackById.delete(String(member.id));
+      return normalizeMember(
+        {
+          ...fallback,
+          ...member,
+          image: member.image || fallback?.image || TEAM_IMAGE_FALLBACK,
+        },
+        `merged-${index}`,
+      );
+    });
+
+    return [...merged, ...Array.from(fallbackById.values())];
+  })();
 
   // Separate Joumana from board members (by role/name first, then fallback).
   const jumana = mappedTeam.find((member) => {
@@ -44,10 +107,11 @@ export default function About({ lang, content }) {
       roleEn.includes("executive director") ||
       nameAr.includes("جمانة") ||
       nameEn.includes("joumana") ||
-      member?.id === 1
+      nameEn.includes("jumana")
     );
   });
-  const teamMembers = mappedTeam.filter((member) => member.id !== jumana?.id);
+  const executiveMember = jumana ?? mappedTeam[0];
+  const teamMembers = mappedTeam.filter((member) => member.id !== executiveMember?.id);
   
   // Animation variants
   const containerVariants = {
@@ -390,7 +454,7 @@ export default function About({ lang, content }) {
           className="mt-32"
         >
             {/* Executive Director Section - Before team grid */}
-            {jumana && (
+            {executiveMember && (
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -449,8 +513,8 @@ export default function About({ lang, content }) {
                     {/* Image Section */}
                     <div className="md:col-span-2 relative overflow-hidden h-80 md:h-auto">
                       <motion.img
-                        src={jumana.image}
-                        alt={lang === 'ar' ? jumana.nameAr : jumana.name}
+                        src={executiveMember.image}
+                        alt={lang === 'ar' ? executiveMember.nameAr : executiveMember.name}
                         className="w-full h-full object-cover"
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.8 }}
@@ -467,13 +531,13 @@ export default function About({ lang, content }) {
                         transition={{ duration: 0.6, delay: 0.2 }}
                       >
                         <h3 className={`text-3xl lg:text-4xl ${t.serif} font-bold text-[#f7c20e] mb-3`}>
-                          {lang === 'ar' ? jumana.nameAr : jumana.name}
+                          {lang === 'ar' ? executiveMember.nameAr : executiveMember.name}
                         </h3>
                         <p className="text-white/80 text-lg mb-6">
-                          {lang === 'ar' ? jumana.roleAr : jumana.role}
+                          {lang === 'ar' ? executiveMember.roleAr : executiveMember.role}
                         </p>
                         <p className="text-white/90 text-base leading-relaxed mb-8">
-                          {lang === 'ar' ? jumana.bioAr : jumana.bio}
+                          {lang === 'ar' ? executiveMember.bioAr : executiveMember.bio}
                         </p>
                         <motion.div
                           className={`flex items-center gap-3 text-[#f7c20e] font-bold text-lg ${isRTL ? 'flex-row-reverse' : ''}`}
