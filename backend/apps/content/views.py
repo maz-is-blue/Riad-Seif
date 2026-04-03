@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.conf import settings
 from django.core.files.storage import default_storage
+import re
 from .models import SiteSettings, PageContent, TeamMember, NewsUpdate, SiteContentBlob, Job
 from .permissions import AdminSectionPermission, has_permission, has_any_edit_permission
 from .serializers import (
@@ -17,6 +18,69 @@ from .serializers import (
     JobSerializer,
     AdminJobSerializer,
 )
+
+SHARED_MEDIA_KEY_RE = re.compile(
+    r"(image|photo|cover|logo|portrait|hero|background|bg|banner|thumbnail|avatar|icon)",
+    re.IGNORECASE,
+)
+
+
+def _is_plain_object(value):
+    return isinstance(value, dict)
+
+
+def _sync_shared_media_nodes(ar_node, en_node):
+    if isinstance(ar_node, list) or isinstance(en_node, list):
+        ar_arr = ar_node if isinstance(ar_node, list) else []
+        en_arr = en_node if isinstance(en_node, list) else []
+        length = max(len(ar_arr), len(en_arr))
+        next_ar = []
+        next_en = []
+        for i in range(length):
+            synced_ar, synced_en = _sync_shared_media_nodes(
+                ar_arr[i] if i < len(ar_arr) else None,
+                en_arr[i] if i < len(en_arr) else None,
+            )
+            next_ar.append(synced_ar)
+            next_en.append(synced_en)
+        return next_ar, next_en
+
+    if _is_plain_object(ar_node) or _is_plain_object(en_node):
+        ar_obj = ar_node if _is_plain_object(ar_node) else {}
+        en_obj = en_node if _is_plain_object(en_node) else {}
+        keys = set(ar_obj.keys()) | set(en_obj.keys())
+        next_ar = {}
+        next_en = {}
+        for key in keys:
+            ar_value = ar_obj.get(key)
+            en_value = en_obj.get(key)
+            if SHARED_MEDIA_KEY_RE.search(str(key)) and (
+                isinstance(ar_value, str) or isinstance(en_value, str)
+            ):
+                shared_value = str(ar_value or en_value or "")
+                next_ar[key] = shared_value
+                next_en[key] = shared_value
+                continue
+            synced_ar, synced_en = _sync_shared_media_nodes(ar_value, en_value)
+            next_ar[key] = synced_ar
+            next_en[key] = synced_en
+        return next_ar, next_en
+
+    return ar_node, en_node
+
+
+def _sync_shared_media_content(content):
+    if not _is_plain_object(content):
+        return content
+    ar_node = content.get("ar")
+    en_node = content.get("en")
+    if not _is_plain_object(ar_node) or not _is_plain_object(en_node):
+        return content
+    synced_ar, synced_en = _sync_shared_media_nodes(ar_node, en_node)
+    next_content = dict(content)
+    next_content["ar"] = synced_ar
+    next_content["en"] = synced_en
+    return next_content
 
 
 @api_view(['GET'])
@@ -62,7 +126,11 @@ def site_content_blob(request):
     if not has_permission(request.user, "content", "edit"):
         return Response({"detail": "Authentication required."}, status=401)
 
-    serializer = SiteContentBlobSerializer(blob, data=request.data, partial=True)
+    payload = request.data.copy() if hasattr(request.data, "copy") else dict(request.data)
+    if _is_plain_object(payload.get("content")):
+        payload["content"] = _sync_shared_media_content(payload["content"])
+
+    serializer = SiteContentBlobSerializer(blob, data=payload, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)

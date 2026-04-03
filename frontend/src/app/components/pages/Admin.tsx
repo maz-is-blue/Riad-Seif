@@ -367,7 +367,62 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const isSharedMediaPath = (path: Array<string | number>) =>
     typeof path[0] === "string" &&
     ["en", "ar"].includes(path[0] as string) &&
-    /(image|photo|cover|logo|portrait)/i.test(String(path[path.length - 1] ?? ""));
+    /(image|photo|cover|logo|portrait|hero|background|bg|banner|thumbnail|avatar|icon)/i.test(
+      String(path[path.length - 1] ?? ""),
+    );
+
+  const isSharedMediaKey = (key: string) =>
+    /(image|photo|cover|logo|portrait|hero|background|bg|banner|thumbnail|avatar|icon)/i.test(key);
+
+  const syncSharedMediaNodes = (arNode: any, enNode: any): [any, any] => {
+    if (Array.isArray(arNode) || Array.isArray(enNode)) {
+      const arArr = Array.isArray(arNode) ? arNode : [];
+      const enArr = Array.isArray(enNode) ? enNode : [];
+      const length = Math.max(arArr.length, enArr.length);
+      const nextAr = new Array(length);
+      const nextEn = new Array(length);
+      for (let i = 0; i < length; i += 1) {
+        const [syncedAr, syncedEn] = syncSharedMediaNodes(arArr[i], enArr[i]);
+        nextAr[i] = syncedAr;
+        nextEn[i] = syncedEn;
+      }
+      return [nextAr, nextEn];
+    }
+
+    if (isPlainObject(arNode) || isPlainObject(enNode)) {
+      const arObj = isPlainObject(arNode) ? arNode : {};
+      const enObj = isPlainObject(enNode) ? enNode : {};
+      const keys = new Set([...Object.keys(arObj), ...Object.keys(enObj)]);
+      const nextAr: Record<string, unknown> = {};
+      const nextEn: Record<string, unknown> = {};
+
+      keys.forEach((key) => {
+        const arValue = arObj[key];
+        const enValue = enObj[key];
+        if (
+          isSharedMediaKey(key) &&
+          (typeof arValue === "string" || typeof enValue === "string")
+        ) {
+          const sharedValue = String(arValue || enValue || "");
+          nextAr[key] = sharedValue;
+          nextEn[key] = sharedValue;
+          return;
+        }
+        const [syncedAr, syncedEn] = syncSharedMediaNodes(arValue, enValue);
+        nextAr[key] = syncedAr;
+        nextEn[key] = syncedEn;
+      });
+      return [nextAr, nextEn];
+    }
+
+    return [arNode, enNode];
+  };
+
+  const syncSharedMediaContent = (value: any) => {
+    if (!isPlainObject(value) || !value?.ar || !value?.en) return value;
+    const [ar, en] = syncSharedMediaNodes(value.ar, value.en);
+    return { ...value, ar, en };
+  };
 
   const mergeContent = (base: any, override: any): any => {
     if (override === undefined || override === null) return base;
@@ -422,7 +477,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
         };
       }
     });
-    return next;
+    return syncSharedMediaContent(next);
   };
 
   const updateAtPath = (value: any, path: Array<string | number>, nextValue: any) => {
