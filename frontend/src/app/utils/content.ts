@@ -452,6 +452,7 @@ export const content = {
       info: {
           address: "Address",
           addressValue: "Damascus, Syria",
+          mapQuery: "G77V+76M, Damascus, Syria",
           phone: "Phone",
           phoneValue: "+963 961 234 567",
           email: "Email",
@@ -929,6 +930,7 @@ export const content = {
       info: {
           address: "العنوان",
           addressValue: "دمشق، سوريا",
+          mapQuery: "G77V+76M, Damascus, Syria",
           phone: "الهاتف",
           phoneValue: "+963 961 234 567",
           email: "البريد الإلكتروني",

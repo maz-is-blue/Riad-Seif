@@ -24,6 +24,11 @@ export default function Contact({ lang, content }) {
   const contact = t.contact ?? {};
   const contactInfo = contact.info ?? {};
   const social = contact.social ?? {};
+  const mapQuery =
+    contactInfo.mapQuery ??
+    contactInfo.addressValue ??
+    'G77V+76M, Damascus, Syria';
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [focused, setFocused] = useState({ name: false, email: false, message: false });
   const [submitted, setSubmitted] = useState(false);
@@ -280,11 +285,16 @@ export default function Contact({ lang, content }) {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="bg-slate-100 h-64 flex items-center justify-center">
-            <p className="text-slate-400">{lang === 'ar' ? 'خريطة الموقع' : 'Location Map'}</p>
-          </div>
+          <iframe
+            title={lang === 'ar' ? 'خريطة الموقع' : 'Location Map'}
+            src={mapEmbedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-72 border-0"
+          />
         </motion.div>
       </div>
     </div>
   );
 }
+
