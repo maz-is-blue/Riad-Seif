@@ -79,7 +79,7 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       { name: "summary_ar", label: { en: "Summary (AR)", ar: "الملخص (AR)" }, type: "textarea" },
       { name: "content_en", label: { en: "Content (EN)", ar: "المحتوى (EN)" }, type: "textarea" },
       { name: "content_ar", label: { en: "Content (AR)", ar: "المحتوى (AR)" }, type: "textarea" },
-      { name: "image_upload_url", label: { en: "Image URL", ar: "رابط الصورة" } },
+      { name: "image_upload_url", label: { en: "Image URL (Optional)", ar: "رابط الصورة (اختياري)" } },
       { name: "external_link", label: { en: "External Link", ar: "الرابط الخارجي" } },
       { name: "published_date", label: { en: "Published Date", ar: "تاريخ النشر" }, type: "date" },
       { name: "is_featured", label: { en: "Featured", ar: "مميز" }, type: "checkbox" },

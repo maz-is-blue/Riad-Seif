@@ -16,6 +16,7 @@ export default function Home({ lang, content }) {
     summary: string;
     content?: string;
     date?: string;
+    image?: string | null;
   }>(null);
 
   // Slider content
@@ -96,6 +97,7 @@ export default function Home({ lang, content }) {
         date: item.published_date,
         summary: lang === 'ar' ? item.summary_ar : item.summary_en,
         content: lang === 'ar' ? item.content_ar : item.content_en,
+        image: item.image_url ?? null,
       }))
     : t.publications.items.map((item) => ({
         type: item.type,
@@ -103,6 +105,7 @@ export default function Home({ lang, content }) {
         date: item.date,
         summary: item.type,
         content: '',
+        image: null,
       }));
 
   const visibleNewsCards = normalizedNewsCards.length <= 3
@@ -382,6 +385,7 @@ export default function Home({ lang, content }) {
                     summary: item.summary,
                     content: item.content,
                     date: item.date,
+                    image: item.image,
                   })
                 }
               >
@@ -414,6 +418,13 @@ export default function Home({ lang, content }) {
                 <X size={16} className="mx-auto" />
               </button>
             </div>
+            {selectedNews.image ? (
+              <img
+                src={selectedNews.image}
+                alt={selectedNews.title}
+                className="w-full h-64 object-cover rounded-xl mb-4"
+              />
+            ) : null}
             {selectedNews.date ? <div className="text-sm text-slate-500 mb-4">{selectedNews.date}</div> : null}
             <p className="text-slate-700 leading-8 mb-4">{selectedNews.summary}</p>
             {selectedNews.content ? (

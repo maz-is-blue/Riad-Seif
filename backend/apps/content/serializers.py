@@ -171,7 +171,9 @@ class NewsUpdateSerializer(serializers.ModelSerializer):
 
 class NewsUpdateListSerializer(serializers.ModelSerializer):
     """Lightweight serializer for news list."""
-    
+
+    image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = NewsUpdate
         fields = [
@@ -180,9 +182,20 @@ class NewsUpdateListSerializer(serializers.ModelSerializer):
             'title_ar',
             'summary_en',
             'summary_ar',
+            'content_en',
+            'content_ar',
+            'image_url',
             'published_date',
             'is_featured',
         ]
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
 
 
 class SiteContentBlobSerializer(serializers.ModelSerializer):
