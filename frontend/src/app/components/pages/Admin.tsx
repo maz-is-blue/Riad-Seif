@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { content as defaultContent } from "../../utils/content";
 import RichTextEditor from "../RichTextEditor";
 import {
-  fetchSiteContent,
   updateSiteContent,
   loginAdmin,
   uploadMedia,
@@ -566,45 +565,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
       })
       .finally(() => {
         setSaving(false);
-      });
-  };
-
-  const handleReset = () => {
-    if (!token) {
-      setStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
-      return;
-    }
-    if (!isSuperAdmin && !adminPermissions?.content?.edit) {
-      setStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
-      return;
-    }
-    updateSiteContent(defaultContent as unknown as Record<string, unknown>, token)
-      .then(() => {
-        const normalized = normalizeContentForAdmin(defaultContent as SiteContent);
-        onContentUpdate(normalized as SiteContent);
-        setDraft(normalized as SiteContent);
-        setStatus(isRTL ? "تمت إعادة الضبط إلى القيم الافتراضية." : "Reset to defaults.");
-      })
-      .catch(() => {
-        setStatus(isRTL ? "فشلت إعادة الضبط." : "Reset failed.");
-      });
-  };
-
-  const handleLoadServer = () => {
-    fetchSiteContent()
-      .then((response) => {
-        const payload = response?.content;
-        if (payload && Object.keys(payload).length > 0) {
-          const merged = normalizeContentForAdmin(mergeContent(defaultContent as SiteContent, payload as SiteContent));
-          setDraft(merged as SiteContent);
-          onContentUpdate(merged as SiteContent);
-          setStatus(isRTL ? "تم التحميل من الخادم." : "Loaded from server.");
-        } else {
-          setStatus(isRTL ? "لا يوجد محتوى محفوظ على الخادم." : "No server content found.");
-        }
-      })
-      .catch(() => {
-        setStatus(isRTL ? "فشل التحميل من الخادم." : "Failed to load from server.");
       });
   };
 
@@ -1181,7 +1141,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
                   {isRTL ? "المحتوى الديناميكي" : "Dynamic Data"}
                 </div>
                 <div className="flex flex-col gap-2">
-                  {(Object.keys(resourceConfigs) as ResourceKey[]).map((key) => {
+                  {(Object.keys(resourceConfigs) as ResourceKey[])
+                    .filter((key) => key !== "team")
+                    .map((key) => {
                     const isActive = activeMode === "resource" && activeResourceKey === key;
                     return (
                       <button
@@ -1249,22 +1211,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
                   >
                     {saving ? (isRTL ? "جارٍ الحفظ..." : "Saving...") : isRTL ? "حفظ التغييرات" : "Save Changes"}
                   </button>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <button
-                      type="button"
-                      className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-3 hover:bg-slate-100"
-                      onClick={handleLoadServer}
-                    >
-                      {isRTL ? "تحميل من الخادم" : "Load From Server"}
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full rounded-lg border border-red-200 text-red-700 px-4 py-3 hover:bg-red-50"
-                      onClick={handleReset}
-                    >
-                      {isRTL ? "إعادة الضبط" : "Reset to Default"}
-                    </button>
-                  </div>
                   <button
                     type="button"
                     className="w-full rounded-lg border border-slate-300 text-slate-700 px-4 py-2 hover:bg-slate-100"
