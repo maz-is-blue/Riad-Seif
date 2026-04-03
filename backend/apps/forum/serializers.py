@@ -31,6 +31,7 @@ class EventSerializer(serializers.ModelSerializer):
     is_upcoming = serializers.BooleanField(read_only=True)
     is_past = serializers.BooleanField(read_only=True)
     cover_url = serializers.SerializerMethodField()
+    cover_image = serializers.ImageField(write_only=True, required=False, allow_null=True)
     cover_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
     
     class Meta:
@@ -50,12 +51,24 @@ class EventSerializer(serializers.ModelSerializer):
             'online_link',
             'registration_url',
             'cover_url',
+            'cover_image',
             'cover_upload_url',
             'is_upcoming',
             'is_past',
             'is_featured',
             'is_published',
         ]
+
+    def validate_cover_image(self, value):
+        if not value:
+            return value
+        max_size = getattr(settings, "MAX_UPLOAD_SIZE", 100 * 1024 * 1024)
+        max_size_mb = getattr(settings, "MAX_UPLOAD_SIZE_MB", 100)
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                f"Image is too large. Maximum allowed size is {max_size_mb} MB."
+            )
+        return value
     
     def get_cover_url(self, obj):
         if obj.cover_image:
@@ -104,6 +117,7 @@ class EventListSerializer(serializers.ModelSerializer):
 
 class MemoryPhotoSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
+    image = serializers.ImageField(write_only=True, required=False, allow_null=True)
     image_upload_url = serializers.CharField(write_only=True, required=False, allow_blank=True)
 
     class Meta:
@@ -115,11 +129,23 @@ class MemoryPhotoSerializer(serializers.ModelSerializer):
             "description_en",
             "description_ar",
             "image_url",
+            "image",
             "image_upload_url",
             "date",
             "is_published",
             "order",
         ]
+
+    def validate_image(self, value):
+        if not value:
+            return value
+        max_size = getattr(settings, "MAX_UPLOAD_SIZE", 100 * 1024 * 1024)
+        max_size_mb = getattr(settings, "MAX_UPLOAD_SIZE_MB", 100)
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                f"Image is too large. Maximum allowed size is {max_size_mb} MB."
+            )
+        return value
 
     def get_image_url(self, obj):
         if obj.image:

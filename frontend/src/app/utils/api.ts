@@ -127,11 +127,26 @@ type ContactPayload = {
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, init);
-  const payload = await response.json().catch(() => null);
+  const rawText = await response.text().catch(() => "");
+  const payload = rawText ? (() => {
+    try {
+      return JSON.parse(rawText);
+    } catch {
+      return null;
+    }
+  })() : null;
   if (!response.ok) {
-    throw { status: response.status, ...(payload ?? {}) };
+    const detailFromPayload =
+      (payload && typeof payload === "object" && "detail" in payload && typeof (payload as any).detail === "string")
+        ? (payload as any).detail
+        : "";
+    const detail =
+      detailFromPayload ||
+      `${response.status} ${response.statusText}`.trim() ||
+      "Request failed";
+    throw { status: response.status, detail, ...(payload ?? {}) };
   }
-  return payload as T;
+  return (payload ?? (rawText as unknown)) as T;
 }
 
 function normalizeList<T>(payload: T[] | PaginatedResponse<T>) {
