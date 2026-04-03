@@ -3,75 +3,142 @@ import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 
+const fallbackCenterData = {
+  en: {
+    features: [
+      { title: 'Specialized Curriculum', desc: 'Training programs tailored to Syrian context', color: '#f7c20e' },
+      { title: 'Local Experts', desc: 'Experienced trainers and advisors', color: '#1c3944' },
+      { title: 'Certified Programs', desc: 'Internationally recognized certificates', color: '#2c1d5f' },
+      { title: 'Practical Application', desc: 'Real-world exercises and case studies', color: '#0d9488' },
+    ],
+    stats: [
+      { value: '500+', label: 'Trainees' },
+      { value: '50+', label: 'Programs' },
+      { value: '100%', label: 'Satisfaction' },
+    ],
+    curriculumItems: [
+      {
+        id: 1,
+        name: 'Human Rights Law',
+        description:
+          'A comprehensive program covering international human rights law, frameworks, and conventions. Participants will learn about the Universal Declaration of Human Rights, regional human rights systems, and how to apply these principles in the Syrian context. The course includes case studies, practical exercises, and interactive discussions with experienced legal practitioners.',
+      },
+      {
+        id: 2,
+        name: 'Transitional Justice',
+        description:
+          'An in-depth exploration of transitional justice mechanisms including truth commissions, reparations, institutional reform, and guarantees of non-recurrence. This program examines international experiences and adapts best practices to the Syrian transition context. Participants will develop practical skills in documentation, victim-centered approaches, and accountability mechanisms.',
+      },
+      {
+        id: 3,
+        name: "Women's Rights",
+        description:
+          "A focused program on gender justice, women's rights frameworks, and feminist legal theory. Topics include CEDAW, UN Security Council Resolution 1325, gender-based violence, women's political participation, and economic empowerment. The course emphasizes the crucial role of women in peacebuilding and democratic transitions, with specific attention to Syrian women's experiences.",
+      },
+      {
+        id: 4,
+        name: 'Advocacy',
+        description:
+          'A practical training on advocacy strategies, campaign design, stakeholder engagement, and strategic communication. Participants will learn how to develop advocacy plans, build coalitions, engage with media, and leverage national and international mechanisms for human rights protection. The program includes hands-on exercises in public speaking, policy brief writing, and digital advocacy.',
+      },
+    ],
+    detailsLabel: 'Details',
+    programLabel: 'Training Program',
+    participationPrompt: 'Interested in participating in this program?',
+    contactCta: 'Contact Us',
+  },
+  ar: {
+    features: [
+      { title: 'مناهج متخصصة', desc: 'برامج تدريبية مصممة للسياق السوري', color: '#f7c20e' },
+      { title: 'خبراء محليون', desc: 'مدربون ومستشارون من ذوي الخبرة', color: '#1c3944' },
+      { title: 'شهادات معتمدة', desc: 'شهادات معترف بها دولياً', color: '#2c1d5f' },
+      { title: 'تطبيق عملي', desc: 'تمارين وحالات دراسية واقعية', color: '#0d9488' },
+    ],
+    stats: [
+      { value: '500+', label: 'متدرب' },
+      { value: '50+', label: 'برنامج' },
+      { value: '100%', label: 'رضا المتدربين' },
+    ],
+    curriculumItems: [
+      {
+        id: 1,
+        name: 'قانون حقوق الإنسان',
+        description:
+          'برنامج شامل يغطي القانون الدولي لحقوق الإنسان والأطر والاتفاقيات. سيتعلم المشاركون عن الإعلان العالمي لحقوق الإنسان، وأنظمة حقوق الإنسان الإقليمية، وكيفية تطبيق هذه المبادئ في السياق السوري. يتضمن الدورة دراسات حالة، وتمارين عملية، ومناقشات تفاعلية مع ممارسين قانونيين ذوي خبرة.',
+      },
+      {
+        id: 2,
+        name: 'العدالة الانتقالية',
+        description:
+          'استكشاف متعمق لآليات العدالة الانتقالية بما في ذلك لجان الحقيقة، والتعويضات، والإصلاح المؤسسي، وضمانات عدم التكرار. يدرس هذا البرنامج التجارب الدولية ويكيف أفضل الممارسات مع سياق الانتقال السوري. سيطور المشاركون مهارات عملية في التوثيق، والنهج المتمحور حول الضحايا، وآليات المساءلة.',
+      },
+      {
+        id: 3,
+        name: 'حقوق المرأة',
+        description:
+          'برنامج مركز على العدالة الجندرية، وأطر حقوق المرأة، والنظرية القانونية النسوية. تشمل المواضيع اتفاقية القضاء على جميع أشكال التمييز ضد المرأة، وقرار مجلس الأمن رقم 1325، والعنف القائم على النوع الاجتماعي، والمشاركة السياسية للمرأة، والتمكين الاقتصادي. تركز الدورة على الدور الحاسم للمرأة في بناء السلام والانتقالات الديمقراطية، مع اهتمام خاص بتجارب النساء السوريات.',
+      },
+      {
+        id: 4,
+        name: 'المناصرة والدفاع',
+        description:
+          'تدريب عملي على استراتيجيات المناصرة، وتصميم الحملات، والتواصل مع أصحاب المصلحة، والتواصل الاستراتيجي. سيتعلم المشاركون كيفية تطوير خطط المناصرة، وبناء التحالفات، والتعامل مع وسائل الإعلام، والاستفادة من الآليات الوطنية والدولية لحماية حقوق الإنسان. يتضمن البرنامج تمارين عملية في الخطابة العامة، وكتابة ملخصات السياسات، والمناصرة الرقمية.',
+      },
+    ],
+    detailsLabel: 'التفاصيل',
+    programLabel: 'برنامج تدريبي',
+    participationPrompt: 'هل أنت مهتم بالمشاركة في هذا البرنامج؟',
+    contactCta: 'تواصل معنا',
+  },
+};
+
 export default function Center({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<any>(null);
+  const localeFallback = fallbackCenterData[lang] ?? fallbackCenterData.en;
+  const iconSet = [BookOpen, Users, Award, Target];
 
-  const features = [
-    {
-      icon: BookOpen,
-      title: lang === 'ar' ? 'مناهج متخصصة' : 'Specialized Curriculum',
-      desc: lang === 'ar' ? 'برامج تدريبية مصممة للسياق السوري' : 'Training programs tailored to Syrian context',
-      color: '#f7c20e'
-    },
-    {
-      icon: Users,
-      title: lang === 'ar' ? 'خبراء محليون' : 'Local Experts',
-      desc: lang === 'ar' ? 'مدربون ومستشارون من ذوي الخبرة' : 'Experienced trainers and advisors',
-      color: '#1c3944'
-    },
-    {
-      icon: Award,
-      title: lang === 'ar' ? 'شهادات معتمدة' : 'Certified Programs',
-      desc: lang === 'ar' ? 'شهادات معترف بها دولياً' : 'Internationally recognized certificates',
-      color: '#2c1d5f'
-    },
-    {
-      icon: Target,
-      title: lang === 'ar' ? 'تطبيق عملي' : 'Practical Application',
-      desc: lang === 'ar' ? 'تمارين وحالات دراسية واقعية' : 'Real-world exercises and case studies',
-      color: '#0d9488'
-    }
-  ];
+  const features =
+    Array.isArray(t?.center?.features) && t.center.features.length > 0
+      ? t.center.features.map((feature: any, idx: number) => ({
+          icon: iconSet[idx % iconSet.length],
+          title: feature?.title ?? '',
+          desc: feature?.desc ?? '',
+          color: feature?.color ?? '#1c3944',
+        }))
+      : localeFallback.features.map((feature, idx) => ({
+          ...feature,
+          icon: iconSet[idx % iconSet.length],
+        }));
 
-  const stats = [
-    { value: '500+', label: lang === 'ar' ? 'متدرب' : 'Trainees', delay: 0.2 },
-    { value: '50+', label: lang === 'ar' ? 'برنامج' : 'Programs', delay: 0.4 },
-    { value: '100%', label: lang === 'ar' ? 'رضا المتدربين' : 'Satisfaction', delay: 0.6 }
-  ];
+  const stats =
+    Array.isArray(t?.center?.stats) && t.center.stats.length > 0
+      ? t.center.stats.map((stat: any, idx: number) => ({
+          value: stat?.value ?? '',
+          label: stat?.label ?? '',
+          delay: 0.2 + idx * 0.2,
+        }))
+      : localeFallback.stats.map((stat, idx) => ({
+          ...stat,
+          delay: 0.2 + idx * 0.2,
+        }));
 
-  const trainingPrograms = [
-    {
-      id: 1,
-      name: 'Human Rights Law',
-      nameAr: 'قانون حقوق الإنسان',
-      description: 'A comprehensive program covering international human rights law, frameworks, and conventions. Participants will learn about the Universal Declaration of Human Rights, regional human rights systems, and how to apply these principles in the Syrian context. The course includes case studies, practical exercises, and interactive discussions with experienced legal practitioners.',
-      descriptionAr: 'برنامج شامل يغطي القانون الدولي لحقوق الإنسان والأطر والاتفاقيات. سيتعلم المشاركون عن الإعلان العالمي لحقوق الإنسان، وأنظمة حقوق الإنسان الإقليمية، وكيفية تطبيق هذه المبادئ في السياق السوري. يتضمن الدورة دراسات حالة، وتمارين عملية، ومناقشات تفاعلية مع ممارسين قانونيين ذوي خبرة.'
-    },
-    {
-      id: 2,
-      name: 'Transitional Justice',
-      nameAr: 'العدالة الانتقالية',
-      description: 'An in-depth exploration of transitional justice mechanisms including truth commissions, reparations, institutional reform, and guarantees of non-recurrence. This program examines international experiences and adapts best practices to the Syrian transition context. Participants will develop practical skills in documentation, victim-centered approaches, and accountability mechanisms.',
-      descriptionAr: 'استكشاف متعمق لآليات العدالة الانتقالية بما في ذلك لجان الحقيقة، والتعويضات، والإصلاح المؤسسي، وضمانات عدم التكرار. يدرس هذا البرنامج التجارب الدولية ويكيف أفضل الممارسات مع سياق الانتقال السوري. سيطور المشاركون مهارات عملية في التوثيق، والنهج المتمحور حول الضحايا، وآليات المساءلة.'
-    },
-    {
-      id: 3,
-      name: 'Women\'s Rights',
-      nameAr: 'حقوق المرأة',
-      description: 'A focused program on gender justice, women\'s rights frameworks, and feminist legal theory. Topics include CEDAW, UN Security Council Resolution 1325, gender-based violence, women\'s political participation, and economic empowerment. The course emphasizes the crucial role of women in peacebuilding and democratic transitions, with specific attention to Syrian women\'s experiences.',
-      descriptionAr: 'برنامج مركز على العدالة الجندرية، وأطر حقوق المرأة، والنظرية القانونية النسوية. تشمل المواضيع اتفاقية القضاء على جميع أشكال التمييز ضد المرأة، وقرار مجلس الأمن رقم 1325، والعنف القائم على النوع الاجتماعي، والمشاركة السياسية للمرأة، والتمكين الاقتصادي. تركز الدورة على الدور الحاسم للمرأة في بناء السلام والانتقالات الديمقراطية، مع اهتمام خاص بتجارب النساء السوريات.'
-    },
-    {
-      id: 4,
-      name: 'Advocacy',
-      nameAr: 'المناصرة والدفاع',
-      description: 'A practical training on advocacy strategies, campaign design, stakeholder engagement, and strategic communication. Participants will learn how to develop advocacy plans, build coalitions, engage with media, and leverage national and international mechanisms for human rights protection. The program includes hands-on exercises in public speaking, policy brief writing, and digital advocacy.',
-      descriptionAr: 'تدريب عملي على استراتيجيات المناصرة، وتصميم الحملات، والتواصل مع أصحاب المصلحة، والتواصل الاستراتيجي. سيتعلم المشاركون كيفية تطوير خطط المناصرة، وبناء التحالفات، والتعامل مع وسائل الإعلام، والاستفادة من الآليات الوطنية والدولية لحماية حقوق الإنسان. يتضمن البرنامج تمارين عملية في الخطابة العامة، وكتابة ملخصات السياسات، والمناصرة الرقمية.'
-    }
-  ];
+  const trainingPrograms =
+    Array.isArray(t?.center?.curriculum?.items) && t.center.curriculum.items.length > 0
+      ? t.center.curriculum.items.map((program: any, idx: number) => ({
+          id: program?.id ?? idx + 1,
+          name: program?.name ?? '',
+          description: program?.description ?? '',
+        }))
+      : localeFallback.curriculumItems;
+
+  const detailsLabel = t?.center?.curriculum?.detailsLabel ?? localeFallback.detailsLabel;
+  const programLabel = t?.center?.curriculum?.programLabel ?? localeFallback.programLabel;
+  const participationPrompt =
+    t?.center?.curriculum?.participationPrompt ?? localeFallback.participationPrompt;
+  const contactCta = t?.center?.curriculum?.contactCta ?? localeFallback.contactCta;
   
   return (
     <div className="bg-white">
@@ -253,13 +320,13 @@ export default function Center({ lang, content }) {
                                 >
                                   <CheckCircle size={18} className="text-[#f7c20e]" />
                                 </motion.div>
-                                <span className="font-medium">{lang === 'ar' ? program.nameAr : program.name}</span>
+                                <span className="font-medium">{program.name}</span>
                               </div>
                               <motion.span 
                                 className="text-[#f7c20e] text-sm font-semibold"
                                 whileHover={{ x: isRTL ? -3 : 3 }}
                               >
-                                {lang === 'ar' ? 'التفاصيل →' : 'Details →'}
+                                {detailsLabel} →
                               </motion.span>
                           </motion.li>
                       ))}
@@ -433,7 +500,7 @@ export default function Center({ lang, content }) {
                      transition={{ delay: 0.3 }}
                      className="text-[#f7c20e] font-semibold uppercase tracking-wider text-sm mb-2"
                    >
-                     {lang === 'ar' ? 'برنامج تدريبي' : 'Training Program'}
+                     {programLabel}
                    </motion.p>
                    <motion.h2
                      initial={{ opacity: 0, y: 10 }}
@@ -441,7 +508,7 @@ export default function Center({ lang, content }) {
                      transition={{ delay: 0.4 }}
                      className={`text-3xl lg:text-4xl ${t.serif} font-bold`}
                    >
-                     {lang === 'ar' ? selectedProgram.nameAr : selectedProgram.name}
+                     {selectedProgram.name}
                    </motion.h2>
                  </div>
                </div>
@@ -458,7 +525,7 @@ export default function Center({ lang, content }) {
                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#f7c20e] rounded-full"></div>
                    
                    <p className="text-slate-700 text-lg leading-relaxed pl-6">
-                     {lang === 'ar' ? selectedProgram.descriptionAr : selectedProgram.description}
+                     {selectedProgram.description}
                    </p>
                  </motion.div>
 
@@ -470,7 +537,7 @@ export default function Center({ lang, content }) {
                    className="mt-10 pt-8 border-t border-slate-200"
                  >
                    <p className="text-slate-600 mb-6 text-center">
-                     {lang === 'ar' ? 'هل أنت مهتم بالمشاركة في هذا البرنامج؟' : 'Interested in participating in this program?'}
+                     {participationPrompt}
                    </p>
                    <Link href="/contact">
                      <motion.button
@@ -480,7 +547,7 @@ export default function Center({ lang, content }) {
                        onClick={() => setSelectedProgram(null)}
                      >
                        <TrendingUp size={20} />
-                       {lang === 'ar' ? 'تواصل معنا' : 'Contact Us'}
+                       {contactCta}
                      </motion.button>
                    </Link>
                  </motion.div>

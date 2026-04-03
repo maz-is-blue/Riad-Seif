@@ -315,9 +315,46 @@ export const content = {
           title: "Building Skills for Justice & Inclusion",
           text: "The Human Rights Center is the capacity-building hub of the Foundation. We invest in young lawyers and defenders to engage in transitional justice. Through training, mentoring, and networking, we equip a new generation of leaders."
       },
+      stats: [
+          { value: "500+", label: "Trainees" },
+          { value: "50+", label: "Programs" },
+          { value: "100%", label: "Satisfaction" }
+      ],
+      features: [
+          { title: "Specialized Curriculum", desc: "Training programs tailored to Syrian context", color: "#f7c20e" },
+          { title: "Local Experts", desc: "Experienced trainers and advisors", color: "#1c3944" },
+          { title: "Certified Programs", desc: "Internationally recognized certificates", color: "#2c1d5f" },
+          { title: "Practical Application", desc: "Real-world exercises and case studies", color: "#0d9488" }
+      ],
       curriculum: {
           title: "Human Rights Training Curriculum",
-          text: "Tailored to the Syrian context, covering human rights law, women's rights frameworks, transitional justice pillars (truth, justice, reparations, non-recurrence), and advocacy methodologies."
+          text: "Tailored to the Syrian context, covering human rights law, women's rights frameworks, transitional justice pillars (truth, justice, reparations, non-recurrence), and advocacy methodologies.",
+          detailsLabel: "Details",
+          programLabel: "Training Program",
+          participationPrompt: "Interested in participating in this program?",
+          contactCta: "Contact Us",
+          items: [
+              {
+                  id: 1,
+                  name: "Human Rights Law",
+                  description: "A comprehensive program covering international human rights law, frameworks, and conventions. Participants will learn about the Universal Declaration of Human Rights, regional human rights systems, and how to apply these principles in the Syrian context. The course includes case studies, practical exercises, and interactive discussions with experienced legal practitioners."
+              },
+              {
+                  id: 2,
+                  name: "Transitional Justice",
+                  description: "An in-depth exploration of transitional justice mechanisms including truth commissions, reparations, institutional reform, and guarantees of non-recurrence. This program examines international experiences and adapts best practices to the Syrian transition context. Participants will develop practical skills in documentation, victim-centered approaches, and accountability mechanisms."
+              },
+              {
+                  id: 3,
+                  name: "Women's Rights",
+                  description: "A focused program on gender justice, women's rights frameworks, and feminist legal theory. Topics include CEDAW, UN Security Council Resolution 1325, gender-based violence, women's political participation, and economic empowerment. The course emphasizes the crucial role of women in peacebuilding and democratic transitions, with specific attention to Syrian women's experiences."
+              },
+              {
+                  id: 4,
+                  name: "Advocacy",
+                  description: "A practical training on advocacy strategies, campaign design, stakeholder engagement, and strategic communication. Participants will learn how to develop advocacy plans, build coalitions, engage with media, and leverage national and international mechanisms for human rights protection. The program includes hands-on exercises in public speaking, policy brief writing, and digital advocacy."
+              }
+          ]
       },
       training: {
           title: "Training Programs",
@@ -755,9 +792,46 @@ export const content = {
           title: "بناء القدرات من أجل العدالة والشمول",
           text: "مركز حقوق الإنسان هو مركز بناء القدرات في المؤسسة. نستثمر في المحامين والمدافعين الشباب للانخراط في العدالة الانتقالية. من خلال التدريب والتوجيه والتشبيك، نعد جيلاً جديداً من القادة."
       },
+      stats: [
+          { value: "500+", label: "متدرب" },
+          { value: "50+", label: "برنامج" },
+          { value: "100%", label: "رضا المتدربين" }
+      ],
+      features: [
+          { title: "مناهج متخصصة", desc: "برامج تدريبية مصممة للسياق السوري", color: "#f7c20e" },
+          { title: "خبراء محليون", desc: "مدربون ومستشارون من ذوي الخبرة", color: "#1c3944" },
+          { title: "شهادات معتمدة", desc: "شهادات معترف بها دولياً", color: "#2c1d5f" },
+          { title: "تطبيق عملي", desc: "تمارين وحالات دراسية واقعية", color: "#0d9488" }
+      ],
       curriculum: {
           title: "مناهج التدريب على حقوق الإنسان",
-          text: "مصممة للسياق السوري، تغطي قانون حقوق الإنسان، أطر حقوق المرأة، ركائز العدالة الانتقالية (الحقيقة، العدالة، جبر الضرر، عدم التكرار)، ومنهجيات المناصرة."
+          text: "مصممة للسياق السوري، تغطي قانون حقوق الإنسان، أطر حقوق المرأة، ركائز العدالة الانتقالية (الحقيقة، العدالة، جبر الضرر، عدم التكرار)، ومنهجيات المناصرة.",
+          detailsLabel: "التفاصيل",
+          programLabel: "برنامج تدريبي",
+          participationPrompt: "هل أنت مهتم بالمشاركة في هذا البرنامج؟",
+          contactCta: "تواصل معنا",
+          items: [
+              {
+                  id: 1,
+                  name: "قانون حقوق الإنسان",
+                  description: "برنامج شامل يغطي القانون الدولي لحقوق الإنسان والأطر والاتفاقيات. سيتعلم المشاركون عن الإعلان العالمي لحقوق الإنسان، وأنظمة حقوق الإنسان الإقليمية، وكيفية تطبيق هذه المبادئ في السياق السوري. يتضمن الدورة دراسات حالة، وتمارين عملية، ومناقشات تفاعلية مع ممارسين قانونيين ذوي خبرة."
+              },
+              {
+                  id: 2,
+                  name: "العدالة الانتقالية",
+                  description: "استكشاف متعمق لآليات العدالة الانتقالية بما في ذلك لجان الحقيقة، والتعويضات، والإصلاح المؤسسي، وضمانات عدم التكرار. يدرس هذا البرنامج التجارب الدولية ويكيف أفضل الممارسات مع سياق الانتقال السوري. سيطور المشاركون مهارات عملية في التوثيق، والنهج المتمحور حول الضحايا، وآليات المساءلة."
+              },
+              {
+                  id: 3,
+                  name: "حقوق المرأة",
+                  description: "برنامج مركز على العدالة الجندرية، وأطر حقوق المرأة، والنظرية القانونية النسوية. تشمل المواضيع اتفاقية القضاء على جميع أشكال التمييز ضد المرأة، وقرار مجلس الأمن رقم 1325، والعنف القائم على النوع الاجتماعي، والمشاركة السياسية للمرأة، والتمكين الاقتصادي. تركز الدورة على الدور الحاسم للمرأة في بناء السلام والانتقالات الديمقراطية، مع اهتمام خاص بتجارب النساء السوريات."
+              },
+              {
+                  id: 4,
+                  name: "المناصرة والدفاع",
+                  description: "تدريب عملي على استراتيجيات المناصرة، وتصميم الحملات، والتواصل مع أصحاب المصلحة، والتواصل الاستراتيجي. سيتعلم المشاركون كيفية تطوير خطط المناصرة، وبناء التحالفات، والتعامل مع وسائل الإعلام، والاستفادة من الآليات الوطنية والدولية لحماية حقوق الإنسان. يتضمن البرنامج تمارين عملية في الخطابة العامة، وكتابة ملخصات السياسات، والمناصرة الرقمية."
+              }
+          ]
       },
       training: {
           title: "برامج التدريب",
