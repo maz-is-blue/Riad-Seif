@@ -58,42 +58,16 @@ export default function Forum({ lang, content }) {
     return { key: raw || 'event', label: lang === 'ar' ? 'فعالية' : 'Event', icon: Users };
   };
 
-  const fallbackEvents = [
-    {
-      date: lang === 'ar' ? 'يناير 2025' : 'January 2025',
-      title: lang === 'ar' ? 'الجلسة 45: دور الشباب في الحكم المحلي' : 'Session 45: Youth Role in Local Governance',
-      key: 'online',
-      type: lang === 'ar' ? 'عبر الإنترنت' : 'Online',
-      icon: Video
-    },
-    {
-      date: lang === 'ar' ? 'فبراير 2025' : 'February 2025',
-      title: lang === 'ar' ? 'ورشة عمل: بناء السلام المجتمعي' : 'Workshop: Community Peacebuilding',
-      key: 'in_person',
-      type: lang === 'ar' ? 'حضوري' : 'In-Person',
-      icon: Users
-    },
-    {
-      date: lang === 'ar' ? 'مارس 2025' : 'March 2025',
-      title: lang === 'ar' ? 'حوار مفتوح: المرأة والإصلاح الدستوري' : 'Open Dialogue: Women and Constitutional Reform',
-      key: 'hybrid',
-      type: lang === 'ar' ? 'هجيني' : 'Hybrid',
-      icon: Globe
-    }
-  ];
-
-  const upcomingEvents = apiEvents.length
-    ? apiEvents.map((event) => {
-        const type = resolveEventType(event);
-        return {
-          key: type.key,
-          date: formatDate(event.date),
-          title: lang === 'ar' ? event.title_ar : event.title_en,
-          type: type.label,
-          icon: type.icon,
-        };
-      })
-    : fallbackEvents;
+  const upcomingEvents = apiEvents.map((event) => {
+    const type = resolveEventType(event);
+    return {
+      key: type.key,
+      date: formatDate(event.date),
+      title: lang === 'ar' ? event.title_ar : event.title_en,
+      type: type.label,
+      icon: type.icon,
+    };
+  });
 
   const eventFilterOptions = useMemo(() => {
     const keys = Array.from(new Set(upcomingEvents.map((event) => event.key)));
@@ -104,169 +78,30 @@ export default function Forum({ lang, content }) {
     ? upcomingEvents
     : upcomingEvents.filter((event) => event.key === eventFilter);
 
-  const memoryPhotos = apiMemory.length
-    ? apiMemory.map((photo) => ({
-        id: photo.id,
-        image: photo.image_url,
-        date: photo.date,
-        title: photo.title_en,
-        titleAr: photo.title_ar,
-        description: photo.description_en,
-        descriptionAr: photo.description_ar,
-      }))
-    : [
-    {
-      id: 1,
-      image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'مارس 2024' : 'March 2024',
-      title: lang === 'ar' ? 'جلسة حول العدالة الانتقالية' : 'Session on Transitional Justice',
-      titleAr: 'جلسة حول العدالة الانتقالية',
-      description: 'A powerful dialogue session featuring civil society activists, lawyers, and survivors discussing pathways to accountability and reconciliation. Over 50 participants engaged in meaningful conversations about truth, justice, and guarantees of non-recurrence.',
-      descriptionAr: 'جلسة حوارية جمعت ناشطين ومحامين وناجين لمناقشة سبل المساءلة والمصالحة، مع تركيز على الحقيقة والعدالة وضمانات عدم التكرار.'
-    },
-    {
-      id: 2,
-      image: 'https://images.unsplash.com/photo-1560523159-4a9692d222ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'يناير 2024' : 'January 2024',
-      title: lang === 'ar' ? 'ورشة عمل: دور المرأة في بناء السلام' : 'Workshop: Women\'s Role in Peacebuilding',
-      titleAr: 'ورشة عمل: دور المرأة في بناء السلام',
-      description: 'An intensive workshop bringing together women leaders and activists to discuss strategies for inclusive political participation and constitutional reform. The event emphasized the critical role of women in Syria\'s democratic transition.',
-      descriptionAr: 'ورشة عمل جمعت قيادات نسوية وناشطات لمناقشة المشاركة السياسية الشاملة والإصلاح الدستوري، مع التأكيد على الدور الحاسم للمرأة في الانتقال الديمقراطي.'
-    },
-    {
-      id: 3,
-      image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'نوفمبر 2023' : 'November 2023',
-      title: lang === 'ar' ? 'لقاء مع خبراء دوليين' : 'Meeting with International Experts',
-      titleAr: 'لقاء مع خبراء دوليين',
-      description: 'Forum members met with international experts on democratic transitions and human rights to exchange experiences and learn from best practices in post-conflict contexts around the world.',
-      descriptionAr: 'التقى أعضاء المنتدى بخبراء دوليين في الانتقالات الديمقراطية وحقوق الإنسان لتبادل الخبرات والتعلم من أفضل الممارسات في سياقات ما بعد النزاع.'
-    },
-    {
-      id: 4,
-      image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'سبتمبر 2023' : 'September 2023',
-      title: lang === 'ar' ? 'احتفال الذكرى السنوية الأولى' : 'First Anniversary Celebration',
-      titleAr: 'احتفال الذكرى السنوية الأولى',
-      description: 'The Forum celebrated its first anniversary with a special event honoring Riad Seif\'s legacy and the Damascus Spring. Prominent civil society figures and activists gathered to reflect on achievements and plan future initiatives.',
-      descriptionAr: 'احتفل المنتدى بذكراه السنوية الأولى في فعالية خاصة استحضرت إرث رياض سيف وربيع دمشق، وناقشت الإنجازات والمبادرات القادمة.'
-    },
-    {
-      id: 5,
-      image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'يوليو 2023' : 'July 2023',
-      title: lang === 'ar' ? 'حلقة نقاش: الحكم المحلي والإصلاح' : 'Panel: Local Governance and Reform',
-      titleAr: 'حلقة نقاش: الحكم المحلي والإصلاح',
-      description: 'A panel discussion exploring models of local governance, decentralization, and civic participation. Experts and community leaders shared insights on building accountable institutions from the ground up.',
-      descriptionAr: 'حلقة نقاش استكشفت نماذج الحكم المحلي واللامركزية والمشاركة المدنية، وطرحت رؤى حول بناء مؤسسات خاضعة للمساءلة من القاعدة إلى القمة.'
-    },
-    {
-      id: 6,
-      image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      date: lang === 'ar' ? 'مايو 2023' : 'May 2023',
-      title: lang === 'ar' ? 'جلسة الشباب: بناء المستقبل' : 'Youth Session: Building the Future',
-      titleAr: 'جلسة الشباب: بناء المستقبل',
-      description: 'A special session dedicated to young activists and students, focusing on youth leadership, civic education, and intergenerational dialogue. The event emphasized the vital role of young people in shaping Syria\'s democratic future.',
-      descriptionAr: 'جلسة مخصصة للناشطين الشباب والطلاب ركزت على القيادة الشابة والتربية المدنية والحوار بين الأجيال، وأكدت دور الشباب في تشكيل مستقبل سوريا الديمقراطي.'
-    }
-  ];
+  const memoryPhotos = apiMemory.map((photo) => ({
+    id: photo.id,
+    image: photo.image_url,
+    date: photo.date,
+    title: photo.title_en,
+    titleAr: photo.title_ar,
+    description: photo.description_en,
+    descriptionAr: photo.description_ar,
+  }));
 
-  const archiveItems = apiArchive.length
-    ? apiArchive.map((item) => ({
-        id: item.id,
-        title: lang === 'ar' ? item.title_ar : item.title_en,
-        titleAr: item.title_ar,
-        description: lang === 'ar' ? item.description_ar : item.description_en,
-        descriptionAr: item.description_ar,
-        date: item.date,
-        link: item.external_link,
-      }))
-    : [
-    {
-      id: 1,
-      type: lang === 'ar' ? 'مقال' : 'Article',
-      title: lang === 'ar' ? 'منتدى رياض سيف: إحياء روح ربيع دمشق' : 'Riad Seif Forum: Reviving the Spirit of Damascus Spring',
-      titleAr: 'منتدى رياض سيف: إحياء روح ربيع دمشق',
-      source: lang === 'ar' ? 'الشرق الأوسط' : 'Al-Sharq Al-Awsat',
-      date: lang === 'ar' ? 'ديسمبر 2024' : 'December 2024',
-      excerpt: 'An in-depth analysis of how the Forum for National Dialogue continues the legacy of the Damascus Spring movement and its relevance to contemporary Syrian civil society.',
-      excerptAr: 'تحليل يوضح كيف يواصل منتدى الحوار الوطني إرث ربيع دمشق، وما يمثله ذلك للمجتمع المدني السوري اليوم.'
-    },
-    {
-      id: 2,
-      type: lang === 'ar' ? 'بحث' : 'Research',
-      title: lang === 'ar' ? 'دور منتديات الحوار في الانتقالات الديمقراطية' : 'The Role of Dialogue Forums in Democratic Transitions',
-      titleAr: 'دور منتديات الحوار في الانتقالات الديمقراطية',
-      source: lang === 'ar' ? 'مركز دراسات الديمقراطية' : 'Center for Democracy Studies',
-      date: lang === 'ar' ? 'أكتوبر 2024' : 'October 2024',
-      excerpt: 'Academic research examining the impact of civil dialogue forums on democratic transitions, with case studies including the Riad Seif Forum.',
-      excerptAr: 'بحث أكاديمي يدرس أثر منتديات الحوار المدني على الانتقالات الديمقراطية، مع دراسة حالة خاصة بمنتدى رياض سيف.'
-    },
-    {
-      id: 3,
-      type: lang === 'ar' ? 'كتاب' : 'Book',
-      title: lang === 'ar' ? 'أصوات التغيير: المجتمع المدني السوري' : 'Voices of Change: Syrian Civil Society',
-      titleAr: 'أصوات التغيير: المجتمع المدني السوري',
-      source: lang === 'ar' ? 'دار النشر الأكاديمية' : 'Academic Press',
-      date: lang === 'ar' ? 'سبتمبر 2024' : 'September 2024',
-      excerpt: 'A comprehensive book featuring chapters on the Forum for National Dialogue and its contributions to civic discourse and democratic reform in Syria.',
-      excerptAr: 'كتاب شامل يتضمن فصولاً عن منتدى الحوار الوطني ومساهماته في الخطاب المدني والإصلاح الديمقراطي في سوريا.'
-    },
-    {
-      id: 4,
-      type: lang === 'ar' ? 'تقرير' : 'Report',
-      title: lang === 'ar' ? 'تقييم أنشطة المنتدى 2023-2024' : 'Forum Activities Assessment 2023-2024',
-      titleAr: 'تقييم أنشطة المنتدى 2023-2024',
-      source: lang === 'ar' ? 'مؤسسة رياض سيف لحقوق الإنسان' : 'Riad Seif Foundation for Human Rights',
-      date: lang === 'ar' ? 'يناير 2025' : 'January 2025',
-      excerpt: 'Annual report documenting the Forum\'s activities, impact, and key achievements in promoting dialogue and democratic participation.',
-      excerptAr: 'تقرير سنوي يوثق أنشطة المنتدى وتأثيره والإنجازات الرئيسية في تعزيز الحوار والمشاركة الديمقراطية.'
-    }
-  ];
-
-      const fallbackManagementTeam = [
-    {
-      id: 1,
-      name: 'Dr. Karim Al-Deeb',
-      nameAr: 'د. كريم الديب',
-      role: 'Forum Coordinator',
-      roleAr: 'منسق المنتدى',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      bio: 'Political scientist specializing in democratic transitions and civil society development.',
-      bioAr: 'عالم سياسي متخصص في الانتقالات الديمقراطية وتنمية المجتمع المدني.',
-      detailedBio: 'Dr. Karim Al-Deeb is a political scientist with over 15 years of experience in democratic transitions and civil society development. He holds a PhD in Political Science from the Sorbonne University and has worked extensively with civil society organizations across the Middle East. As Forum Coordinator, he oversees all dialogue sessions, manages partnerships with local and international organizations, and ensures the Forum remains a safe and inclusive space for democratic discourse. His research focuses on transitional justice, civic participation, and the role of civil forums in post-conflict societies.',
-      detailedBioAr: 'الدكتور كريم الديب عالم سياسي يتمتع بخبرة تزيد عن 15 عامًا في الانتقالات الديمقراطية وتنمية المجتمع المدني. حاصل على درجة الدكتوراه في العلوم السياسية من جامعة السوربون وعمل بشكل مكثف مع منظمات المجتمع المدني في جميع أنحاء الشرق الأوسط. بصفته منسق المنتدى، يشرف على جميع جلسات الحوار، ويدير الشراكات مع المنظمات المحلية والدولية، ويضمن بقاء المنتدى مساحة آمنة وشاملة للخطاب الديمقراطي. يركز بحثه على العدالة الانتقالية والمشاركة المدنية ودور المنتديات المدنية في مجتمعات ما بعد النزاع.'
-    },
-    {
-      id: 2,
-      name: 'Layla Kassem',
-      nameAr: 'ليلى قاسم',
-      role: 'Communications Director',
-      roleAr: 'مديرة التواصل',
-      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      bio: 'Leads media relations and public engagement for the Forum, ensuring transparent and inclusive communication.',
-      bioAr: 'تدير العلاقات الإعلامية والتواصل المجتمعي للمنتدى لضمان خطاب شفاف وشامل.',
-      detailedBio: 'Layla Kassem is a communications strategist with extensive experience in civil society storytelling and advocacy campaigns. She has led media initiatives for international NGOs and is passionate about amplifying Syrian voices. At the Forum, she manages public relations, outreach, and the narrative around democratic dialogue and civic participation.',
-      detailedBioAr: 'ليلى قاسم خبيرة في استراتيجيات التواصل ولديها خبرة واسعة في سرد قصص المجتمع المدني وحملات المناصرة. قادت مبادرات إعلامية لمنظمات دولية وهي ملتزمة بتعزيز أصوات السوريين. في المنتدى، تدير العلاقات العامة والتواصل وصياغة السرد حول الحوار الديمقراطي والمشاركة المدنية.'
-    },
-    {
-      id: 3,
-      name: 'Salma Saeed',
-      nameAr: 'سلمى سعيد',
-      role: 'Research & Documentation Lead',
-      roleAr: 'مسؤولة الأبحاث والتوثيق',
-      image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
-      bio: 'Oversees research output and documentation of Forum sessions, ensuring knowledge is archived and shared.',
-      bioAr: 'تشرف على الأبحاث وتوثيق جلسات المنتدى لضمان حفظ المعرفة ومشاركتها.',
-      detailedBio: 'Salma Saeed is a researcher and documentary filmmaker focused on storytelling, transitional justice, and visual documentation of Syrian history. She has worked with international media outlets and rights organizations to document survivor testimonies and collective memory. At the Forum, she leads memory and documentation initiatives, ensuring that Syrian stories are preserved and accessible for future generations. Her research interests include the relationship between narrative, justice, and identity in post-conflict societies.',
-      detailedBioAr: 'سلمى سعيد باحثة وصانعة أفلام وثائقية تركز على رواية القصص والعدالة الانتقالية والتوثيق البصري للتاريخ السوري. عملت مع وسائل إعلام دولية ومنظمات حقوقية لتوثيق شهادات الناجين والذاكرة الجماعية. في المنتدى، تقود مبادرات الذاكرة والتوثيق البصري، وتضمن أن تكون قصص السوريين محفوظة ومتاحة للأجيال القادمة. تهتم أبحاثها بالعلاقة بين السرد والعدالة والهوية في المجتمعات الخارجة من النزاع.'
-    }
-  ];
+  const archiveItems = apiArchive.map((item) => ({
+    id: item.id,
+    title: lang === 'ar' ? item.title_ar : item.title_en,
+    titleAr: item.title_ar,
+    description: lang === 'ar' ? item.description_ar : item.description_en,
+    descriptionAr: item.description_ar,
+    date: item.date,
+    link: item.external_link,
+  }));
 
   const managementTeam =
     Array.isArray(t.forum?.managementTeam) && t.forum.managementTeam.length > 0
       ? t.forum.managementTeam
-      : fallbackManagementTeam;
+      : [];
 
   const getMemberValue = (member: any, key: string) => {
     const arKey = `${key}Ar`;
@@ -503,6 +338,11 @@ export default function Forum({ lang, content }) {
                            </div>
                          </motion.div>
                        ))}
+                       {filteredEvents.length === 0 && (
+                         <div className="text-slate-500 text-sm">
+                           {lang === 'ar' ? 'لا توجد فعاليات حالياً.' : 'No events available yet.'}
+                         </div>
+                       )}
                      </div>
                    </div>
 
@@ -612,6 +452,11 @@ export default function Forum({ lang, content }) {
                           </motion.div>
                         </motion.div>
                       ))}
+                      {memoryPhotos.length === 0 && (
+                        <div className="col-span-full text-center text-slate-500 py-10">
+                          {lang === 'ar' ? 'لا توجد صور في الذاكرة حالياً.' : 'No memory photos available yet.'}
+                        </div>
+                      )}
                     </div>
                 </div>
               )}
@@ -657,6 +502,11 @@ export default function Forum({ lang, content }) {
                            </div>
                          </motion.div>
                        ))}
+                       {archiveItems.length === 0 && (
+                         <div className="text-slate-500 text-sm">
+                           {lang === 'ar' ? 'لا توجد عناصر في الأرشيف حالياً.' : 'No archive items available yet.'}
+                         </div>
+                       )}
                      </div>
                    </div>
 
@@ -751,6 +601,11 @@ export default function Forum({ lang, content }) {
                          </div>
                        </motion.div>
                      ))}
+                     {managementTeam.length === 0 && (
+                       <div className="col-span-full text-center text-slate-500 py-10">
+                         {lang === 'ar' ? 'لا توجد بيانات لإدارة المنتدى حالياً.' : 'No management team data available yet.'}
+                       </div>
+                     )}
                    </div>
                </div>
              )}
