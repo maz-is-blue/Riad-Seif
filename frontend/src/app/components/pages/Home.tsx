@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, Shield, Quote, Bird, X } from 'lucide-react';
+import { ArrowRight, ArrowLeft, BookOpen, Users, MessageSquare, Scale, Heart, ShieldCheck, Landmark, Quote, X } from 'lucide-react';
 import { Link } from 'wouter';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
@@ -739,21 +739,21 @@ export default function Home({ lang, content }) {
                 </div>
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 bg-[#f7c20e] rounded-full flex items-center justify-center">
-                    <Heart className="text-[#1c3944]" size={22} />
+                    <ShieldCheck className="text-[#1c3944]" size={22} />
                   </div>
-                  <span className="text-white font-medium">{lang === 'ar' ? 'الإنسانية' : 'Humanity'}</span>
+                  <span className="text-white font-medium">{lang === 'ar' ? 'المساءلة' : 'Accountability'}</span>
                 </div>
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 bg-[#f7c20e] rounded-full flex items-center justify-center">
-                    <Shield className="text-[#1c3944]" size={22} />
+                    <Landmark className="text-[#1c3944]" size={22} />
                   </div>
-                  <span className="text-white font-medium">{lang === 'ar' ? 'الحماية' : 'Protection'}</span>
+                  <span className="text-white font-medium">{lang === 'ar' ? 'الديموقراطية' : 'Democracy'}</span>
                 </div>
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 bg-[#f7c20e] rounded-full flex items-center justify-center">
-                    <Bird className="text-[#1c3944]" size={22} />
+                    <MessageSquare className="text-[#1c3944]" size={22} />
                   </div>
-                  <span className="text-white font-medium">{lang === 'ar' ? 'الحرية' : 'Freedom'}</span>
+                  <span className="text-white font-medium">{lang === 'ar' ? 'الحوار' : 'Dialogue'}</span>
                 </div>
               </div>
               
@@ -873,3 +873,4 @@ export default function Home({ lang, content }) {
     </>
   );
 }
+
