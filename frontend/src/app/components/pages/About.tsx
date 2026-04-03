@@ -33,9 +33,21 @@ export default function About({ lang, content }) {
       }))
     : t.about.team.members;
 
-  // Separate Jumana from other team members
-  const jumana = mappedTeam.find(m => m.id === 1);
-  const teamMembers = mappedTeam.filter(m => m.id !== 1);
+  // Separate Joumana from board members (by role/name first, then fallback).
+  const jumana = mappedTeam.find((member) => {
+    const roleAr = String(member?.roleAr ?? "");
+    const roleEn = String(member?.role ?? "").toLowerCase();
+    const nameAr = String(member?.nameAr ?? "");
+    const nameEn = String(member?.name ?? "").toLowerCase();
+    return (
+      roleAr.includes("المديرة التنفيذية") ||
+      roleEn.includes("executive director") ||
+      nameAr.includes("جمانة") ||
+      nameEn.includes("joumana") ||
+      member?.id === 1
+    );
+  });
+  const teamMembers = mappedTeam.filter((member) => member.id !== jumana?.id);
   
   // Animation variants
   const containerVariants = {
@@ -377,27 +389,6 @@ export default function About({ lang, content }) {
           transition={{ duration: 0.6 }}
           className="mt-32"
         >
-            <div className="text-center mb-16">
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944] mb-4`}
-                >
-                  {t.about.team.title}
-                </motion.h2>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-slate-600 text-lg max-w-3xl mx-auto"
-                >
-                  {t.about.team.subtitle}
-                </motion.p>
-            </div>
-
             {/* Executive Director Section - Before team grid */}
             {jumana && (
               <motion.div
@@ -515,6 +506,27 @@ export default function About({ lang, content }) {
                 </motion.div>
               </motion.div>
             )}
+
+            <div className="text-center mb-16">
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944] mb-4`}
+                >
+                  {t.about.team.title}
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-slate-600 text-lg max-w-3xl mx-auto"
+                >
+                  {t.about.team.subtitle}
+                </motion.p>
+            </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {teamMembers.map((member, i) => (
