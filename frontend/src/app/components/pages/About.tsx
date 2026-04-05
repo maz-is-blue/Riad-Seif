@@ -3,6 +3,7 @@ import { Users, Target, Lightbulb, Heart, Award, Briefcase, Building2, Globe, X,
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { fetchTeamMembers, type TeamMember } from '../../utils/api';
+import RichText from '../RichText';
 
 type AboutMember = {
   id: number | string;
@@ -20,18 +21,56 @@ type AboutMember = {
 const TEAM_IMAGE_FALLBACK =
   'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800';
 
-const normalizeMember = (member: Partial<AboutMember>, fallbackId: string): AboutMember => ({
-  id: member.id ?? fallbackId,
-  name: String(member.name ?? '').trim(),
-  nameAr: String(member.nameAr ?? '').trim(),
-  role: String(member.role ?? '').trim(),
-  roleAr: String(member.roleAr ?? '').trim(),
-  image: String(member.image ?? '').trim() || TEAM_IMAGE_FALLBACK,
-  bio: String(member.bio ?? '').trim(),
-  bioAr: String(member.bioAr ?? '').trim(),
-  detailedBio: String(member.detailedBio ?? member.bio ?? '').trim(),
-  detailedBioAr: String(member.detailedBioAr ?? member.bioAr ?? '').trim(),
-});
+const stripHtmlToText = (value: unknown): string => {
+  const raw = String(value ?? '');
+  if (!raw) return '';
+  const withoutScripts = raw.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+  const withBreaks = withoutScripts.replace(/<br\s*\/?>/gi, '\n');
+  const withoutTags = withBreaks.replace(/<\/?[^>]+>/g, ' ');
+  return withoutTags
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
+const sanitizeRichValue = (value: unknown): string => String(value ?? '').replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '').trim();
+
+const normalizeMember = (member: Partial<AboutMember>, fallbackId: string): AboutMember => {
+  const nameEn = stripHtmlToText(member.name);
+  const nameAr = stripHtmlToText(member.nameAr);
+  const roleEn = stripHtmlToText(member.role);
+  const roleAr = stripHtmlToText(member.roleAr);
+  const bioEn = sanitizeRichValue(member.bio);
+  const bioAr = sanitizeRichValue(member.bioAr);
+  const detailsEn = sanitizeRichValue(member.detailedBio ?? member.bio ?? '');
+  const detailsAr = sanitizeRichValue(member.detailedBioAr ?? member.bioAr ?? '');
+
+  return {
+    id: member.id ?? fallbackId,
+    name: nameEn || nameAr,
+    nameAr: nameAr || nameEn,
+    role: roleEn || roleAr,
+    roleAr: roleAr || roleEn,
+    image: String(member.image ?? '').trim() || TEAM_IMAGE_FALLBACK,
+    bio: bioEn || bioAr,
+    bioAr: bioAr || bioEn,
+    detailedBio: detailsEn || bioEn || bioAr,
+    detailedBioAr: detailsAr || bioAr || bioEn,
+  };
+};
+
+const hasMemberIdentity = (member: AboutMember): boolean =>
+  Boolean(
+    stripHtmlToText(member.name) ||
+      stripHtmlToText(member.nameAr) ||
+      stripHtmlToText(member.role) ||
+      stripHtmlToText(member.roleAr),
+  );
 
 export default function About({ lang, content }) {
   const t = content[lang];
@@ -70,48 +109,27 @@ export default function About({ lang, content }) {
     ),
   );
 
-  const mappedTeam: AboutMember[] = (() => {
-    if (!apiMappedTeam.length) {
-      return fallbackTeam;
-    }
-
-    const fallbackById = new Map<string, AboutMember>();
-    fallbackTeam.forEach((member) => {
-      fallbackById.set(String(member.id), member);
-    });
-
-    const merged = apiMappedTeam.map((member, index) => {
-      const fallback = fallbackById.get(String(member.id));
-      fallbackById.delete(String(member.id));
-      return normalizeMember(
-        {
-          ...fallback,
-          ...member,
-          image: member.image || fallback?.image || TEAM_IMAGE_FALLBACK,
-        },
-        `merged-${index}`,
-      );
-    });
-
-    return [...merged, ...Array.from(fallbackById.values())];
-  })();
+  const mappedTeam: AboutMember[] = (apiMappedTeam.length ? apiMappedTeam : fallbackTeam).filter(hasMemberIdentity);
 
   // Separate Joumana from board members (by role/name first, then fallback).
   const jumana = mappedTeam.find((member) => {
-    const roleAr = String(member?.roleAr ?? "");
-    const roleEn = String(member?.role ?? "").toLowerCase();
-    const nameAr = String(member?.nameAr ?? "");
-    const nameEn = String(member?.name ?? "").toLowerCase();
+    const roleAr = String(member?.roleAr ?? '');
+    const roleEn = String(member?.role ?? '').toLowerCase();
+    const nameAr = String(member?.nameAr ?? '');
+    const nameEn = String(member?.name ?? '').toLowerCase();
     return (
-      roleAr.includes("المديرة التنفيذية") ||
-      roleEn.includes("executive director") ||
-      nameAr.includes("جمانة") ||
-      nameEn.includes("joumana") ||
-      nameEn.includes("jumana")
+      roleAr.includes('\u0627\u0644\u0645\u062f\u064a\u0631\u0629 \u0627\u0644\u062a\u0646\u0641\u064a\u0630\u064a\u0629') ||
+      roleAr.includes('المديرة التنفيذية') ||
+      roleEn.includes('executive director') ||
+      nameAr.includes('\u062c\u0645\u0627\u0646\u0629') ||
+      nameAr.includes('جمانة') ||
+      nameEn.includes('joumana') ||
+      nameEn.includes('jumana')
     );
   });
   const executiveMember = jumana ?? mappedTeam[0];
   const teamMembers = mappedTeam.filter((member) => member.id !== executiveMember?.id);
+  const getLocalized = (arValue: string, enValue: string) => (isRTL ? arValue || enValue : enValue || arValue);
   
   // Animation variants
   const containerVariants = {
@@ -470,7 +488,7 @@ export default function About({ lang, content }) {
                     transition={{ duration: 0.6 }}
                     className={`text-3xl lg:text-4xl ${t.serif} text-[#1c3944] mb-4`}
                   >
-                    {lang === 'ar' ? 'المديرة التنفيذية' : 'Executive Director'}
+                    {lang === 'ar' ? '\u0627\u0644\u0645\u062f\u064a\u0631\u0629 \u0627\u0644\u062a\u0646\u0641\u064a\u0630\u064a\u0629' : 'Executive Director'}
                   </motion.h3>
                   <motion.div
                     className="w-24 h-1 bg-[#f7c20e] mx-auto rounded-full"
@@ -514,7 +532,7 @@ export default function About({ lang, content }) {
                     <div className="md:col-span-2 relative overflow-hidden h-80 md:h-auto">
                       <motion.img
                         src={executiveMember.image}
-                        alt={lang === 'ar' ? executiveMember.nameAr : executiveMember.name}
+                        alt={getLocalized(executiveMember.nameAr, executiveMember.name)}
                         className="w-full h-full object-cover"
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.8 }}
@@ -531,19 +549,20 @@ export default function About({ lang, content }) {
                         transition={{ duration: 0.6, delay: 0.2 }}
                       >
                         <h3 className={`text-3xl lg:text-4xl ${t.serif} font-bold text-[#f7c20e] mb-3`}>
-                          {lang === 'ar' ? executiveMember.nameAr : executiveMember.name}
+                          {getLocalized(executiveMember.nameAr, executiveMember.name)}
                         </h3>
                         <p className="text-white/80 text-lg mb-6">
-                          {lang === 'ar' ? executiveMember.roleAr : executiveMember.role}
+                          {getLocalized(executiveMember.roleAr, executiveMember.role)}
                         </p>
-                        <p className="text-white/90 text-base leading-relaxed mb-8">
-                          {lang === 'ar' ? executiveMember.bioAr : executiveMember.bio}
-                        </p>
+                        <RichText
+                          value={getLocalized(executiveMember.bioAr, executiveMember.bio)}
+                          className="text-white/90 text-base leading-relaxed mb-8"
+                        />
                         <motion.div
                           className={`flex items-center gap-3 text-[#f7c20e] font-bold text-lg ${isRTL ? 'flex-row-reverse' : ''}`}
                           whileHover={{ x: isRTL ? -8 : 8 }}
                         >
-                          <span>{lang === 'ar' ? 'اعرف المزيد عن جمانة سيف' : 'Learn More About Joumana Seif'}</span>
+                          <span>{lang === 'ar' ? '\u0627\u0639\u0631\u0641 \u0627\u0644\u0645\u0632\u064a\u062f \u0639\u0646 \u062c\u0645\u0627\u0646\u0629 \u0633\u064a\u0641' : 'Learn More About Joumana Seif'}</span>
                           <ArrowIcon size={20} />
                         </motion.div>
                       </motion.div>
@@ -607,7 +626,7 @@ export default function About({ lang, content }) {
                     <div className="relative overflow-hidden h-64">
                       <motion.img
                         src={member.image}
-                        alt={lang === 'ar' ? member.nameAr : member.name}
+                        alt={getLocalized(member.nameAr, member.name)}
                         className="w-full h-full object-cover"
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.6 }}
@@ -616,20 +635,20 @@ export default function About({ lang, content }) {
                     </div>
                     <div className="p-6">
                       <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-2`}>
-                        {lang === 'ar' ? member.nameAr : member.name}
+                        {getLocalized(member.nameAr, member.name)}
                       </h3>
                       <p className="text-[#f7c20e] font-medium mb-3">
-                        {lang === 'ar' ? member.roleAr : member.role}
+                        {getLocalized(member.roleAr, member.role)}
                       </p>
                       <p className="text-slate-600 text-sm line-clamp-3">
-                        {lang === 'ar' ? member.bioAr : member.bio}
+                        {stripHtmlToText(getLocalized(member.bioAr, member.bio))}
                       </p>
                       <motion.div
                         className={`mt-4 text-[#1c3944] font-semibold text-sm flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
                         whileHover={{ x: isRTL ? -5 : 5 }}
                       >
-                        <span>{lang === 'ar' ? 'اقرأ المزيد' : 'Read More'}</span>
-                        <span className="text-[#f7c20e]">→</span>
+                        <span>{lang === 'ar' ? '\u0627\u0642\u0631\u0623 \u0627\u0644\u0645\u0632\u064a\u062f' : 'Read More'}</span>
+                        <ArrowIcon size={16} className="text-[#f7c20e]" />
                       </motion.div>
                     </div>
                   </motion.div>
@@ -669,25 +688,26 @@ export default function About({ lang, content }) {
               <div className="relative h-80 overflow-hidden">
                 <img
                   src={selectedMember.image}
-                  alt={lang === 'ar' ? selectedMember.nameAr : selectedMember.name}
+                  alt={getLocalized(selectedMember.nameAr, selectedMember.name)}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                 <div className={`absolute bottom-8 ${isRTL ? 'right-8' : 'left-8'} text-white`}>
                   <h2 className={`text-3xl ${t.serif} font-bold mb-2`}>
-                    {lang === 'ar' ? selectedMember.nameAr : selectedMember.name}
+                    {getLocalized(selectedMember.nameAr, selectedMember.name)}
                   </h2>
                   <p className="text-[#f7c20e] text-lg font-medium">
-                    {lang === 'ar' ? selectedMember.roleAr : selectedMember.role}
+                    {getLocalized(selectedMember.roleAr, selectedMember.role)}
                   </p>
                 </div>
               </div>
 
               {/* Member Details */}
               <div className="p-8">
-                <p className="text-slate-700 text-lg leading-relaxed">
-                  {lang === 'ar' ? selectedMember.detailedBioAr : selectedMember.detailedBio}
-                </p>
+                <RichText
+                  value={getLocalized(selectedMember.detailedBioAr, selectedMember.detailedBio)}
+                  className="text-slate-700 text-lg leading-relaxed"
+                />
               </div>
             </motion.div>
           </motion.div>
