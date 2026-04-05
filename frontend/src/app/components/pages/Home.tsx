@@ -23,9 +23,9 @@ export default function Home({ lang, content }) {
   const defaultSlides = [
     {
       image: 'https://images.unsplash.com/photo-1643276500881-281d554a72e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-      titleAr: 'بناء سوريا عادلة وديموقراطية',
+      titleAr: '\u0628\u0646\u0627\u0621 \u0633\u0648\u0631\u064a\u0627 \u0639\u0627\u062f\u0644\u0629 \u0648\u062f\u064a\u0645\u0648\u0642\u0631\u0627\u0637\u064a\u0629',
       titleEn: 'Building a Just and Democratic Syria',
-      descAr: 'مؤسسة رياض سيف لحقوق الإنسان - منظمة غير حكومية وغير ربحية مقرها دمشق تعمل على تعزيز العدالة وحقوق الإنسان والإصلاح الديمقراطي',
+      descAr: '\u0645\u0624\u0633\u0633\u0629 \u0631\u064a\u0627\u0636 \u0633\u064a\u0641 \u0644\u062d\u0642\u0648\u0642 \u0627\u0644\u0625\u0646\u0633\u0627\u0646 - \u0645\u0646\u0638\u0645\u0629 \u063a\u064a\u0631 \u062d\u0643\u0648\u0645\u064a\u0629 \u0648\u063a\u064a\u0631 \u0631\u0628\u062d\u064a\u0629 \u0645\u0642\u0631\u0647\u0627 \u062f\u0645\u0634\u0642 \u062a\u0639\u0645\u0644 \u0639\u0644\u0649 \u062a\u0639\u0632\u064a\u0632 \u0627\u0644\u0639\u062f\u0627\u0644\u0629 \u0648\u062d\u0642\u0648\u0642 \u0627\u0644\u0625\u0646\u0633\u0627\u0646 \u0648\u0627\u0644\u0625\u0635\u0644\u0627\u062d \u0627\u0644\u062f\u064a\u0645\u0642\u0631\u0627\u0637\u064a',
       descEn: 'Riad Seif Foundation for Human Rights - A non-governmental, non-profit organization based in Damascus promoting justice, human rights, and democratic reform',
       icon: Heart,
       link: '/about',
@@ -33,9 +33,9 @@ export default function Home({ lang, content }) {
     },
     {
       image: 'https://images.unsplash.com/photo-1719159381916-062fa9f435a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-      titleAr: 'مركز حقوق الإنسان',
+      titleAr: '\u0645\u0631\u0643\u0632 \u062d\u0642\u0648\u0642 \u0627\u0644\u0625\u0646\u0633\u0627\u0646',
       titleEn: 'Human Rights Center',
-      descAr: 'برامج تدريبية متخصصة في حقوق الإنسان والعدالة الانتقالية والديمقراطية',
+      descAr: '\u0628\u0631\u0627\u0645\u062c \u062a\u062f\u0631\u064a\u0628\u064a\u0629 \u0645\u062a\u062e\u0635\u0635\u0629 \u0641\u064a \u062d\u0642\u0648\u0642 \u0627\u0644\u0625\u0646\u0633\u0627\u0646 \u0648\u0627\u0644\u0639\u062f\u0627\u0644\u0629 \u0627\u0644\u0627\u0646\u062a\u0642\u0627\u0644\u064a\u0629 \u0648\u0627\u0644\u062f\u064a\u0645\u0642\u0631\u0627\u0637\u064a\u0629',
       descEn: 'Specialized training programs in human rights, transitional justice, and democracy',
       icon: BookOpen,
       link: '/center',
@@ -43,9 +43,9 @@ export default function Home({ lang, content }) {
     },
     {
       image: 'https://images.unsplash.com/photo-1695891835429-04bb13f65196?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-      titleAr: 'منتدى الحوار الوطني',
+      titleAr: '\u0645\u0646\u062a\u062f\u0649 \u0627\u0644\u062d\u0648\u0627\u0631 \u0627\u0644\u0648\u0637\u0646\u064a',
       titleEn: 'National Dialogue Forum',
-      descAr: 'منصة للحوار البناء وتعزيز ثقافة النقاش الديمقراطي والتفاهم',
+      descAr: '\u0645\u0646\u0635\u0629 \u0644\u0644\u062d\u0648\u0627\u0631 \u0627\u0644\u0628\u0646\u0627\u0621 \u0648\u062a\u0639\u0632\u064a\u0632 \u062b\u0642\u0627\u0641\u0629 \u0627\u0644\u0646\u0642\u0627\u0634 \u0627\u0644\u062f\u064a\u0645\u0642\u0631\u0627\u0637\u064a \u0648\u0627\u0644\u062a\u0641\u0627\u0647\u0645',
       descEn: 'Platform for constructive dialogue promoting democratic discussion culture',
       icon: MessageSquare,
       link: '/forum',
@@ -53,9 +53,9 @@ export default function Home({ lang, content }) {
     },
     {
       image: 'https://images.unsplash.com/photo-1734278095046-f31918334855?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
-      titleAr: 'رياض سيف',
+      titleAr: '\u0631\u064a\u0627\u0636 \u0633\u064a\u0641',
       titleEn: 'Riad Seif',
-      descAr: 'رائد الإصلاح الديمقراطي والمدافع الشجاع عن حقوق الإنسان في سوريا',
+      descAr: '\u0631\u0627\u0626\u062f \u0627\u0644\u0625\u0635\u0644\u0627\u062d \u0627\u0644\u062f\u064a\u0645\u0642\u0631\u0627\u0637\u064a \u0648\u0627\u0644\u0645\u062f\u0627\u0641\u0639 \u0627\u0644\u0634\u062c\u0627\u0639 \u0639\u0646 \u062d\u0642\u0648\u0642 \u0627\u0644\u0625\u0646\u0633\u0627\u0646 \u0641\u064a \u0633\u0648\u0631\u064a\u0627',
       descEn: 'Pioneer of democratic reform and courageous human rights advocate in Syria',
       icon: Users,
       link: '/founder',
@@ -63,9 +63,30 @@ export default function Home({ lang, content }) {
     }
   ];
 
-  const slides = Array.isArray(t.home?.heroSlides) && t.home.heroSlides.length
+  const baseSlides = Array.isArray(t.home?.heroSlides) && t.home.heroSlides.length
     ? t.home.heroSlides
     : defaultSlides;
+
+  const slides = baseSlides.map((slide, index) => {
+    const fallback = defaultSlides[index % defaultSlides.length];
+    const titleAr = String(slide?.titleAr ?? '').trim();
+    const titleEn = String(slide?.titleEn ?? '').trim();
+    const descAr = String(slide?.descAr ?? '').trim();
+    const descEn = String(slide?.descEn ?? '').trim();
+
+    return {
+      ...fallback,
+      ...slide,
+      image: String(slide?.image ?? '').trim() || fallback.image,
+      link: String(slide?.link ?? '').trim() || fallback.link,
+      titleAr: titleAr || titleEn || fallback.titleAr,
+      titleEn: titleEn || titleAr || fallback.titleEn,
+      descAr: descAr || descEn || fallback.descAr,
+      descEn: descEn || descAr || fallback.descEn,
+      color: String(slide?.color ?? '').trim() || fallback.color,
+      icon: slide?.icon || fallback.icon,
+    };
+  });
 
   const programsSection = t.home?.programsSection;
   const centerSection = t.home?.centerSection;
