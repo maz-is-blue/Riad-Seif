@@ -373,56 +373,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const isSharedMediaKey = (key: string) =>
     /(image|photo|cover|logo|portrait|hero|background|bg|banner|thumbnail|avatar|icon)/i.test(key);
 
-  const syncSharedMediaNodes = (arNode: any, enNode: any): [any, any] => {
-    if (Array.isArray(arNode) || Array.isArray(enNode)) {
-      const arArr = Array.isArray(arNode) ? arNode : [];
-      const enArr = Array.isArray(enNode) ? enNode : [];
-      const length = Math.max(arArr.length, enArr.length);
-      const nextAr = new Array(length);
-      const nextEn = new Array(length);
-      for (let i = 0; i < length; i += 1) {
-        const [syncedAr, syncedEn] = syncSharedMediaNodes(arArr[i], enArr[i]);
-        nextAr[i] = syncedAr;
-        nextEn[i] = syncedEn;
-      }
-      return [nextAr, nextEn];
-    }
-
-    if (isPlainObject(arNode) || isPlainObject(enNode)) {
-      const arObj = isPlainObject(arNode) ? arNode : {};
-      const enObj = isPlainObject(enNode) ? enNode : {};
-      const keys = new Set([...Object.keys(arObj), ...Object.keys(enObj)]);
-      const nextAr: Record<string, unknown> = {};
-      const nextEn: Record<string, unknown> = {};
-
-      keys.forEach((key) => {
-        const arValue = arObj[key];
-        const enValue = enObj[key];
-        if (
-          isSharedMediaKey(key) &&
-          (typeof arValue === "string" || typeof enValue === "string")
-        ) {
-          const sharedValue = String(arValue || enValue || "");
-          nextAr[key] = sharedValue;
-          nextEn[key] = sharedValue;
-          return;
-        }
-        const [syncedAr, syncedEn] = syncSharedMediaNodes(arValue, enValue);
-        nextAr[key] = syncedAr;
-        nextEn[key] = syncedEn;
-      });
-      return [nextAr, nextEn];
-    }
-
-    return [arNode, enNode];
-  };
-
-  const syncSharedMediaContent = (value: any) => {
-    if (!isPlainObject(value) || !value?.ar || !value?.en) return value;
-    const [ar, en] = syncSharedMediaNodes(value.ar, value.en);
-    return { ...value, ar, en };
-  };
-
   const mergeContent = (base: any, override: any): any => {
     if (override === undefined || override === null) return base;
     if (Array.isArray(base)) {
@@ -469,74 +419,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
     return null;
   };
 
-  const normalizeLegacyBilingualNodes = (arNode: any, enNode: any): [any, any] => {
-    if (Array.isArray(arNode) || Array.isArray(enNode)) {
-      const arArr = Array.isArray(arNode) ? arNode : [];
-      const enArr = Array.isArray(enNode) ? enNode : [];
-      const length = Math.max(arArr.length, enArr.length);
-      const nextAr = new Array(length);
-      const nextEn = new Array(length);
-      for (let i = 0; i < length; i += 1) {
-        const [childAr, childEn] = normalizeLegacyBilingualNodes(arArr[i], enArr[i]);
-        nextAr[i] = childAr;
-        nextEn[i] = childEn;
-      }
-      return [nextAr, nextEn];
-    }
-
-    if (isPlainObject(arNode) || isPlainObject(enNode)) {
-      const arObj = isPlainObject(arNode) ? arNode : {};
-      const enObj = isPlainObject(enNode) ? enNode : {};
-      const allKeys = new Set([...Object.keys(arObj), ...Object.keys(enObj)]);
-
-      const aliasValues: Record<string, { ar?: any; en?: any }> = {};
-      const passthroughKeys = new Set<string>();
-
-      allKeys.forEach((key) => {
-        const legacy = getLegacyLangSuffix(key);
-        if (!legacy || !legacy.base) {
-          passthroughKeys.add(key);
-          return;
-        }
-        if (!aliasValues[legacy.base]) aliasValues[legacy.base] = {};
-        const arValue = arObj[key];
-        const enValue = enObj[key];
-        if (legacy.lang === "ar") {
-          if (arValue !== undefined) aliasValues[legacy.base].ar = arValue;
-          else if (enValue !== undefined && aliasValues[legacy.base].ar === undefined) {
-            aliasValues[legacy.base].ar = enValue;
-          }
-        } else {
-          if (enValue !== undefined) aliasValues[legacy.base].en = enValue;
-          else if (arValue !== undefined && aliasValues[legacy.base].en === undefined) {
-            aliasValues[legacy.base].en = arValue;
-          }
-        }
-      });
-
-      const mergedKeys = new Set<string>([
-        ...Array.from(passthroughKeys),
-        ...Object.keys(aliasValues),
-      ]);
-
-      const nextAr: Record<string, any> = {};
-      const nextEn: Record<string, any> = {};
-
-      mergedKeys.forEach((key) => {
-        const fallback = aliasValues[key];
-        const arValue = arObj[key] !== undefined ? arObj[key] : fallback?.ar;
-        const enValue = enObj[key] !== undefined ? enObj[key] : fallback?.en;
-        const [childAr, childEn] = normalizeLegacyBilingualNodes(arValue, enValue);
-        nextAr[key] = childAr;
-        nextEn[key] = childEn;
-      });
-
-      return [nextAr, nextEn];
-    }
-
-    return [arNode, enNode];
-  };
-
   const normalizeContentForAdmin = (value: any): any => {
     if (!isPlainObject(value)) return value;
     const next = { ...value } as any;
@@ -552,12 +434,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
         };
       }
     });
-    if (isPlainObject(next?.ar) || isPlainObject(next?.en)) {
-      const [normalizedAr, normalizedEn] = normalizeLegacyBilingualNodes(next?.ar, next?.en);
-      next.ar = normalizedAr;
-      next.en = normalizedEn;
-    }
-    return syncSharedMediaContent(next);
+    return next;
   };
 
   const updateAtPath = (value: any, path: Array<string | number>, nextValue: any) => {
@@ -848,7 +725,16 @@ export default function Admin({ lang, content, onContentUpdate }) {
       const sectionKey = pathText;
       const isCollapsed = collapsed.has(sectionKey);
       const keys = Array.from(new Set([...Object.keys(arObj), ...Object.keys(enObj)]));
-      const entries = keys.filter((key) => matchesSearch(key) || matchesSearch(sectionKey));
+      const visibleKeys = keys.filter((key) => {
+        const legacy = getLegacyLangSuffix(key);
+        if (!legacy || !legacy.base) return true;
+        const baseExists =
+          Object.prototype.hasOwnProperty.call(arObj, legacy.base) ||
+          Object.prototype.hasOwnProperty.call(enObj, legacy.base);
+        // If canonical base key exists, hide legacy alias keys in the UI only.
+        return !baseExists;
+      });
+      const entries = visibleKeys.filter((key) => matchesSearch(key) || matchesSearch(sectionKey));
       if (!entries.length && search.trim()) return null;
       return (
         <div className="space-y-3">
