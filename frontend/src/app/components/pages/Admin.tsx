@@ -461,6 +461,82 @@ export default function Admin({ lang, content, onContentUpdate }) {
     return normalized;
   };
 
+  const getLegacyLangSuffix = (key: string): { base: string; lang: "ar" | "en" } | null => {
+    if (/_ar$/i.test(key)) return { base: key.replace(/_ar$/i, ""), lang: "ar" };
+    if (/_en$/i.test(key)) return { base: key.replace(/_en$/i, ""), lang: "en" };
+    if (/Ar$/.test(key)) return { base: key.slice(0, -2), lang: "ar" };
+    if (/En$/.test(key)) return { base: key.slice(0, -2), lang: "en" };
+    return null;
+  };
+
+  const normalizeLegacyBilingualNodes = (arNode: any, enNode: any): [any, any] => {
+    if (Array.isArray(arNode) || Array.isArray(enNode)) {
+      const arArr = Array.isArray(arNode) ? arNode : [];
+      const enArr = Array.isArray(enNode) ? enNode : [];
+      const length = Math.max(arArr.length, enArr.length);
+      const nextAr = new Array(length);
+      const nextEn = new Array(length);
+      for (let i = 0; i < length; i += 1) {
+        const [childAr, childEn] = normalizeLegacyBilingualNodes(arArr[i], enArr[i]);
+        nextAr[i] = childAr;
+        nextEn[i] = childEn;
+      }
+      return [nextAr, nextEn];
+    }
+
+    if (isPlainObject(arNode) || isPlainObject(enNode)) {
+      const arObj = isPlainObject(arNode) ? arNode : {};
+      const enObj = isPlainObject(enNode) ? enNode : {};
+      const allKeys = new Set([...Object.keys(arObj), ...Object.keys(enObj)]);
+
+      const aliasValues: Record<string, { ar?: any; en?: any }> = {};
+      const passthroughKeys = new Set<string>();
+
+      allKeys.forEach((key) => {
+        const legacy = getLegacyLangSuffix(key);
+        if (!legacy || !legacy.base) {
+          passthroughKeys.add(key);
+          return;
+        }
+        if (!aliasValues[legacy.base]) aliasValues[legacy.base] = {};
+        const arValue = arObj[key];
+        const enValue = enObj[key];
+        if (legacy.lang === "ar") {
+          if (arValue !== undefined) aliasValues[legacy.base].ar = arValue;
+          else if (enValue !== undefined && aliasValues[legacy.base].ar === undefined) {
+            aliasValues[legacy.base].ar = enValue;
+          }
+        } else {
+          if (enValue !== undefined) aliasValues[legacy.base].en = enValue;
+          else if (arValue !== undefined && aliasValues[legacy.base].en === undefined) {
+            aliasValues[legacy.base].en = arValue;
+          }
+        }
+      });
+
+      const mergedKeys = new Set<string>([
+        ...Array.from(passthroughKeys),
+        ...Object.keys(aliasValues),
+      ]);
+
+      const nextAr: Record<string, any> = {};
+      const nextEn: Record<string, any> = {};
+
+      mergedKeys.forEach((key) => {
+        const fallback = aliasValues[key];
+        const arValue = arObj[key] !== undefined ? arObj[key] : fallback?.ar;
+        const enValue = enObj[key] !== undefined ? enObj[key] : fallback?.en;
+        const [childAr, childEn] = normalizeLegacyBilingualNodes(arValue, enValue);
+        nextAr[key] = childAr;
+        nextEn[key] = childEn;
+      });
+
+      return [nextAr, nextEn];
+    }
+
+    return [arNode, enNode];
+  };
+
   const normalizeContentForAdmin = (value: any): any => {
     if (!isPlainObject(value)) return value;
     const next = { ...value } as any;
@@ -476,6 +552,11 @@ export default function Admin({ lang, content, onContentUpdate }) {
         };
       }
     });
+    if (isPlainObject(next?.ar) || isPlainObject(next?.en)) {
+      const [normalizedAr, normalizedEn] = normalizeLegacyBilingualNodes(next?.ar, next?.en);
+      next.ar = normalizedAr;
+      next.en = normalizedEn;
+    }
     return syncSharedMediaContent(next);
   };
 
