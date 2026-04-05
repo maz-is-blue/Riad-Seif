@@ -6,6 +6,7 @@ export default function Founder({ lang, content }) {
   const isRTL = lang === 'ar';
   const founder = t.founder ?? {};
   const portrait = founder.portrait;
+  const toHtml = (value: unknown) => ({ __html: String(value ?? '') });
 
   const timelineIcons = [Calendar, Award, Users, Heart, Award];
   
@@ -42,14 +43,6 @@ export default function Founder({ lang, content }) {
          </div>
 
          <div className="max-w-4xl mx-auto px-6 relative z-10">
-            <motion.span
-              className="text-[#f7c20e] font-bold uppercase tracking-widest text-sm mb-4 block"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              {t.nav.founder}
-            </motion.span>
             <motion.h1
               className={`text-4xl lg:text-5xl ${t.serif} mb-8`}
               initial={{ opacity: 0, y: 30 }}
@@ -93,14 +86,14 @@ export default function Founder({ lang, content }) {
               </div>
             </motion.div>
             
-            <motion.p
+            <motion.div
               className="lead text-xl font-light text-[#1c3944] mb-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
+              dangerouslySetInnerHTML={toHtml(t.home.founderSection.text)}
             >
-                {t.home.founderSection.text}
-            </motion.p>
+            </motion.div>
          </motion.div>
 
          {/* Animated Timeline */}
@@ -168,15 +161,15 @@ export default function Founder({ lang, content }) {
                            {i + 1}
                          </motion.div>
                        </div>
-                       <motion.p
+                       <motion.div
                          className="text-slate-600 text-lg leading-relaxed"
                          initial={{ opacity: 0 }}
                          whileInView={{ opacity: 1 }}
                          viewport={{ once: true }}
                          transition={{ delay: i * 0.1 + 0.5 }}
+                         dangerouslySetInnerHTML={toHtml(section.text)}
                        >
-                         {section.text}
-                       </motion.p>
+                       </motion.div>
                      </motion.div>
                    </div>
                  </motion.div>
