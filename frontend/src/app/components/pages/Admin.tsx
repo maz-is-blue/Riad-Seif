@@ -411,6 +411,45 @@ export default function Admin({ lang, content, onContentUpdate }) {
     return normalized;
   };
 
+  const normalizeHeroSlidesWithDefaults = (slides: any, locale: "ar" | "en") => {
+    const fallbackSlides =
+      (defaultContent as any)?.[locale]?.home?.heroSlides && Array.isArray((defaultContent as any)?.[locale]?.home?.heroSlides)
+        ? (defaultContent as any)[locale].home.heroSlides
+        : [];
+    const sourceSlides = Array.isArray(slides) ? slides.map(normalizeHeroSlide) : [];
+    const targetLength = Math.max(fallbackSlides.length, sourceSlides.length, 4);
+
+    const text = (value: unknown) => String(value ?? "").trim();
+
+    return Array.from({ length: targetLength }).map((_, index) => {
+      const fallback = normalizeHeroSlide(fallbackSlides[index] ?? {}) ?? {};
+      const current = normalizeHeroSlide(sourceSlides[index] ?? {}) ?? {};
+      const next = { ...fallback, ...current };
+
+      const fallbackTitleAr = text(fallback?.titleAr || fallback?.titleEn);
+      const fallbackTitleEn = text(fallback?.titleEn || fallback?.titleAr);
+      const fallbackDescAr = text(fallback?.descAr || fallback?.descEn);
+      const fallbackDescEn = text(fallback?.descEn || fallback?.descAr);
+
+      const titleAr = text(next?.titleAr);
+      const titleEn = text(next?.titleEn);
+      const descAr = text(next?.descAr);
+      const descEn = text(next?.descEn);
+
+      next.titleAr = titleAr || titleEn || fallbackTitleAr;
+      next.titleEn = titleEn || titleAr || fallbackTitleEn;
+      next.descAr = descAr || descEn || fallbackDescAr;
+      next.descEn = descEn || descAr || fallbackDescEn;
+
+      next.image = text(next?.image) || text(fallback?.image);
+      next.link = text(next?.link) || text(fallback?.link) || "/";
+      next.color = text(next?.color) || text(fallback?.color) || "#f7c20e";
+      next.icon = next?.icon || fallback?.icon;
+
+      return next;
+    });
+  };
+
   const getLegacyLangSuffix = (key: string): { base: string; lang: "ar" | "en" } | null => {
     if (/_ar$/i.test(key)) return { base: key.replace(/_ar$/i, ""), lang: "ar" };
     if (/_en$/i.test(key)) return { base: key.replace(/_en$/i, ""), lang: "en" };
@@ -424,15 +463,13 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const next = { ...value } as any;
     (["ar", "en"] as const).forEach((locale) => {
       const slides = next?.[locale]?.home?.heroSlides;
-      if (Array.isArray(slides)) {
-        next[locale] = {
-          ...next[locale],
-          home: {
-            ...next[locale].home,
-            heroSlides: slides.map(normalizeHeroSlide),
-          },
-        };
-      }
+      next[locale] = {
+        ...next[locale],
+        home: {
+          ...next?.[locale]?.home,
+          heroSlides: normalizeHeroSlidesWithDefaults(slides, locale),
+        },
+      };
     });
     return next;
   };
