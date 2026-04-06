@@ -7,6 +7,9 @@ from django.conf import settings
 from apps.content.models import SiteSettings
 from .models import ContactSubmission
 from .serializers import ContactSubmissionSerializer
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ContactRateThrottle(AnonRateThrottle):
@@ -30,12 +33,17 @@ def submit_contact(request):
             ip_address=get_client_ip(request)
         )
         
-        # Send email notification (optional)
+        # Send email notification
         try:
             send_notification_email(submission)
         except Exception as e:
-            # Log error but don't fail the request
-            print(f"Failed to send email notification: {e}")
+            logger.exception("Contact form email delivery failed", exc_info=e)
+            return Response({
+                'success': False,
+                'message': 'Message saved, but email delivery failed. Please try again later.',
+                'message_ar': 'تم حفظ الرسالة، لكن فشل إرسال البريد الإلكتروني. يرجى المحاولة لاحقاً.',
+                'id': submission.id,
+            }, status=status.HTTP_502_BAD_GATEWAY)
         
         return Response({
             'success': True,
