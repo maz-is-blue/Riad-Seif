@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 from django.core.mail import send_mail
 from django.conf import settings
+from apps.content.models import SiteSettings
 from .models import ContactSubmission
 from .serializers import ContactSubmissionSerializer
 
@@ -82,7 +83,24 @@ IP Address: {submission.ip_address}
         subject=subject,
         message=message,
         from_email=settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else None,
-        recipient_list=['info@riadseiflb.org'],
-        fail_silently=True,
+        recipient_list=get_notification_recipients(),
+        fail_silently=False,
     )
+
+
+def get_notification_recipients():
+    """Resolve contact notification recipients from env/settings or site settings."""
+    configured = getattr(settings, "CONTACT_NOTIFICATION_EMAIL", "") or ""
+    recipients = [email.strip() for email in configured.split(",") if email.strip()]
+    if recipients:
+        return recipients
+
+    try:
+        settings_obj = SiteSettings.get_settings()
+        if settings_obj and settings_obj.email:
+            return [settings_obj.email]
+    except Exception:
+        pass
+
+    return ["info@riadseiflb.org"]
 
