@@ -782,6 +782,15 @@ export default function Admin({ lang, content, onContentUpdate }) {
       });
       const entries = visibleKeys.filter((key) => matchesSearch(key) || matchesSearch(sectionKey));
       if (!entries.length && search.trim()) return null;
+      const renderedEntries = entries
+        .map((key) => ({
+          key,
+          node: renderBilingualValue(arObj[key], enObj[key], [...path, key], key, depth + 1),
+        }))
+        .filter((entry) => entry.node !== null);
+
+      if (!renderedEntries.length) return null;
+
       return (
         <div className="space-y-3">
           {path.length > 0 && (
@@ -798,9 +807,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
           )}
           {!isCollapsed && (
             <div className="space-y-4">
-              {entries.map((key) => (
+              {renderedEntries.map(({ key, node }) => (
                 <div key={`${path.join(".")}-${key}`} className="bg-white border border-slate-200 rounded-lg p-4">
-                  {renderBilingualValue(arObj[key], enObj[key], [...path, key], key, depth + 1)}
+                  {node}
                 </div>
               ))}
             </div>
