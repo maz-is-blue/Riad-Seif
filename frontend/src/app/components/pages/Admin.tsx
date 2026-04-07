@@ -691,6 +691,11 @@ export default function Admin({ lang, content, onContentUpdate }) {
       typeof enValue === "string";
     const normalizedAr = arValue ?? (isNumber ? 0 : isBoolean ? false : "");
     const normalizedEn = enValue ?? (isNumber ? 0 : isBoolean ? false : "");
+    const isNonEditableRuntimeValue =
+      typeof arValue === "function" ||
+      typeof enValue === "function" ||
+      typeof arValue === "symbol" ||
+      typeof enValue === "symbol";
 
     if (Array.isArray(arValue) || Array.isArray(enValue)) {
       if (!matchesSearch(keyLabel) && !matchesSearch(pathText)) return null;
@@ -759,6 +764,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
       const isCollapsed = collapsed.has(sectionKey);
       const keys = Array.from(new Set([...Object.keys(arObj), ...Object.keys(enObj)]));
       const visibleKeys = keys.filter((key) => {
+        const keyArValue = arObj[key];
+        const keyEnValue = enObj[key];
+        const keyIsNonEditableRuntimeValue =
+          typeof keyArValue === "function" ||
+          typeof keyEnValue === "function" ||
+          typeof keyArValue === "symbol" ||
+          typeof keyEnValue === "symbol";
+        if (keyIsNonEditableRuntimeValue) return false;
         const legacy = getLegacyLangSuffix(key);
         if (!legacy || !legacy.base) return true;
         const baseExists =
@@ -795,6 +808,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
         </div>
       );
     }
+
+    if (isNonEditableRuntimeValue) return null;
 
     if (!matchesSearch(keyLabel) && !matchesSearch(pathText)) return null;
 
@@ -950,7 +965,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
       );
     }
 
-    return <div className="text-sm text-slate-500">{isRTL ? "نوع غير مدعوم" : "Unsupported type"}</div>;
+    return null;
   };
 
   const contentSections = useMemo(
