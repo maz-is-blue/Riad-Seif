@@ -528,10 +528,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
       setStatus(isRTL ? "يرجى تسجيل الدخول أولاً." : "Please log in first.");
       return;
     }
-    if (!isSuperAdmin && !adminPermissions?.content?.edit) {
-      setStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
-      return;
-    }
     setSaving(true);
     const normalizedDraft = normalizeContentForAdmin(draft);
     updateSiteContent(normalizedDraft as unknown as Record<string, unknown>, token)
@@ -1048,10 +1044,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const handleResourceSave = (key: ResourceKey) => {
     if (!token) return;
-    if (!canEditResource(key)) {
-      setResourceStatus(isRTL ? "ليس لديك صلاحية التعديل." : "You do not have edit permission.");
-      return;
-    }
     const config = resourceConfigs[key];
     const payload = resourceState[key].form;
     config
@@ -1076,10 +1068,6 @@ export default function Admin({ lang, content, onContentUpdate }) {
 
   const handleResourceDelete = (key: ResourceKey, id: number) => {
     if (!token) return;
-    if (!canDeleteResource(key)) {
-      setResourceStatus(isRTL ? "ليس لديك صلاحية الحذف." : "You do not have delete permission.");
-      return;
-    }
     resourceConfigs[key]
       .remove(token, id)
       .then(() => {
