@@ -2,6 +2,7 @@ import { CheckCircle, BookOpen, Users, Award, Target, TrendingUp, X } from 'luci
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
+import RichText from '../RichText';
 
 const fallbackCenterData = {
   en: {
@@ -187,22 +188,22 @@ export default function Center({ lang, content }) {
              >
                {t.nav.center}
              </motion.span>
-             <motion.h1
-               className={`text-4xl lg:text-5xl ${t.serif} mb-6`}
+             <motion.div
+               className="mb-6"
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.3 }}
              >
-               {t.center.intro.title}
-             </motion.h1>
-             <motion.p
+               <RichText as="h1" value={t.center.intro.title} className={`text-4xl lg:text-5xl ${t.serif}`} />
+             </motion.div>
+             <motion.div
                className="text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed"
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.4 }}
              >
-                 {t.center.intro.text}
-             </motion.p>
+               <RichText as="p" value={t.center.intro.text} />
+             </motion.div>
           </div>
        </div>
 
@@ -278,10 +279,12 @@ export default function Center({ lang, content }) {
                   >
                     <feature.icon size={32} style={{ color: feature.color }} />
                   </motion.div>
-                  <h4 className={`text-lg ${t.serif} font-bold text-[#1c3944] mb-2`}>
-                    {feature.title}
-                  </h4>
-                  <p className="text-slate-600 text-sm">{feature.desc}</p>
+                  <RichText
+                    as="h4"
+                    value={feature.title}
+                    className={`text-lg ${t.serif} font-bold text-[#1c3944] mb-2`}
+                  />
+                  <RichText as="p" value={feature.desc} className="text-slate-600 text-sm" />
                 </div>
               </motion.div>
             ))}
@@ -297,10 +300,12 @@ export default function Center({ lang, content }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                  <h3 className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`}>{t.center.curriculum.title}</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                      {t.center.curriculum.text}
-                  </p>
+                  <RichText
+                    as="h3"
+                    value={t.center.curriculum.title}
+                    className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`}
+                  />
+                  <RichText as="p" value={t.center.curriculum.text} className="text-slate-600 text-lg leading-relaxed mb-8" />
                   <ul className="space-y-3">
                       {trainingPrograms.map((program, i) => (
                           <motion.li
@@ -320,13 +325,13 @@ export default function Center({ lang, content }) {
                                 >
                                   <CheckCircle size={18} className="text-[#f7c20e]" />
                                 </motion.div>
-                                <span className="font-medium">{program.name}</span>
+                                <RichText as="span" value={program.name} className="font-medium" />
                               </div>
                               <motion.span 
                                 className="text-[#f7c20e] text-sm font-semibold"
                                 whileHover={{ x: isRTL ? -3 : 3 }}
                               >
-                                {detailsLabel} →
+                                {isRTL ? `← ${detailsLabel}` : `${detailsLabel} →`}
                               </motion.span>
                           </motion.li>
                       ))}
@@ -382,10 +387,8 @@ export default function Center({ lang, content }) {
                   
                   {/* Content */}
                   <div className="relative z-10">
-                    <h3 className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`}>{t.center.training.title}</h3>
-                    <p className="text-slate-600 text-lg leading-relaxed">
-                        {t.center.training.text}
-                    </p>
+                    <RichText as="h3" value={t.center.training.title} className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`} />
+                    <RichText as="p" value={t.center.training.text} className="text-slate-600 text-lg leading-relaxed" />
                   </div>
               </motion.div>
 
@@ -396,10 +399,8 @@ export default function Center({ lang, content }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                  <h3 className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`}>{t.center.mentoring.title}</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed">
-                      {t.center.mentoring.text}
-                  </p>
+                  <RichText as="h3" value={t.center.mentoring.title} className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`} />
+                  <RichText as="p" value={t.center.mentoring.text} className="text-slate-600 text-lg leading-relaxed" />
               </motion.div>
 
               {/* Networking Section */}
@@ -411,10 +412,8 @@ export default function Center({ lang, content }) {
                 transition={{ duration: 0.8 }}
                 whileHover={{ y: -5 }}
               >
-                  <h3 className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`}>{t.center.networking.title}</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                      {t.center.networking.text}
-                  </p>
+                  <RichText as="h3" value={t.center.networking.title} className={`text-3xl lg:text-4xl text-[#1c3944] mb-6 ${t.serif}`} />
+                  <RichText as="p" value={t.center.networking.text} className="text-slate-600 text-lg leading-relaxed mb-8" />
                   <Link href="/contact">
                      <motion.span
                        className="bg-[#1c3944] text-white px-8 py-3 font-bold transition-colors cursor-pointer inline-flex items-center gap-2 rounded-lg"
@@ -493,25 +492,25 @@ export default function Center({ lang, content }) {
                    <BookOpen className="text-white" size={36} />
                  </motion.div>
                  
-                 <div className="relative z-10">
-                   <motion.p
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ delay: 0.3 }}
-                     className="text-[#f7c20e] font-semibold uppercase tracking-wider text-sm mb-2"
-                   >
-                     {programLabel}
-                   </motion.p>
-                   <motion.h2
-                     initial={{ opacity: 0, y: 10 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ delay: 0.4 }}
-                     className={`text-3xl lg:text-4xl ${t.serif} font-bold`}
-                   >
-                     {selectedProgram.name}
-                   </motion.h2>
-                 </div>
-               </div>
+                  <div className="relative z-10">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="mb-2"
+                    >
+                      <RichText as="p" value={programLabel} className="text-[#f7c20e] font-semibold uppercase tracking-wider text-sm" />
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className={`text-3xl lg:text-4xl ${t.serif} font-bold`}
+                    >
+                      <RichText as="h2" value={selectedProgram.name} />
+                    </motion.div>
+                  </div>
+                </div>
 
                {/* Content */}
                <div className="p-10">
@@ -524,9 +523,7 @@ export default function Center({ lang, content }) {
                    {/* Golden accent line */}
                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#f7c20e] rounded-full"></div>
                    
-                   <p className="text-slate-700 text-lg leading-relaxed pl-6">
-                     {selectedProgram.description}
-                   </p>
+                    <RichText as="div" value={selectedProgram.description} className="text-slate-700 text-lg leading-relaxed pl-6" />
                  </motion.div>
 
                  {/* Call to action */}
@@ -536,9 +533,7 @@ export default function Center({ lang, content }) {
                    transition={{ delay: 0.6 }}
                    className="mt-10 pt-8 border-t border-slate-200"
                  >
-                   <p className="text-slate-600 mb-6 text-center">
-                     {participationPrompt}
-                   </p>
+                    <RichText as="p" value={participationPrompt} className="text-slate-600 mb-6 text-center" />
                    <Link href="/contact">
                      <motion.button
                        className="w-full bg-[#1c3944] text-white px-8 py-4 font-bold rounded-lg flex items-center justify-center gap-3"
@@ -547,9 +542,9 @@ export default function Center({ lang, content }) {
                        onClick={() => setSelectedProgram(null)}
                      >
                        <TrendingUp size={20} />
-                       {contactCta}
-                     </motion.button>
-                   </Link>
+                        <RichText as="span" value={contactCta} />
+                      </motion.button>
+                    </Link>
                  </motion.div>
                </div>
              </motion.div>

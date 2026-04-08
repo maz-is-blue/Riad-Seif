@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { fetchNewsUpdates, type NewsUpdate } from '../../utils/api';
+import RichText from '../RichText';
 
 export default function Home({ lang, content }) {
   const t = content[lang];
@@ -254,8 +255,7 @@ export default function Home({ lang, content }) {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
               >
                 <div className={`text-white ${isRTL ? 'text-right' : 'text-left'} px-[10px] py-[0px]`}>
-                  <motion.h1
-                    className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-snug lg:leading-tight mb-5 lg:mb-6 drop-shadow-2xl text-white px-[10px] py-[0px] break-words`}
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: currentSlide === index ? 1 : 0,
@@ -263,11 +263,14 @@ export default function Home({ lang, content }) {
                     }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
-                    {lang === 'ar' ? slide.titleAr : slide.titleEn}
-                  </motion.h1>
-                  
-                  <motion.p
-                    className="text-base sm:text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-7 lg:mb-8 px-[10px] py-[0px] max-w-2xl"
+                    <RichText
+                      as="h1"
+                      value={lang === 'ar' ? slide.titleAr : slide.titleEn}
+                      className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-snug lg:leading-tight mb-5 lg:mb-6 drop-shadow-2xl text-white px-[10px] py-[0px] break-words`}
+                    />
+                  </motion.div>
+
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: currentSlide === index ? 1 : 0,
@@ -275,8 +278,12 @@ export default function Home({ lang, content }) {
                     }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                   >
-                    {lang === 'ar' ? slide.descAr : slide.descEn}
-                  </motion.p>
+                    <RichText
+                      as="p"
+                      value={lang === 'ar' ? slide.descAr : slide.descEn}
+                      className="text-base sm:text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-7 lg:mb-8 px-[10px] py-[0px] max-w-2xl"
+                    />
+                  </motion.div>
                   
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -352,10 +359,12 @@ export default function Home({ lang, content }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="flex justify-between items-end mb-16 lg:mb-20">
             <div>
-              <h2 className={`text-3xl lg:text-4xl ${t.serif} font-bold text-[#1c3944] mb-3`}>
-                {t.home.newsSection.title}
-              </h2>
-              <p className="text-slate-600 text-lg">{t.home.newsSection.subtitle}</p>
+              <RichText
+                as="h2"
+                value={t.home.newsSection.title}
+                className={`text-3xl lg:text-4xl ${t.serif} font-bold text-[#1c3944] mb-3`}
+              />
+              <RichText as="p" value={t.home.newsSection.subtitle} className="text-slate-600 text-lg" />
             </div>
             <Link href="/publications">
               <span className={`hidden md:flex items-center gap-2 text-[#1c3944] hover:text-[#f7c20e] transition-colors text-sm font-semibold cursor-pointer ${isRTL ? 'flex-row-reverse' : ''}`}>
@@ -411,7 +420,11 @@ export default function Home({ lang, content }) {
                 }
               >
                 <div className="text-xs font-semibold text-[#f7c20e] mb-3 uppercase tracking-wide">{item.type}</div>
-                <h4 className={`text-lg ${t.serif} font-bold mb-3 text-[#1c3944] leading-snug`}>{item.title}</h4>
+                <RichText
+                  as="h4"
+                  value={item.title}
+                  className={`text-lg ${t.serif} font-bold mb-3 text-[#1c3944] leading-snug`}
+                />
                 <div className="text-slate-500 text-sm">{item.date}</div>
               </motion.div>
             ))}
@@ -465,15 +478,11 @@ export default function Home({ lang, content }) {
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16 lg:mb-20 xl:mb-24">
-            <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
-              {programsSection?.title ?? (lang === 'ar' ? 'البرامج' : 'Programs')}
-            </h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-              {programsSection?.subtitle ??
+            <RichText as="h2" value={programsSection?.title ?? (lang === 'ar' ? 'البرامج' : 'Programs')} className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-4`} />
+            <RichText as="p" value={programsSection?.subtitle ??
                 (lang === 'ar'
                   ? 'نسعى عبر برامجنا وأنشطتنا لدعم الانتقال الديمقراطي وحقوق الإنسان في سوريا'
-                  : 'Through our programs and activities, we support democratic transition and human rights in Syria')}
-            </p>
+                  : 'Through our programs and activities, we support democratic transition and human rights in Syria')} className="text-slate-600 text-lg max-w-2xl mx-auto" />
           </div>
 
           <motion.div
@@ -492,15 +501,11 @@ export default function Home({ lang, content }) {
                   <div className="w-14 h-14 bg-[#f7c20e] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <BookOpen className="text-[#f7c20e]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
-                    {programsSection?.cards?.[0]?.title ?? t.nav.center}
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed mb-6">
-                    {programsSection?.cards?.[0]?.text ??
+                  <RichText as="h3" value={programsSection?.cards?.[0]?.title ?? t.nav.center} className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`} />
+                  <RichText as="p" value={programsSection?.cards?.[0]?.text ??
                       (lang === 'ar'
                         ? 'برامج تدريبية شاملة في مجال حقوق الإنسان والديمقراطية والعدالة الانتقالية'
-                        : 'Comprehensive training programs in human rights, democracy, and transitional justice')}
-                  </p>
+                        : 'Comprehensive training programs in human rights, democracy, and transitional justice')} className="text-slate-600 leading-relaxed mb-6" />
                   <span className={`text-[#f7c20e] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
                     {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
@@ -519,15 +524,11 @@ export default function Home({ lang, content }) {
                   <div className="w-14 h-14 bg-[#1c3944] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <MessageSquare className="text-[#1c3944]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
-                    {programsSection?.cards?.[1]?.title ?? t.nav.forum}
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed mb-6">
-                    {programsSection?.cards?.[1]?.text ??
+                  <RichText as="h3" value={programsSection?.cards?.[1]?.title ?? t.nav.forum} className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`} />
+                  <RichText as="p" value={programsSection?.cards?.[1]?.text ??
                       (lang === 'ar'
                         ? 'منصة للحوار المفتوح والبناء حول قضايا المجتمع المدني والديمقراطية'
-                        : 'Platform for open and constructive dialogue on civil society and democracy issues')}
-                  </p>
+                        : 'Platform for open and constructive dialogue on civil society and democracy issues')} className="text-slate-600 leading-relaxed mb-6" />
                   <span className={`text-[#1c3944] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
                     {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
@@ -546,15 +547,11 @@ export default function Home({ lang, content }) {
                   <div className="w-14 h-14 bg-[#2c1d5f] bg-opacity-10 rounded-full flex items-center justify-center mb-6">
                     <Users className="text-[#2c1d5f]" size={28} />
                   </div>
-                  <h3 className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`}>
-                    {programsSection?.cards?.[2]?.title ?? t.nav.founder}
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed mb-6">
-                    {programsSection?.cards?.[2]?.text ??
+                  <RichText as="h3" value={programsSection?.cards?.[2]?.title ?? t.nav.founder} className={`text-xl ${t.serif} font-bold text-[#1c3944] mb-4`} />
+                  <RichText as="p" value={programsSection?.cards?.[2]?.text ??
                       (lang === 'ar'
                         ? 'تعرف على رياض سيف، رائد الإصلاح الديمقراطي والمدافع عن حقوق الإنسان'
-                        : 'Learn about Riad Seif, pioneer of democratic reform and human rights advocate')}
-                  </p>
+                        : 'Learn about Riad Seif, pioneer of democratic reform and human rights advocate')} className="text-slate-600 leading-relaxed mb-6" />
                   <span className={`text-[#2c1d5f] font-semibold flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     {lang === 'ar' ? 'قراءة المزيد' : 'Read More'}
                     {isRTL ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
@@ -580,15 +577,13 @@ export default function Home({ lang, content }) {
               transition={{ duration: 0.8 }}
               className={isRTL ? 'lg:order-2' : ''}
             >
-              <span className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block">
-                {centerSection?.tagline ?? (lang === 'ar' ? 'برنامجنا الرئيسي' : 'Our Main Program')}
-              </span>
-              <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-6`}>
-                {centerSection?.title ?? t.center.title}
-              </h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                {centerSection?.description ?? t.center.intro.text}
-              </p>
+              <RichText
+                as="span"
+                value={centerSection?.tagline ?? (lang === 'ar' ? 'برنامجنا الرئيسي' : 'Our Main Program')}
+                className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block"
+              />
+              <RichText as="h2" value={centerSection?.title ?? t.center.title} className={`text-4xl lg:text-5xl ${t.serif} font-bold text-[#1c3944] mb-6`} />
+              <RichText as="p" value={centerSection?.description ?? t.center.intro.text} className="text-slate-600 text-lg leading-relaxed mb-6" />
               
               <div className="space-y-4 mb-8">
                 <motion.div 
@@ -602,15 +597,15 @@ export default function Home({ lang, content }) {
                     <BookOpen className="text-[#f7c20e]" size={20} />
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {centerSection?.bullets?.[0]?.title ?? (lang === 'ar' ? 'التدريب المتخصص' : 'Specialized Training')}
-                    </h4>
-                    <p className="text-slate-600 text-sm">
-                      {centerSection?.bullets?.[0]?.text ??
+                    <RichText
+                      as="h4"
+                      value={centerSection?.bullets?.[0]?.title ?? (lang === 'ar' ? 'التدريب المتخصص' : 'Specialized Training')}
+                      className="font-semibold text-[#1c3944] mb-1"
+                    />
+                    <RichText as="p" value={centerSection?.bullets?.[0]?.text ??
                         (lang === 'ar'
                           ? 'برامج تدريبية مصممة خصيصاً للسياق السوري في مجال حقوق الإنسان والعدالة الانتقالية'
-                          : 'Training programs specifically designed for the Syrian context in human rights and transitional justice')}
-                    </p>
+                          : 'Training programs specifically designed for the Syrian context in human rights and transitional justice')} className="text-slate-600 text-sm" />
                   </div>
                 </motion.div>
                 
@@ -625,15 +620,15 @@ export default function Home({ lang, content }) {
                     <Users className="text-[#f7c20e]" size={20} />
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {centerSection?.bullets?.[1]?.title ?? (lang === 'ar' ? 'بناء القيادات' : 'Leadership Building')}
-                    </h4>
-                    <p className="text-slate-600 text-sm">
-                      {centerSection?.bullets?.[1]?.text ??
+                    <RichText
+                      as="h4"
+                      value={centerSection?.bullets?.[1]?.title ?? (lang === 'ar' ? 'بناء القيادات' : 'Leadership Building')}
+                      className="font-semibold text-[#1c3944] mb-1"
+                    />
+                    <RichText as="p" value={centerSection?.bullets?.[1]?.text ??
                         (lang === 'ar'
                           ? 'إعداد جيل جديد من المحامين والمدافعين عن حقوق الإنسان من خلال التوجيه والتشبيك'
-                          : 'Preparing a new generation of lawyers and human rights defenders through mentorship and networking')}
-                    </p>
+                          : 'Preparing a new generation of lawyers and human rights defenders through mentorship and networking')} className="text-slate-600 text-sm" />
                   </div>
                 </motion.div>
                 
@@ -648,15 +643,15 @@ export default function Home({ lang, content }) {
                     <Scale className="text-[#f7c20e]" size={20} />
                   </div>
                   <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <h4 className="font-semibold text-[#1c3944] mb-1">
-                      {centerSection?.bullets?.[2]?.title ?? (lang === 'ar' ? 'العدالة الانتقالية' : 'Transitional Justice')}
-                    </h4>
-                    <p className="text-slate-600 text-sm">
-                      {centerSection?.bullets?.[2]?.text ??
+                    <RichText
+                      as="h4"
+                      value={centerSection?.bullets?.[2]?.title ?? (lang === 'ar' ? 'العدالة الانتقالية' : 'Transitional Justice')}
+                      className="font-semibold text-[#1c3944] mb-1"
+                    />
+                    <RichText as="p" value={centerSection?.bullets?.[2]?.text ??
                         (lang === 'ar'
                           ? 'التركيز على الحقيقة والعدالة وجبر الضرر وضمان عدم التكرار'
-                          : 'Focus on truth, justice, reparations, and guarantees of non-recurrence')}
-                    </p>
+                          : 'Focus on truth, justice, reparations, and guarantees of non-recurrence')} className="text-slate-600 text-sm" />
                   </div>
                 </motion.div>
               </div>
@@ -666,7 +661,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ x: isRTL ? -5 : 5 }}
                   className={`flex items-center gap-3 text-[#f7c20e] font-semibold cursor-pointer w-fit ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  <span>{centerSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد عن المركز' : 'Discover More About the Center')}</span>
+                  <RichText as="span" value={centerSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد عن المركز' : 'Discover More About the Center')} />
                   {isRTL ? <ArrowLeft size={18} className="shrink-0" /> : <ArrowRight size={18} className="shrink-0" />}
                 </motion.div>
               </Link>
@@ -739,18 +734,16 @@ export default function Home({ lang, content }) {
               transition={{ duration: 0.8 }}
               className={isRTL ? 'lg:order-2' : ''}
             >
-              <span className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block">
-                {aboutFoundationSection?.tagline ?? (lang === 'ar' ? 'من نحن' : 'Who We Are')}
-              </span>
-              <h2 className={`text-4xl lg:text-5xl ${t.serif} font-bold text-white mb-6`}>
-                {aboutFoundationSection?.title ?? (lang === 'ar' ? 'عن المؤسسة' : 'About the Foundation')}
-              </h2>
-              <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                {aboutFoundationSection?.description ??
+              <RichText
+                as="span"
+                value={aboutFoundationSection?.tagline ?? (lang === 'ar' ? 'من نحن' : 'Who We Are')}
+                className="text-[#f7c20e] text-sm font-semibold uppercase tracking-widest mb-4 block"
+              />
+              <RichText as="h2" value={aboutFoundationSection?.title ?? (lang === 'ar' ? 'عن المؤسسة' : 'About the Foundation')} className={`text-4xl lg:text-5xl ${t.serif} font-bold text-white mb-6`} />
+              <RichText as="p" value={aboutFoundationSection?.description ??
                   (lang === 'ar'
                     ? 'مؤسسة رياض سيف لحقوق الإنسان هي منظمة غير حكومية وغير ربحية تأسست لتكريم إرث المناضل رياض سيف. نعمل على تعزيز قيم الديمقراطية والعدالة وحقوق الإنسان في سوريا من خلال برامج تدريبية ومبادرات حوارية.'
-                    : 'The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization founded to honor the legacy of activist Riad Seif. We work to promote democracy, justice, and human rights in Syria through training programs and dialogue initiatives.')}
-              </p>
+                    : 'The Riad Seif Foundation for Human Rights is a non-governmental, non-profit organization founded to honor the legacy of activist Riad Seif. We work to promote democracy, justice, and human rights in Syria through training programs and dialogue initiatives.')} className="text-slate-300 text-lg leading-relaxed mb-6" />
               <div className="flex flex-wrap gap-8 mt-8">
                 <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 bg-[#f7c20e] rounded-full flex items-center justify-center">
@@ -783,7 +776,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ x: isRTL ? -5 : 5 }}
                   className={`flex items-center gap-3 text-[#f7c20e] font-semibold cursor-pointer w-fit ${isRTL ? 'flex-row-reverse' : ''}`}
                 >
-                  <span>{aboutFoundationSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد' : 'Discover More')}</span>
+                  <RichText as="span" value={aboutFoundationSection?.cta ?? (lang === 'ar' ? 'اكتشف المزيد' : 'Discover More')} />
                   {isRTL ? <ArrowLeft size={18} className="shrink-0" /> : <ArrowRight size={18} className="shrink-0" />}
                 </motion.div>
               </Link>
@@ -861,22 +854,20 @@ export default function Home({ lang, content }) {
             className="text-center max-w-4xl mx-auto"
           >
             <Quote className="text-[#f7c20e] mx-auto mb-8 opacity-50" size={48} />
-            <blockquote className={`text-2xl lg:text-3xl ${t.serif} text-[#1c3944] leading-relaxed mb-8 font-medium`}>
-              {founderQuote?.quote ??
+            <RichText as="blockquote" value={founderQuote?.quote ??
                 (lang === 'ar'
                   ? '"الديمقراطية ليست مجرد نظام حكم، بل هي ثقافة حياة تقوم على احترام الإنسان وكرامته وحقوقه الأساسية."'
-                  : '"Democracy is not just a system of governance, but a culture of life based on respect for human dignity and fundamental rights."')}
-            </blockquote>
+                  : '"Democracy is not just a system of governance, but a culture of life based on respect for human dignity and fundamental rights."')} className={`text-2xl lg:text-3xl ${t.serif} text-[#1c3944] leading-relaxed mb-8 font-medium`} />
             <div className="flex items-center justify-center gap-4">
               <div className="w-16 h-1 bg-[#f7c20e]"></div>
-              <span className={`${t.serif} text-lg text-[#1c3944] font-semibold`}>
-                {founderQuote?.author ?? (lang === 'ar' ? 'رياض سيف' : 'Riad Seif')}
-              </span>
+              <RichText
+                as="span"
+                value={founderQuote?.author ?? (lang === 'ar' ? 'رياض سيف' : 'Riad Seif')}
+                className={`${t.serif} text-lg text-[#1c3944] font-semibold`}
+              />
               <div className="w-16 h-1 bg-[#f7c20e]"></div>
             </div>
-            <p className="text-slate-500 text-sm" style={{ marginTop: '2rem' }}>
-              {founderQuote?.role ?? (lang === 'ar' ? 'رائد الإصلاح الديمقراطي' : 'Democratic Reform Pioneer')}
-            </p>
+            <RichText as="p" value={founderQuote?.role ?? (lang === 'ar' ? 'رائد الإصلاح الديمقراطي' : 'Democratic Reform Pioneer')} className="text-slate-500 text-sm" style={{ marginTop: '2rem' }} />
             
             <div style={{ marginTop: '1.5rem' }}>
               <Link href="/founder">
@@ -884,7 +875,7 @@ export default function Home({ lang, content }) {
                   whileHover={{ scale: 1.05 }}
                   className="inline-block bg-[#1c3944] text-white px-8 py-3 text-sm font-semibold hover:bg-[#f7c20e] hover:text-[#1c3944] transition-all duration-300 cursor-pointer"
                 >
-                  {founderQuote?.cta ?? (lang === 'ar' ? 'تعرف على رياض سيف' : 'Meet Riad Seif')}
+                  <RichText as="span" value={founderQuote?.cta ?? (lang === 'ar' ? 'تعرف على رياض سيف' : 'Meet Riad Seif')} />
                 </motion.span>
               </Link>
             </div>

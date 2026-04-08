@@ -194,22 +194,26 @@ export default function About({ lang, content }) {
             >
               {t.nav.about}
             </motion.span>
-            <motion.h1 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className={`text-4xl lg:text-5xl ${t.serif} text-white mb-8 drop-shadow-lg`}
+              className="mb-8"
             >
-              {t.about.whoWeAre.title}
-            </motion.h1>
-            <motion.p 
+              <RichText
+                as="h1"
+                value={t.about.whoWeAre.title}
+                className={`text-4xl lg:text-5xl ${t.serif} text-white drop-shadow-lg`}
+              />
+            </motion.div>
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-xl text-white leading-relaxed font-light drop-shadow-md"
             >
-                {t.about.whoWeAre.text}
-            </motion.p>
+              <RichText as="p" value={t.about.whoWeAre.text} />
+            </motion.div>
          </div>
       </div>
 
@@ -260,10 +264,16 @@ export default function About({ lang, content }) {
                   <Target className="text-[#f7c20e]" size={32} />
                 </motion.div>
                 
-                <h3 className={`text-3xl ${t.serif} text-[#f7c20e] mb-6 relative z-10`}>{t.about.vision.title}</h3>
-                <p className="text-lg leading-relaxed font-light text-slate-200 relative z-10">
-                    {t.about.vision.text}
-                </p>
+                <RichText
+                  as="h3"
+                  value={t.about.vision.title}
+                  className={`text-3xl ${t.serif} text-[#f7c20e] mb-6 relative z-10`}
+                />
+                <RichText
+                  as="p"
+                  value={t.about.vision.text}
+                  className="text-lg leading-relaxed font-light text-slate-200 relative z-10"
+                />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: isRTL ? -50 : 50 }}
@@ -308,10 +318,16 @@ export default function About({ lang, content }) {
                   <Lightbulb className="text-[#f7c20e]" size={32} />
                 </motion.div>
                 
-                <h3 className={`text-3xl ${t.serif} text-[#f7c20e] mb-6 relative z-10`}>{t.about.mission.title}</h3>
-                <p className="text-lg leading-relaxed font-light text-slate-200 relative z-10">
-                    {t.about.mission.text}
-                </p>
+                <RichText
+                  as="h3"
+                  value={t.about.mission.title}
+                  className={`text-3xl ${t.serif} text-[#f7c20e] mb-6 relative z-10`}
+                />
+                <RichText
+                  as="p"
+                  value={t.about.mission.text}
+                  className="text-lg leading-relaxed font-light text-slate-200 relative z-10"
+                />
             </motion.div>
         </div>
 
@@ -373,14 +389,18 @@ export default function About({ lang, content }) {
               
               {/* Content */}
               <div className="relative z-10">
-                <motion.h2
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944] mb-8 relative`}
+                  className="mb-8 relative"
                 >
-                  {t.about.ourStory.title}
+                  <RichText
+                    as="h2"
+                    value={t.about.ourStory.title}
+                    className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944]`}
+                  />
                   <motion.div
                     className="absolute -bottom-2 left-0 h-1 bg-[#f7c20e] rounded-full"
                     initial={{ width: 0 }}
@@ -388,7 +408,7 @@ export default function About({ lang, content }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.5 }}
                   />
-                </motion.h2>
+                </motion.div>
                 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -397,7 +417,11 @@ export default function About({ lang, content }) {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="text-slate-700 text-lg leading-relaxed space-y-4"
                 >
-                    <p className="relative pl-6 border-l-4 border-[#f7c20e] border-opacity-30">{t.about.ourStory.text}</p>
+                    <RichText
+                      as="p"
+                      value={t.about.ourStory.text}
+                      className="relative pl-6 border-l-4 border-[#f7c20e] border-opacity-30"
+                    />
                 </motion.div>
               </div>
             </div>
@@ -410,15 +434,15 @@ export default function About({ lang, content }) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className={`text-3xl ${t.serif} text-[#1c3944] mb-12 text-center`}
+              className="mb-12 text-center"
             >
-              {t.about.approach.title}
-            </motion.h2>
+              <RichText as="h2" value={t.about.approach.title} className={`text-3xl ${t.serif} text-[#1c3944]`} />
+            </motion.div>
             <div className="grid md:grid-cols-2 gap-8">
                 {t.about.approach.pillars.map((pillar, i) => {
                     const Icon = pillarsIcons[i];
@@ -455,8 +479,12 @@ export default function About({ lang, content }) {
                           }}
                         />
                         
-                        <h4 className={`text-xl ${t.serif} text-[#1c3944] mb-4 font-bold`}>{pillar.title}</h4>
-                        <p className="text-slate-600">{pillar.desc}</p>
+                        <RichText
+                          as="h4"
+                          value={pillar.title}
+                          className={`text-xl ${t.serif} text-[#1c3944] mb-4 font-bold`}
+                        />
+                        <RichText as="p" value={pillar.desc} className="text-slate-600" />
                       </motion.div>
                     );
                 })}
@@ -591,24 +619,24 @@ export default function About({ lang, content }) {
             )}
 
             <div className="text-center mb-16">
-                <motion.h2
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
-                  className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944] mb-4`}
+                  className="mb-4"
                 >
-                  {t.about.team.title}
-                </motion.h2>
-                <motion.p
+                  <RichText as="h2" value={t.about.team.title} className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944]`} />
+                </motion.div>
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-slate-600 text-lg max-w-3xl mx-auto"
                 >
-                  {t.about.team.subtitle}
-                </motion.p>
+                  <RichText as="p" value={t.about.team.subtitle} />
+                </motion.div>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

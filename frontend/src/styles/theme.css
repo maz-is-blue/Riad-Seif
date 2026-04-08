@@ -133,9 +133,49 @@
   * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
   */
 
-  html {
-    font-size: var(--font-size);
-  }
+html {
+  font-size: var(--font-size);
+}
+
+.rich-text b,
+.rich-text strong {
+  font-weight: 700;
+}
+
+.rich-text i,
+.rich-text em {
+  font-style: italic;
+}
+
+.rich-text u {
+  text-decoration: underline;
+}
+
+.rich-text ul,
+.rich-text ol {
+  margin: 0.5rem 0;
+  padding-inline-start: 1.25rem;
+}
+
+.rich-text ul {
+  list-style-type: disc;
+}
+
+.rich-text ol {
+  list-style-type: decimal;
+}
+
+.rich-text li {
+  margin: 0.25rem 0;
+}
+
+.rich-text p {
+  margin: 0;
+}
+
+.rich-text p + p {
+  margin-top: 0.5rem;
+}
 
   h1 {
     font-size: var(--text-2xl);
