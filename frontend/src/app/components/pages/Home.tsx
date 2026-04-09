@@ -139,6 +139,18 @@ export default function Home({ lang, content }) {
       typeof slide?.description === "string" ? slide.description : "",
     );
 
+    const hasHtml = (value: unknown) => typeof value === "string" && /<[^>]+>/.test(value);
+    const resolvedDescAr = hasHtml(descAr)
+      ? descAr
+      : hasHtml(slide?.desc)
+      ? String(slide.desc)
+      : descAr || slide?.desc || fallback.descAr || fallback.descEn;
+    const resolvedDescEn = hasHtml(descEn)
+      ? descEn
+      : hasHtml(slide?.desc)
+      ? String(slide.desc)
+      : descEn || slide?.desc || fallback.descEn || fallback.descAr;
+
     return {
       ...fallback,
       ...slide,
@@ -146,8 +158,8 @@ export default function Home({ lang, content }) {
       link: firstText(slide?.link, slide?.url, slide?.path) || fallback.link,
       titleAr: titleAr || titleEn || fallback.titleAr,
       titleEn: titleEn || titleAr || fallback.titleEn,
-      descAr: descAr || descEn || fallback.descAr,
-      descEn: descEn || descAr || fallback.descEn,
+      descAr: resolvedDescAr,
+      descEn: resolvedDescEn,
       color: firstText(slide?.color, slide?.textColor) || fallback.color,
       icon: slide?.icon || fallback.icon,
     };
