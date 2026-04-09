@@ -639,11 +639,11 @@ export default function Forum({ lang, content }) {
                </button>
 
                {/* Photo Image */}
-               <div className="relative h-96 overflow-hidden rounded-t-2xl">
+               <div className="relative h-96 overflow-hidden rounded-t-2xl bg-slate-900 flex items-center justify-center">
                  <img
                    src={selectedPhoto.image}
                    alt={lang === 'ar' ? selectedPhoto.titleAr : selectedPhoto.title}
-                   className="w-full h-full object-cover"
+                   className="w-full h-full object-contain"
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                  <div className={`absolute bottom-8 ${isRTL ? 'right-8' : 'left-8'} text-white`}>
@@ -695,11 +695,11 @@ export default function Forum({ lang, content }) {
                </button>
 
                {/* Member Image */}
-               <div className="relative h-80 overflow-hidden rounded-t-2xl">
+               <div className="relative h-80 overflow-hidden rounded-t-2xl bg-slate-900 flex items-center justify-center">
                  <img
                    src={selectedMember.image}
                    alt={getMemberValue(selectedMember, 'name')}
-                   className="w-full h-full object-cover"
+                   className="w-full h-full object-contain"
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                  <div className={`absolute bottom-8 ${isRTL ? 'right-8' : 'left-8'} text-white`}>

@@ -713,11 +713,11 @@ export default function About({ lang, content }) {
               </button>
 
               {/* Member Image */}
-              <div className="relative h-80 overflow-hidden">
+              <div className="relative h-80 overflow-hidden bg-slate-900 flex items-center justify-center">
                 <img
                   src={selectedMember.image}
                   alt={getLocalized(selectedMember.nameAr, selectedMember.name)}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                 <div className={`absolute bottom-8 ${isRTL ? 'right-8' : 'left-8'} text-white`}>
