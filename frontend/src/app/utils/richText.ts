@@ -8,11 +8,21 @@ export function sanitizeRichText(input: string) {
     .replace(/javascript:/gi, "");
 }
 
+function decodeBasicEntities(input: string) {
+  return input
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&amp;/gi, "&");
+}
+
 export function formatRichText(input: string) {
   if (!input) return "";
   const sanitized = sanitizeRichText(input);
-  if (/<[a-z][\s\S]*>/i.test(sanitized)) {
-    return sanitized;
+  const decoded = sanitizeRichText(decodeBasicEntities(sanitized));
+  if (/<[a-z][\s\S]*>/i.test(decoded)) {
+    return decoded;
   }
-  return sanitized.replace(/\n/g, "<br />");
+  return decoded.replace(/\n/g, "<br />");
 }

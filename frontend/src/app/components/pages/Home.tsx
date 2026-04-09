@@ -84,8 +84,28 @@ export default function Home({ lang, content }) {
 
   const slides = baseSlides.map((slide, index) => {
     const fallback = defaultSlides[index % defaultSlides.length];
-    const titleAr = firstText(slide?.titleAr, slide?.title_ar, slide?.title?.ar, slide?.title?.arabic);
-    const titleEn = firstText(slide?.titleEn, slide?.title_en, slide?.title?.en, slide?.title?.english);
+    const titleAr = firstText(
+      slide?.titleAr,
+      slide?.title_ar,
+      slide?.title?.ar,
+      slide?.title?.arabic,
+      slide?.headingAr,
+      slide?.heading_ar,
+      slide?.headlineAr,
+      slide?.headline_ar,
+      typeof slide?.title === "string" ? slide.title : "",
+    );
+    const titleEn = firstText(
+      slide?.titleEn,
+      slide?.title_en,
+      slide?.title?.en,
+      slide?.title?.english,
+      slide?.headingEn,
+      slide?.heading_en,
+      slide?.headlineEn,
+      slide?.headline_en,
+      typeof slide?.title === "string" ? slide.title : "",
+    );
     const descAr = firstText(
       slide?.descAr,
       slide?.desc_ar,
@@ -95,6 +115,12 @@ export default function Home({ lang, content }) {
       slide?.description?.arabic,
       slide?.textAr,
       slide?.text_ar,
+      slide?.subtitleAr,
+      slide?.subtitle_ar,
+      slide?.summaryAr,
+      slide?.summary_ar,
+      typeof slide?.desc === "string" ? slide.desc : "",
+      typeof slide?.description === "string" ? slide.description : "",
     );
     const descEn = firstText(
       slide?.descEn,
@@ -105,6 +131,12 @@ export default function Home({ lang, content }) {
       slide?.description?.english,
       slide?.textEn,
       slide?.text_en,
+      slide?.subtitleEn,
+      slide?.subtitle_en,
+      slide?.summaryEn,
+      slide?.summary_en,
+      typeof slide?.desc === "string" ? slide.desc : "",
+      typeof slide?.description === "string" ? slide.description : "",
     );
 
     return {

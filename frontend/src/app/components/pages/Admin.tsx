@@ -405,8 +405,28 @@ export default function Admin({ lang, content, onContentUpdate }) {
       return "";
     };
 
-    const titleAr = read(normalized.titleAr, normalized.title_ar, normalized.title?.ar, normalized.title?.arabic);
-    const titleEn = read(normalized.titleEn, normalized.title_en, normalized.title?.en, normalized.title?.english);
+    const titleAr = read(
+      normalized.titleAr,
+      normalized.title_ar,
+      normalized.title?.ar,
+      normalized.title?.arabic,
+      normalized.headingAr,
+      normalized.heading_ar,
+      normalized.headlineAr,
+      normalized.headline_ar,
+      typeof normalized.title === "string" ? normalized.title : "",
+    );
+    const titleEn = read(
+      normalized.titleEn,
+      normalized.title_en,
+      normalized.title?.en,
+      normalized.title?.english,
+      normalized.headingEn,
+      normalized.heading_en,
+      normalized.headlineEn,
+      normalized.headline_en,
+      typeof normalized.title === "string" ? normalized.title : "",
+    );
     const descAr = read(
       normalized.descAr,
       normalized.desc_ar,
@@ -416,6 +436,12 @@ export default function Admin({ lang, content, onContentUpdate }) {
       normalized.description?.arabic,
       normalized.textAr,
       normalized.text_ar,
+      normalized.subtitleAr,
+      normalized.subtitle_ar,
+      normalized.summaryAr,
+      normalized.summary_ar,
+      typeof normalized.desc === "string" ? normalized.desc : "",
+      typeof normalized.description === "string" ? normalized.description : "",
     );
     const descEn = read(
       normalized.descEn,
@@ -426,6 +452,12 @@ export default function Admin({ lang, content, onContentUpdate }) {
       normalized.description?.english,
       normalized.textEn,
       normalized.text_en,
+      normalized.subtitleEn,
+      normalized.subtitle_en,
+      normalized.summaryEn,
+      normalized.summary_en,
+      typeof normalized.desc === "string" ? normalized.desc : "",
+      typeof normalized.description === "string" ? normalized.description : "",
     );
 
     if (titleAr) normalized.titleAr = titleAr;
@@ -452,6 +484,22 @@ export default function Admin({ lang, content, onContentUpdate }) {
     delete normalized.textEn;
     delete normalized.text_ar;
     delete normalized.text_en;
+    delete normalized.subtitleAr;
+    delete normalized.subtitleEn;
+    delete normalized.subtitle_ar;
+    delete normalized.subtitle_en;
+    delete normalized.summaryAr;
+    delete normalized.summaryEn;
+    delete normalized.summary_ar;
+    delete normalized.summary_en;
+    delete normalized.headingAr;
+    delete normalized.headingEn;
+    delete normalized.heading_ar;
+    delete normalized.heading_en;
+    delete normalized.headlineAr;
+    delete normalized.headlineEn;
+    delete normalized.headline_ar;
+    delete normalized.headline_en;
     delete normalized.image_url;
     delete normalized.photo;
     delete normalized.cover;
