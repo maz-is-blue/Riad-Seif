@@ -191,6 +191,16 @@ html {
   font-style: italic;
 }
 
+.hero-rich-title,
+.hero-rich-desc {
+  color: #ffffff;
+}
+
+.hero-rich-title *,
+.hero-rich-desc * {
+  color: inherit !important;
+}
+
   h1 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);

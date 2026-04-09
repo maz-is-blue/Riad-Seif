@@ -392,20 +392,72 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const normalizeHeroSlide = (slide: any) => {
     if (!isPlainObject(slide)) return slide;
     const normalized = { ...slide };
-    const titleAr = normalized.titleAr ?? normalized.title_ar ?? normalized.title?.ar;
-    const titleEn = normalized.titleEn ?? normalized.title_en ?? normalized.title?.en;
-    const descAr = normalized.descAr ?? normalized.desc_ar ?? normalized.description?.ar;
-    const descEn = normalized.descEn ?? normalized.desc_en ?? normalized.description?.en;
+    const toText = (value: unknown) => {
+      if (typeof value === "string") return value.trim();
+      if (typeof value === "number") return String(value);
+      return "";
+    };
+    const read = (...values: unknown[]) => {
+      for (const value of values) {
+        const next = toText(value);
+        if (next) return next;
+      }
+      return "";
+    };
 
-    if (titleAr !== undefined) normalized.titleAr = titleAr;
-    if (titleEn !== undefined) normalized.titleEn = titleEn;
-    if (descAr !== undefined) normalized.descAr = descAr;
-    if (descEn !== undefined) normalized.descEn = descEn;
+    const titleAr = read(normalized.titleAr, normalized.title_ar, normalized.title?.ar, normalized.title?.arabic);
+    const titleEn = read(normalized.titleEn, normalized.title_en, normalized.title?.en, normalized.title?.english);
+    const descAr = read(
+      normalized.descAr,
+      normalized.desc_ar,
+      normalized.descriptionAr,
+      normalized.description_ar,
+      normalized.description?.ar,
+      normalized.description?.arabic,
+      normalized.textAr,
+      normalized.text_ar,
+    );
+    const descEn = read(
+      normalized.descEn,
+      normalized.desc_en,
+      normalized.descriptionEn,
+      normalized.description_en,
+      normalized.description?.en,
+      normalized.description?.english,
+      normalized.textEn,
+      normalized.text_en,
+    );
+
+    if (titleAr) normalized.titleAr = titleAr;
+    if (titleEn) normalized.titleEn = titleEn;
+    if (descAr) normalized.descAr = descAr;
+    if (descEn) normalized.descEn = descEn;
+
+    const image = read(normalized.image, normalized.image_url, normalized.photo, normalized.cover);
+    const link = read(normalized.link, normalized.url, normalized.path);
+    const color = read(normalized.color, normalized.textColor);
+    if (image) normalized.image = image;
+    if (link) normalized.link = link;
+    if (color) normalized.color = color;
 
     delete normalized.title_ar;
     delete normalized.title_en;
     delete normalized.desc_ar;
     delete normalized.desc_en;
+    delete normalized.descriptionAr;
+    delete normalized.descriptionEn;
+    delete normalized.description_ar;
+    delete normalized.description_en;
+    delete normalized.textAr;
+    delete normalized.textEn;
+    delete normalized.text_ar;
+    delete normalized.text_en;
+    delete normalized.image_url;
+    delete normalized.photo;
+    delete normalized.cover;
+    delete normalized.url;
+    delete normalized.path;
+    delete normalized.textColor;
     delete normalized.title;
     delete normalized.description;
     return normalized;
@@ -419,7 +471,11 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const sourceSlides = Array.isArray(slides) ? slides.map(normalizeHeroSlide) : [];
     const targetLength = Math.max(fallbackSlides.length, sourceSlides.length, 4);
 
-    const text = (value: unknown) => String(value ?? "").trim();
+    const text = (value: unknown) => {
+      if (typeof value === "string") return value.trim();
+      if (typeof value === "number") return String(value);
+      return "";
+    };
 
     return Array.from({ length: targetLength }).map((_, index) => {
       const fallback = normalizeHeroSlide(fallbackSlides[index] ?? {}) ?? {};
@@ -762,7 +818,9 @@ export default function Admin({ lang, content, onContentUpdate }) {
       const enObj = isPlainObject(enValue) ? enValue : {};
       const sectionKey = pathText;
       const isCollapsed = collapsed.has(sectionKey);
-      const keys = Array.from(new Set([...Object.keys(arObj), ...Object.keys(enObj)]));
+      const keys = Array.from(new Set([...Object.keys(arObj), ...Object.keys(enObj)])).filter(
+        (key) => String(key).trim().length > 0,
+      );
       const visibleKeys = keys.filter((key) => {
         const keyArValue = arObj[key];
         const keyEnValue = enObj[key];

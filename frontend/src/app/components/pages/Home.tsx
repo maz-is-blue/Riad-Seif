@@ -68,23 +68,55 @@ export default function Home({ lang, content }) {
     ? t.home.heroSlides
     : defaultSlides;
 
+  const textValue = (value: unknown) => {
+    if (typeof value === "string") return value.trim();
+    if (typeof value === "number") return String(value);
+    return "";
+  };
+
+  const firstText = (...values: unknown[]) => {
+    for (const value of values) {
+      const next = textValue(value);
+      if (next) return next;
+    }
+    return "";
+  };
+
   const slides = baseSlides.map((slide, index) => {
     const fallback = defaultSlides[index % defaultSlides.length];
-    const titleAr = String(slide?.titleAr ?? '').trim();
-    const titleEn = String(slide?.titleEn ?? '').trim();
-    const descAr = String(slide?.descAr ?? '').trim();
-    const descEn = String(slide?.descEn ?? '').trim();
+    const titleAr = firstText(slide?.titleAr, slide?.title_ar, slide?.title?.ar, slide?.title?.arabic);
+    const titleEn = firstText(slide?.titleEn, slide?.title_en, slide?.title?.en, slide?.title?.english);
+    const descAr = firstText(
+      slide?.descAr,
+      slide?.desc_ar,
+      slide?.descriptionAr,
+      slide?.description_ar,
+      slide?.description?.ar,
+      slide?.description?.arabic,
+      slide?.textAr,
+      slide?.text_ar,
+    );
+    const descEn = firstText(
+      slide?.descEn,
+      slide?.desc_en,
+      slide?.descriptionEn,
+      slide?.description_en,
+      slide?.description?.en,
+      slide?.description?.english,
+      slide?.textEn,
+      slide?.text_en,
+    );
 
     return {
       ...fallback,
       ...slide,
-      image: String(slide?.image ?? '').trim() || fallback.image,
-      link: String(slide?.link ?? '').trim() || fallback.link,
+      image: firstText(slide?.image, slide?.image_url, slide?.photo, slide?.cover) || fallback.image,
+      link: firstText(slide?.link, slide?.url, slide?.path) || fallback.link,
       titleAr: titleAr || titleEn || fallback.titleAr,
       titleEn: titleEn || titleAr || fallback.titleEn,
       descAr: descAr || descEn || fallback.descAr,
       descEn: descEn || descAr || fallback.descEn,
-      color: String(slide?.color ?? '').trim() || fallback.color,
+      color: firstText(slide?.color, slide?.textColor) || fallback.color,
       icon: slide?.icon || fallback.icon,
     };
   });
