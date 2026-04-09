@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import RichText from "./RichText";
+import { useEffect, useRef, type MouseEvent } from "react";
+import { formatRichText } from "../utils/richText";
 
 type RichTextEditorProps = {
   value: string;
@@ -7,68 +7,56 @@ type RichTextEditorProps = {
   minHeight?: number;
 };
 
-const ensureString = (value: unknown) => String(value ?? "");
-
 export default function RichTextEditor({
   value,
   onChange,
   minHeight = 140,
 }: RichTextEditorProps) {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const selectionRef = useRef<Range | null>(null);
 
-  const applyWrapper = (prefix: string, suffix: string) => {
-    const el = textareaRef.current;
-    const current = ensureString(value);
-    if (!el) {
-      onChange(`${prefix}${current}${suffix}`);
-      return;
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    const nextHtml = formatRichText(value ?? "");
+    if (editor.innerHTML !== nextHtml) {
+      editor.innerHTML = nextHtml;
     }
+  }, [value]);
 
-    const start = el.selectionStart ?? 0;
-    const end = el.selectionEnd ?? 0;
-    const selected = current.slice(start, end);
-    const wrapped = `${prefix}${selected}${suffix}`;
-    const next = `${current.slice(0, start)}${wrapped}${current.slice(end)}`;
-    onChange(next);
-
-    window.requestAnimationFrame(() => {
-      const target = textareaRef.current;
-      if (!target) return;
-      target.focus();
-      const cursor = start + wrapped.length;
-      target.selectionStart = cursor;
-      target.selectionEnd = cursor;
-    });
+  const saveSelection = () => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+    if (editor.contains(range.commonAncestorContainer)) {
+      selectionRef.current = range.cloneRange();
+    }
   };
 
-  const applyList = () => {
-    const el = textareaRef.current;
-    const current = ensureString(value);
-    if (!el) {
-      onChange("<ul>\n  <li></li>\n</ul>");
-      return;
-    }
-
-    const start = el.selectionStart ?? 0;
-    const end = el.selectionEnd ?? 0;
-    const selected = current.slice(start, end).trim();
-    const listItem = selected || "";
-    const insertion = `<ul>\n  <li>${listItem}</li>\n</ul>`;
-    const next = `${current.slice(0, start)}${insertion}${current.slice(end)}`;
-    onChange(next);
-
-    window.requestAnimationFrame(() => {
-      const target = textareaRef.current;
-      if (!target) return;
-      target.focus();
-      const cursor = start + insertion.length;
-      target.selectionStart = cursor;
-      target.selectionEnd = cursor;
-    });
+  const restoreSelection = () => {
+    const range = selectionRef.current;
+    if (!range) return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    selection.removeAllRanges();
+    selection.addRange(range);
   };
 
-  const applyColor = (hex: string) => {
-    applyWrapper(`<span style="color:${hex}">`, "</span>");
+  const runCommand = (command: string, commandValue?: string) => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    editor.focus();
+    restoreSelection();
+    document.execCommand(command, false, commandValue);
+    saveSelection();
+    onChange(editor.innerHTML);
+  };
+
+  const handleToolbarMouseDown = (event: MouseEvent) => {
+    // Prevent toolbar from stealing focus from the editable surface.
+    event.preventDefault();
   };
 
   return (
@@ -77,28 +65,32 @@ export default function RichTextEditor({
         <button
           type="button"
           className="rounded border border-slate-300 px-2 py-1 text-slate-700"
-          onClick={() => applyWrapper("<strong>", "</strong>")}
+          onMouseDown={handleToolbarMouseDown}
+          onClick={() => runCommand("bold")}
         >
           B
         </button>
         <button
           type="button"
           className="rounded border border-slate-300 px-2 py-1 italic text-slate-700"
-          onClick={() => applyWrapper("<em>", "</em>")}
+          onMouseDown={handleToolbarMouseDown}
+          onClick={() => runCommand("italic")}
         >
           I
         </button>
         <button
           type="button"
           className="rounded border border-slate-300 px-2 py-1 underline text-slate-700"
-          onClick={() => applyWrapper("<u>", "</u>")}
+          onMouseDown={handleToolbarMouseDown}
+          onClick={() => runCommand("underline")}
         >
           U
         </button>
         <button
           type="button"
           className="rounded border border-slate-300 px-2 py-1 text-slate-700"
-          onClick={applyList}
+          onMouseDown={handleToolbarMouseDown}
+          onClick={() => runCommand("insertUnorderedList")}
         >
           List
         </button>
@@ -107,24 +99,28 @@ export default function RichTextEditor({
           <input
             type="color"
             className="h-7 w-10 rounded border border-slate-300 bg-white"
-            onChange={(event) => applyColor(event.target.value)}
+            onMouseDown={handleToolbarMouseDown}
+            onChange={(event) => runCommand("foreColor", event.target.value)}
           />
         </label>
       </div>
-      <textarea
-        ref={textareaRef}
-        className="w-full resize-y px-3 py-2 text-sm leading-7 outline-none"
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        className="px-3 py-2 text-sm leading-7 outline-none rich-text"
         style={{ minHeight }}
-        value={ensureString(value)}
-        onChange={(event) => onChange(event.target.value)}
+        onClick={saveSelection}
+        onKeyUp={saveSelection}
+        onMouseUp={saveSelection}
+        onInput={(event) => onChange((event.currentTarget as HTMLDivElement).innerHTML)}
+        onPaste={(event) => {
+          // Keep pasted text simple to avoid malformed nested markup.
+          event.preventDefault();
+          const text = event.clipboardData.getData("text/plain");
+          document.execCommand("insertText", false, text);
+        }}
       />
-      <div className="border-t border-slate-200 bg-slate-50 px-3 py-2 text-[11px] text-slate-500">
-        {`HTML preview`}
-      </div>
-      <div className="px-3 py-3">
-        <RichText value={ensureString(value)} className="text-sm leading-7 text-slate-700" />
-      </div>
     </div>
   );
 }
-
