@@ -639,7 +639,7 @@ export default function Forum({ lang, content }) {
                </button>
 
                {/* Photo Image */}
-               <div className="relative h-96 overflow-hidden rounded-t-2xl bg-slate-900 flex items-center justify-center">
+               <div className="relative h-[28rem] overflow-hidden rounded-t-2xl flex items-center justify-center">
                  <img
                    src={selectedPhoto.image}
                    alt={lang === 'ar' ? selectedPhoto.titleAr : selectedPhoto.title}
@@ -695,7 +695,7 @@ export default function Forum({ lang, content }) {
                </button>
 
                {/* Member Image */}
-               <div className="relative h-80 overflow-hidden rounded-t-2xl bg-slate-900 flex items-center justify-center">
+               <div className="relative h-[28rem] overflow-hidden rounded-t-2xl flex items-center justify-center">
                  <img
                    src={selectedMember.image}
                    alt={getMemberValue(selectedMember, 'name')}

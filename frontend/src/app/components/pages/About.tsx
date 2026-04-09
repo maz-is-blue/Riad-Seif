@@ -713,7 +713,7 @@ export default function About({ lang, content }) {
               </button>
 
               {/* Member Image */}
-              <div className="relative h-80 overflow-hidden bg-slate-900 flex items-center justify-center">
+              <div className="relative h-[28rem] overflow-hidden flex items-center justify-center">
                 <img
                   src={selectedMember.image}
                   alt={getLocalized(selectedMember.nameAr, selectedMember.name)}
