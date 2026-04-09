@@ -264,9 +264,9 @@ export default function Home({ lang, content }) {
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
                     <RichText
-                      as="h1"
+                      as="div"
                       value={lang === 'ar' ? slide.titleAr : slide.titleEn}
-                      className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-snug lg:leading-tight mb-5 lg:mb-6 drop-shadow-2xl text-white px-[10px] py-[0px] break-words`}
+                      className={`hero-rich-title text-3xl sm:text-4xl lg:text-5xl xl:text-6xl ${t.serif} font-bold leading-snug lg:leading-tight mb-5 lg:mb-6 drop-shadow-2xl text-white px-[10px] py-[0px] break-words`}
                     />
                   </motion.div>
 
@@ -279,9 +279,9 @@ export default function Home({ lang, content }) {
                     transition={{ duration: 0.6, delay: 0.5 }}
                   >
                     <RichText
-                      as="p"
+                      as="div"
                       value={lang === 'ar' ? slide.descAr : slide.descEn}
-                      className="text-base sm:text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-7 lg:mb-8 px-[10px] py-[0px] max-w-2xl"
+                      className="hero-rich-desc text-base sm:text-lg lg:text-xl text-white/95 leading-relaxed font-light drop-shadow-xl mb-7 lg:mb-8 px-[10px] py-[0px] max-w-2xl"
                     />
                   </motion.div>
                   

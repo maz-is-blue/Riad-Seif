@@ -177,6 +177,20 @@ html {
   margin-top: 0.5rem;
 }
 
+.hero-rich-title strong,
+.hero-rich-title b,
+.hero-rich-desc strong,
+.hero-rich-desc b {
+  font-weight: 800 !important;
+}
+
+.hero-rich-title em,
+.hero-rich-title i,
+.hero-rich-desc em,
+.hero-rich-desc i {
+  font-style: italic;
+}
+
   h1 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);
