@@ -1109,7 +1109,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const activeEnglishValue = getByPath("en", activeBasePath);
 
   return (
-    <section className="py-16 lg:py-24 bg-slate-50">
+    <section className="py-16 lg:py-24 bg-slate-50 relative z-10 pointer-events-auto">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col gap-4 mb-8">
           <h1 className="text-3xl lg:text-4xl font-semibold text-[#1c3944]">
@@ -1125,7 +1125,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
         {token ? (
           <>
             <div className="grid lg:grid-cols-[220px_minmax(0,1fr)] gap-6">
-            <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6 pointer-events-auto">
               <div>
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
                   {isRTL ? "أقسام الموقع" : "Pages"}
@@ -1190,7 +1190,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 pointer-events-auto">
               {activeMode === "content" ? (
                 <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-6">
                   <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
