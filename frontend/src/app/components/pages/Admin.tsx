@@ -783,7 +783,7 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const keyLabel = label || path[path.length - 1]?.toString() || "";
     const pathText = pathToString(path);
     const isUrl = /url|image|photo|cover|logo|portrait/i.test(keyLabel);
-    const isLongText = /text|description|summary|content|quote|message|bio|lead|requirements|apply/i.test(keyLabel);
+    const isLongText = /text|description|desc|summary|content|quote|message|bio|lead|requirements|apply/i.test(keyLabel);
     const fieldIsExplicitLanguageKey = /(?:_ar|_en)$/i.test(keyLabel) || /(Ar|En)$/.test(keyLabel);
     const isBoolean =
       typeof arValue === "boolean" ||
