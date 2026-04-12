@@ -140,16 +140,18 @@ export default function Home({ lang, content }) {
     );
 
     const hasHtml = (value: unknown) => typeof value === "string" && /<[^>]+>/.test(value);
+    const sharedDesc = slide?.desc;
+    const sharedDescText = typeof sharedDesc === "string" ? sharedDesc.trim() : "";
     const resolvedDescAr = hasHtml(descAr)
       ? descAr
-      : hasHtml(slide?.desc)
-      ? String(slide.desc)
-      : descAr || slide?.desc || fallback.descAr || fallback.descEn;
+      : hasHtml(sharedDesc)
+      ? String(sharedDesc)
+      : descAr || sharedDescText || fallback.descAr || fallback.descEn;
     const resolvedDescEn = hasHtml(descEn)
       ? descEn
-      : hasHtml(slide?.desc)
-      ? String(slide.desc)
-      : descEn || slide?.desc || fallback.descEn || fallback.descAr;
+      : hasHtml(sharedDesc)
+      ? String(sharedDesc)
+      : descEn || sharedDescText || fallback.descEn || fallback.descAr;
 
     return {
       ...fallback,
