@@ -363,12 +363,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
   const isPlainObject = (value: unknown) =>
     value !== null && typeof value === "object" && !Array.isArray(value);
 
-  const normalizePlainText = (value: string) =>
-    value
-      .replace(/&lt;br\s*\/?&gt;/gi, " ")
-      .replace(/<br\s*\/?>/gi, " ")
-      .replace(/\s{2,}/g, " ")
-      .trim();
+  const sanitizePlainInput = (value: string) =>
+    value.replace(/&lt;br\s*\/?&gt;/gi, " ").replace(/<br\s*\/?>/gi, " ");
 
   const isSharedMediaPath = (path: Array<string | number>) =>
     typeof path[0] === "string" &&
@@ -1065,8 +1061,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
               ) : (
                 <input
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                  value={normalizePlainText(String(normalizedAr))}
-                  onChange={(event) => handleFieldChange(["ar", ...path], event.target.value)}
+                  value={String(normalizedAr)}
+                  onChange={(event) => handleFieldChange(["ar", ...path], sanitizePlainInput(event.target.value))}
                 />
               )}
             </div>
@@ -1077,8 +1073,8 @@ export default function Admin({ lang, content, onContentUpdate }) {
               ) : (
                 <input
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                  value={normalizePlainText(String(normalizedEn))}
-                  onChange={(event) => handleFieldChange(["en", ...path], event.target.value)}
+                  value={String(normalizedEn)}
+                  onChange={(event) => handleFieldChange(["en", ...path], sanitizePlainInput(event.target.value))}
                 />
               )}
             </div>
