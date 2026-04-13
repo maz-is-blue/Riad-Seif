@@ -1159,7 +1159,14 @@ export default function Admin({ lang, content, onContentUpdate }) {
     const config = resourceConfigs[key];
     const form = { ...config.initial };
     config.fields.forEach((field) => {
-      form[field.name] = item[field.name] ?? form[field.name] ?? "";
+      let value = item[field.name] ?? form[field.name] ?? "";
+      if (!value && field.name.endsWith("_upload_url")) {
+        const base = field.name.replace("_upload_url", "_url");
+        if (item[base]) {
+          value = item[base];
+        }
+      }
+      form[field.name] = value;
     });
     setResourceState((prev) => ({
       ...prev,

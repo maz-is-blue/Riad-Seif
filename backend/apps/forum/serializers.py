@@ -18,8 +18,15 @@ def _media_url_to_relative_path(value: str | None):
         media_prefix = f"{media_prefix}/"
 
     if path.startswith(media_prefix):
-        return path[len(media_prefix) :]
+        rel = path[len(media_prefix) :]
+        if "/" not in rel:
+            return f"uploads/{rel}"
+        return rel
+    if path.startswith("media/"):
+        return path[len("media/") :]
     if not path.startswith("/"):
+        if "/" not in path:
+            return f"uploads/{path}"
         return path
     return None
 
