@@ -130,7 +130,7 @@ class NewsUpdate(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['-published_date', '-created_at']
+        ordering = ['-published_date', '-created_at', '-id']
         verbose_name = 'News Update'
         verbose_name_plural = 'News Updates'
     
@@ -198,7 +198,7 @@ class Job(models.Model):
     class Meta:
         verbose_name = 'Job Opportunity'
         verbose_name_plural = 'Job Opportunities'
-        ordering = ['-created_at']
+        ordering = ['-created_at', '-id']
     
     def __str__(self):
         return self.title_en

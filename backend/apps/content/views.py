@@ -20,7 +20,7 @@ from .serializers import (
 )
 
 SHARED_MEDIA_KEY_RE = re.compile(
-    r"(image|photo|cover|logo|portrait|hero|background|bg|banner|thumbnail|avatar|icon)",
+    r"(image|photo|cover|logo|portrait|background|bg|banner|thumbnail|avatar|icon)",
     re.IGNORECASE,
 )
 

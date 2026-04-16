@@ -20,7 +20,7 @@ class ContactSubmission(models.Model):
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-created_at', '-id']
         verbose_name = 'Contact Submission'
         verbose_name_plural = 'Contact Submissions'
     

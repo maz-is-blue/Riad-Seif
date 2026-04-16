@@ -33,18 +33,12 @@ def submit_contact(request):
             ip_address=get_client_ip(request)
         )
         
-        # Send email notification
+        # Send email notification — failure is non-fatal; the submission is already saved.
         try:
             send_notification_email(submission)
         except Exception as e:
             logger.exception("Contact form email delivery failed", exc_info=e)
-            return Response({
-                'success': False,
-                'message': 'Message saved, but email delivery failed. Please try again later.',
-                'message_ar': 'تم حفظ الرسالة، لكن فشل إرسال البريد الإلكتروني. يرجى المحاولة لاحقاً.',
-                'id': submission.id,
-            }, status=status.HTTP_502_BAD_GATEWAY)
-        
+
         return Response({
             'success': True,
             'message': 'Thank you for your message. We will get back to you soon.',
