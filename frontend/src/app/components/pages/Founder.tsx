@@ -1,12 +1,13 @@
 import { motion } from 'motion/react';
 import { Calendar, Award, Users, Heart } from 'lucide-react';
+import { formatRichText } from '../../utils/richText';
 
 export default function Founder({ lang, content }) {
   const t = content[lang];
   const isRTL = lang === 'ar';
   const founder = t.founder ?? {};
   const portrait = founder.portrait;
-  const toHtml = (value: unknown) => ({ __html: String(value ?? '') });
+  const toHtml = (value: unknown) => ({ __html: formatRichText(String(value ?? '')) });
 
   const timelineIcons = [Calendar, Award, Users, Heart, Award];
   

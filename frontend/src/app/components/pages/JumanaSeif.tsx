@@ -1,6 +1,7 @@
 ﻿import { motion } from 'motion/react';
 import { Award, Scale, Users, Heart, BookOpen, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLocation } from 'wouter';
+import RichText from '../RichText';
 
 export default function JumanaSeif({ lang, content }) {
   const t = content[lang];
@@ -180,14 +181,11 @@ export default function JumanaSeif({ lang, content }) {
               </div>
             </motion.div>
             
-            <motion.p
+            <RichText
+              as="p"
+              value={intro.lead}
               className="lead text-xl font-light text-[#1c3944] mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-                {intro.lead}
-            </motion.p>
+            />
          </motion.div>
 
          {/* Animated Timeline */}
@@ -255,15 +253,11 @@ export default function JumanaSeif({ lang, content }) {
                            {i + 1}
                          </motion.div>
                        </div>
-                       <motion.p
+                       <RichText
+                         as="div"
+                         value={section.text}
                          className="text-slate-600 text-lg leading-relaxed"
-                         initial={{ opacity: 0 }}
-                         whileInView={{ opacity: 1 }}
-                         viewport={{ once: true }}
-                         transition={{ delay: i * 0.1 + 0.5 }}
-                       >
-                         {section.text}
-                       </motion.p>
+                       />
                      </motion.div>
                    </div>
                  </motion.div>
