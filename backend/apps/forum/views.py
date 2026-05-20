@@ -59,11 +59,13 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 class MemoryPhotoViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = MemoryPhoto.objects.filter(is_published=True)
     serializer_class = MemoryPhotoSerializer
+    pagination_class = None
 
 
 class ArchiveItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ArchiveItem.objects.filter(is_published=True)
     serializer_class = ArchiveItemSerializer
+    pagination_class = None
 
 
 class AdminEventViewSet(viewsets.ModelViewSet):
