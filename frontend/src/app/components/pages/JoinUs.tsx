@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchJobs, type JobOpportunity } from "../../utils/api";
+import RichText from "../RichText";
 
 export default function JoinUs({ lang, content }) {
   const t = content[lang];
@@ -38,12 +39,14 @@ export default function JoinUs({ lang, content }) {
         <h1 className={`text-4xl lg:text-5xl ${t.serif} text-[#1c3944] mb-5`}>
           {joinUs.title ?? (isRTL ? "انضم إلينا" : "Join Us")}
         </h1>
-        <p className="text-slate-600 mb-10 leading-8">
-          {joinUs.intro ??
+        <RichText
+          as="p"
+          value={joinUs.intro ??
             (isRTL
               ? "اطلع على فرص العمل الحالية في المؤسسة. عند توفر وظائف يمكنك التقديم مباشرة عبر التفاصيل أدناه."
               : "Explore current opportunities at the foundation. When positions are open, you can apply directly using the details below.")}
-        </p>
+          className="text-slate-600 mb-10 leading-8"
+        />
 
         {loading ? (
           <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-600">
@@ -76,7 +79,7 @@ export default function JoinUs({ lang, content }) {
               return (
                 <div key={job.id} className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8">
                   <h2 className={`text-2xl ${t.serif} text-[#1c3944] mb-3`}>{title}</h2>
-                  <p className="text-slate-600 leading-7 mb-5">{description}</p>
+                  <RichText as="p" value={description} className="text-slate-600 leading-7 mb-5" />
 
                   {requirements.length > 0 ? (
                     <div className="mb-5">
@@ -96,7 +99,7 @@ export default function JoinUs({ lang, content }) {
                       <span className="text-sm font-semibold text-slate-500">
                         {isRTL ? "طريقة التقديم" : "How to Apply"}:
                       </span>{" "}
-                      {applyInfo}
+                      <RichText as="span" value={applyInfo} />
                     </div>
                   ) : null}
                 </div>

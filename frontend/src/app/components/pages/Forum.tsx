@@ -1,4 +1,5 @@
 ﻿import { Calendar, MessageSquare, Users, Video, Globe, Camera, FileText, UserCheck, X } from 'lucide-react';
+import RichText from '../RichText';
 import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect, useMemo } from 'react';
@@ -165,14 +166,11 @@ export default function Forum({ lang, content }) {
              >
                {t.forum?.title ?? t.nav.forum}
              </motion.h1>
-             <motion.p
+             <RichText
+               as="p"
+               value={t.forum.history.text}
                className="text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed"
-               initial={{ opacity: 0, y: 30 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ delay: 0.4 }}
-             >
-                 {t.forum.history.text}
-             </motion.p>
+             />
           </div>
        </div>
 
@@ -229,7 +227,7 @@ export default function Forum({ lang, content }) {
                    >
                        <h2 className={`text-3xl text-[#1c3944] mb-6 ${t.serif}`}>{t.forum.history.title}</h2>
                        <div className="prose prose-lg text-slate-600">
-                           <p>{t.forum.history.text}</p>
+                           <RichText as="p" value={t.forum.history.text} />
                        </div>
                    </motion.div>
                    <motion.div
@@ -249,9 +247,7 @@ export default function Forum({ lang, content }) {
              {activeTab === 1 && (
                <div>
                    <h3 className={`text-2xl text-[#1c3944] mb-6 ${t.serif}`}>{t.forum.activities.title}</h3>
-                   <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                       {t.forum.activities.text}
-                   </p>
+                   <RichText as="p" value={t.forum.activities.text} className="text-slate-600 text-lg leading-relaxed mb-6" />
                    <div className="grid md:grid-cols-3 gap-6">
                        {[1, 2, 3].map((i) => (
                            <motion.div
@@ -279,9 +275,7 @@ export default function Forum({ lang, content }) {
                <div className="grid md:grid-cols-2 gap-12">
                    <div>
                      <h3 className={`text-2xl text-[#1c3944] mb-6 ${t.serif}`}>{t.forum.events.title}</h3>
-                     <p className="text-slate-600 mb-8 font-light">
-                         {t.forum.events.text}
-                     </p>
+                     <RichText as="p" value={t.forum.events.text} className="text-slate-600 mb-8 font-light" />
 
                      <div className="flex flex-wrap gap-2 mb-6">
                        {eventFilterOptions.map((key) => {
@@ -390,9 +384,7 @@ export default function Forum({ lang, content }) {
                 <div>
                     <div className="text-center mb-12">
                       <h3 className={`text-3xl text-[#1c3944] mb-4 ${t.serif}`}>{t.forum.memory.title}</h3>
-                      <p className="text-slate-600 max-w-2xl mx-auto font-light">
-                          {t.forum.memory.text}
-                      </p>
+                      <RichText as="p" value={t.forum.memory.text} className="text-slate-600 max-w-2xl mx-auto font-light" />
                     </div>
 
                     {/* Photo Grid */}
@@ -465,9 +457,7 @@ export default function Forum({ lang, content }) {
                <div className="grid md:grid-cols-2 gap-12">
                    <div>
                      <h3 className={`text-2xl text-[#1c3944] mb-6 ${t.serif}`}>{t.forum.archive.title}</h3>
-                     <p className="text-slate-600 mb-8 font-light">
-                         {t.forum.archive.text}
-                     </p>
+                     <RichText as="p" value={t.forum.archive.text} className="text-slate-600 mb-8 font-light" />
 
                      {/* Archive Items */}
                      <div className="space-y-4">
@@ -554,9 +544,7 @@ export default function Forum({ lang, content }) {
                <div>
                    <div className="text-center mb-12">
                      <h3 className={`text-3xl text-[#1c3944] mb-4 ${t.serif}`}>{t.forum.management.title}</h3>
-                     <p className="text-slate-600 max-w-2xl mx-auto font-light">
-                         {t.forum.management.text}
-                     </p>
+                     <RichText as="p" value={t.forum.management.text} className="text-slate-600 max-w-2xl mx-auto font-light" />
                    </div>
 
                    {/* Management Team Cards Grid */}

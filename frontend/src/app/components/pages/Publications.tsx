@@ -1,4 +1,5 @@
 ﻿import { ChevronRight, ChevronLeft, ArrowRight, ArrowLeft, FileText, Download, Eye, Filter, X } from 'lucide-react';
+import RichText from '../RichText';
 import { motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchPublications, type Publication } from '../../utils/api';
@@ -259,7 +260,7 @@ export default function Publications({ lang, content }) {
                   </div>
 
                   <h3 className={`text-xl ${t.serif} mb-3 leading-snug group-hover:text-[#f7c20e] transition-colors`}>{item.title}</h3>
-                  <p className="text-slate-300 text-sm mb-6 line-clamp-3">{item.desc}</p>
+                  <RichText as="p" value={item.desc} className="text-slate-300 text-sm mb-6 line-clamp-3" />
 
                   <motion.div className="flex items-center gap-2 text-sm font-bold text-[#f7c20e]" animate={{ x: hoveredIndex === i ? 5 : 0 }}>
                     {t.publications.latest.readMore} <ArrowIcon size={14} />
@@ -307,7 +308,7 @@ export default function Publications({ lang, content }) {
               </button>
             </div>
             <div className="text-sm text-slate-500 mb-4">{selectedPublication.date}</div>
-            <p className="text-slate-700 leading-8 mb-6">{selectedPublication.description}</p>
+            <RichText as="p" value={selectedPublication.description} className="text-slate-700 leading-8 mb-6" />
             {selectedPublication.pdfUrl ? (
               <a
                 href={selectedPublication.pdfUrl}

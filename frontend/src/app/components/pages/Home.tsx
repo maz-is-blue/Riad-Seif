@@ -538,12 +538,9 @@ export default function Home({ lang, content }) {
               />
             ) : null}
             {selectedNews.date ? <div className="text-sm text-slate-500 mb-4">{selectedNews.date}</div> : null}
-            <p className="text-slate-700 leading-8 mb-4">{selectedNews.summary}</p>
+            <RichText as="p" value={selectedNews.summary} className="text-slate-700 leading-8 mb-4" />
             {selectedNews.content ? (
-              <div
-                className="prose max-w-none text-slate-700"
-                dangerouslySetInnerHTML={{ __html: selectedNews.content }}
-              />
+              <RichText value={selectedNews.content} className="prose max-w-none text-slate-700" />
             ) : null}
           </div>
         </div>
