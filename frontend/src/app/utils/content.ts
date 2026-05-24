@@ -371,6 +371,7 @@ export const content = {
     },
     forum: {
       title: "Forum for National Dialogue",
+      subtitle: "Tied to the Damascus Spring (2000–2001), Riad Seif's original Forum hosted weekly debates on reform and freedom. Though shut down in 2001, it remained a symbol of democratic aspiration. Today, we relaunch this legacy to meet current urgent needs.",
       history: {
           title: "History & Origins",
           text: "Tied to the Damascus Spring (2000–2001), Riad Seif's original Forum hosted weekly debates on reform and freedom. Though shut down in 2001, it remained a symbol of democratic aspiration. Today, we relaunch this legacy to meet current urgent needs."
@@ -849,6 +850,7 @@ export const content = {
     },
     forum: {
       title: "منتدى الحوار الوطني",
+      subtitle: "ارتبط منتدى رياض سيف الأصلي بربيع دمشق (2000-2001)، حيث استضاف نقاشات أسبوعية حول الإصلاح والحرية. رغم إغلاقه عام 2001، ظل رمزاً للتطلعات الديمقراطية. اليوم، نعيد إطلاق هذا الإرث لتلبية الاحتياجات العاجلة الحالية.",
       history: {
           title: "التاريخ والنشأة",
           text: "ارتبط منتدى رياض سيف الأصلي بربيع دمشق (2000-2001)، حيث استضاف نقاشات أسبوعية حول الإصلاح والحرية. رغم إغلاقه عام 2001، ظل رمزاً للتطلعات الديمقراطية. اليوم، نعيد إطلاق هذا الإرث لتلبية الاحتياجات العاجلة الحالية."

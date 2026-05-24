@@ -168,7 +168,7 @@ export default function Forum({ lang, content }) {
              </motion.h1>
              <RichText
                as="p"
-               value={t.forum.history.text}
+               value={t.forum.subtitle}
                className="text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed"
              />
           </div>
