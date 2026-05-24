@@ -3,6 +3,8 @@ export function sanitizeRichText(input: string) {
 
   return input
     .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/<\/?span[^>]*>/gi, "")
+    .replace(/\s+id="docs-internal-guid-[^"]*"/gi, "")
     .replace(/\sstyle="[^"]*"/gi, "")
     .replace(/\sstyle='[^']*'/gi, "")
     .replace(/\son\w+="[^"]*"/gi, "")
