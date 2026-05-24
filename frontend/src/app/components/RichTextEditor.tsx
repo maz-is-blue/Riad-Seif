@@ -113,12 +113,27 @@ export default function RichTextEditor({
         onClick={saveSelection}
         onKeyUp={saveSelection}
         onMouseUp={saveSelection}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            // Force <br> line breaks instead of browser-default <div> wrappers.
+            event.preventDefault();
+            document.execCommand("insertLineBreak");
+            saveSelection();
+            onChange(editorRef.current!.innerHTML);
+          }
+        }}
         onInput={(event) => onChange((event.currentTarget as HTMLDivElement).innerHTML)}
         onPaste={(event) => {
-          // Keep pasted text simple to avoid malformed nested markup.
+          // Insert plain text line-by-line using insertLineBreak so newlines
+          // become <br> elements rather than browser-wrapped <div> elements.
           event.preventDefault();
           const text = event.clipboardData.getData("text/plain");
-          document.execCommand("insertText", false, text);
+          const lines = text.split(/\r?\n/);
+          lines.forEach((line, i) => {
+            if (line) document.execCommand("insertText", false, line);
+            if (i < lines.length - 1) document.execCommand("insertLineBreak");
+          });
+          onChange(editorRef.current!.innerHTML);
         }}
       />
     </div>
