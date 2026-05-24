@@ -18,6 +18,7 @@ export default function Forum({ lang, content }) {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedArchiveItem, setSelectedArchiveItem] = useState<any>(null);
   const [eventFilter, setEventFilter] = useState('all');
   const [apiMemory, setApiMemory] = useState<MemoryPhoto[]>([]);
   const [apiArchive, setApiArchive] = useState<ArchiveItem[]>([]);
@@ -464,30 +465,35 @@ export default function Forum({ lang, content }) {
                        {archiveItems.map((item, idx) => (
                          <motion.div
                            key={idx}
-                           className="bg-white p-6 rounded-xl border-2 border-slate-200 hover:border-[#f7c20e] transition-all cursor-pointer"
+                           className={`bg-white p-6 rounded-xl border-2 transition-all cursor-pointer ${selectedArchiveItem === item ? 'border-[#f7c20e]' : 'border-slate-200 hover:border-[#f7c20e]'}`}
                            initial={{ opacity: 0, x: -30 }}
                            animate={{ opacity: 1, x: 0 }}
                            transition={{ delay: idx * 0.1 }}
-                           whileHover={{ x: 5, scale: 1.02 }}
+                           onClick={() => setSelectedArchiveItem(selectedArchiveItem === item ? null : item)}
                          >
                            <div className="flex items-start gap-4">
-                             <motion.div
-                               className="w-12 h-12 rounded-full bg-[#f7c20e] bg-opacity-20 flex items-center justify-center shrink-0"
-                               whileHover={{ rotate: 360 }}
-                               transition={{ duration: 0.6 }}
-                             >
+                             <div className="w-12 h-12 rounded-full bg-[#f7c20e] bg-opacity-20 flex items-center justify-center shrink-0">
                                <FileText className="text-[#1c3944]" size={24} />
-                             </motion.div>
-                             <div className="flex-1">
-                               <div className="text-[#f7c20e] text-sm font-bold uppercase mb-1">
-                                 {item.date}
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <div className="text-[#f7c20e] text-sm font-bold uppercase mb-1">{item.date}</div>
+                               <div className="font-bold text-lg mb-2 text-[#1c3944]">{item.title}</div>
+                               <div className="relative">
+                                 <RichText
+                                   as="div"
+                                   value={item.description}
+                                   className="text-sm text-slate-500 leading-relaxed line-clamp-3 overflow-hidden"
+                                 />
+                                 <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none" />
                                </div>
-                               <div className="font-bold text-lg mb-2 text-[#1c3944]">
-                                 {item.title}
-                               </div>
-                               <div className="text-sm text-slate-500">
-                                 {item.description}
-                               </div>
+                               <button
+                                 className="mt-2 text-xs font-semibold text-[#1c3944] hover:text-[#f7c20e] transition-colors"
+                                 onClick={(e) => { e.stopPropagation(); setSelectedArchiveItem(selectedArchiveItem === item ? null : item); }}
+                               >
+                                 {selectedArchiveItem === item
+                                   ? (lang === 'ar' ? '← إغلاق' : '← Close')
+                                   : (lang === 'ar' ? 'اقرأ المزيد ←' : 'Read more →')}
+                               </button>
                              </div>
                            </div>
                          </motion.div>
@@ -500,7 +506,37 @@ export default function Forum({ lang, content }) {
                      </div>
                    </div>
 
-                   {/* CTA Card */}
+                   {/* Detail panel / CTA Card */}
+                   {selectedArchiveItem ? (
+                     <motion.div
+                       key="archive-detail"
+                       initial={{ opacity: 0, x: 30 }}
+                       animate={{ opacity: 1, x: 0 }}
+                       className="bg-white border-2 border-[#f7c20e] rounded-2xl p-8 overflow-y-auto max-h-[70vh]"
+                     >
+                       <div className="flex items-start justify-between gap-3 mb-4">
+                         <div>
+                           <div className="text-[#f7c20e] text-sm font-bold uppercase mb-1">{selectedArchiveItem.date}</div>
+                           <h3 className={`text-2xl text-[#1c3944] ${t.serif}`}>{selectedArchiveItem.title}</h3>
+                         </div>
+                         <button
+                           onClick={() => setSelectedArchiveItem(null)}
+                           className="w-8 h-8 rounded-full border border-slate-300 text-slate-500 hover:text-slate-800 flex items-center justify-center shrink-0"
+                         >
+                           <X size={14} />
+                         </button>
+                       </div>
+                       <RichText value={selectedArchiveItem.description} className="text-slate-600 leading-8 text-sm" />
+                       <Link href="/contact">
+                         <motion.span
+                           className="block w-full text-center bg-[#1c3944] text-white py-3 font-bold mt-6 transition-colors cursor-pointer rounded-xl text-sm"
+                           whileHover={{ backgroundColor: '#f7c20e', color: '#1c3944' }}
+                         >
+                           {lang === 'ar' ? 'تواصل معنا للحصول على الملفات' : 'Contact Us to Get Files'}
+                         </motion.span>
+                       </Link>
+                     </motion.div>
+                   ) : (
                    <motion.div
                      className="bg-gradient-to-br from-[#2c1d5f] to-[#1c3944] text-white p-10 rounded-2xl relative overflow-hidden"
                      initial={{ opacity: 0, scale: 0.9 }}
@@ -509,34 +545,30 @@ export default function Forum({ lang, content }) {
                    >
                      <motion.div
                        className="absolute top-0 right-0 w-64 h-64 bg-[#f7c20e] opacity-10 rounded-full blur-3xl"
-                       animate={{
-                         scale: [1, 1.2, 1],
-                         opacity: [0.1, 0.2, 0.1],
-                       }}
+                       animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
                        transition={{ duration: 4, repeat: Infinity }}
                      />
-
                      <div className="relative z-10">
                        <h3 className={`text-3xl mb-6 ${t.serif} flex items-center gap-3`}>
-                           <FileText className="text-[#f7c20e]" /> {t.forum.archive.title}
+                         <FileText className="text-[#f7c20e]" /> {t.forum.archive.title}
                        </h3>
                        <p className="text-slate-300 mb-8 font-light text-lg leading-relaxed">
-                           {lang === 'ar'
-                             ? 'اكتشف أرشيفنا. حمّل المقالات والأبحاث والكتب والتقارير ذات الصلة بمنتدى الحوار الوطني.'
-                             : 'Discover our archive. Download articles, research, books, and reports related to the Forum for National Dialogue.'}
+                         {lang === 'ar'
+                           ? 'اكتشف أرشيفنا. حمّل المقالات والأبحاث والكتب والتقارير ذات الصلة بمنتدى الحوار الوطني.'
+                           : 'Discover our archive. Download articles, research, books, and reports related to the Forum for National Dialogue.'}
                        </p>
-
                        <Link href="/contact">
-                           <motion.span
-                             className="block w-full text-center bg-[#f7c20e] text-[#1c3944] py-4 font-bold mt-6 transition-colors cursor-pointer rounded-xl"
-                             whileHover={{ backgroundColor: '#ffffff', scale: 1.05 }}
-                             whileTap={{ scale: 0.95 }}
-                           >
-                               {lang === 'ar' ? 'تواصل معنا للحصول على الملفات' : 'Contact Us to Get Files'}
-                           </motion.span>
+                         <motion.span
+                           className="block w-full text-center bg-[#f7c20e] text-[#1c3944] py-4 font-bold mt-6 transition-colors cursor-pointer rounded-xl"
+                           whileHover={{ backgroundColor: '#ffffff', scale: 1.05 }}
+                           whileTap={{ scale: 0.95 }}
+                         >
+                           {lang === 'ar' ? 'تواصل معنا للحصول على الملفات' : 'Contact Us to Get Files'}
+                         </motion.span>
                        </Link>
                      </div>
                    </motion.div>
+                   )}
                </div>
              )}
 
