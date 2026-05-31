@@ -464,7 +464,8 @@ export const content = {
           facebook: "https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr",
           linkedin: "https://www.linkedin.com/company/riad-seif-human-rights-foundation/",
           instagram: "https://www.instagram.com/rshrfndn/",
-          x: "https://x.com/Rscomms130366"
+          x: "https://x.com/Rscomms130366",
+          youtube: ""
       }
     },
     joinUs: {
@@ -943,7 +944,8 @@ export const content = {
           facebook: "https://www.facebook.com/share/1AGkxnrRGS/?mibextid=wwXIfr",
           linkedin: "https://www.linkedin.com/company/riad-seif-human-rights-foundation/",
           instagram: "https://www.instagram.com/rshrfndn/",
-          x: "https://x.com/Rscomms130366"
+          x: "https://x.com/Rscomms130366",
+          youtube: ""
       }
     },
     joinUs: {

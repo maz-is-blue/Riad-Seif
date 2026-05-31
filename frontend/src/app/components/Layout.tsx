@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Instagram, Globe } from 'lucide-react';
+import { Menu, X, Mail, Phone, MapPin, Facebook, Linkedin, Instagram, Globe, Youtube } from 'lucide-react';
 import { motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 import logo from "../../assets/logo.png";
@@ -196,6 +196,17 @@ export default function Layout({ children, lang, setLang, content }) {
                 >
                   <XLogoIcon className="cursor-pointer" size={20} />
                 </a>
+                {contactSocial.youtube && (
+                  <a
+                    href={contactSocial.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    className="hover:text-white transition-colors"
+                  >
+                    <Youtube className="cursor-pointer" size={20} />
+                  </a>
+                )}
               </div>
             </div>
             
