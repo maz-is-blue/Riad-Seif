@@ -535,6 +535,7 @@ export default function Home({ lang, content }) {
                 src={selectedNews.image}
                 alt={selectedNews.title}
                 className="w-full h-64 object-cover rounded-xl mb-4"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
             ) : null}
             {selectedNews.date ? <div className="text-sm text-slate-500 mb-4">{selectedNews.date}</div> : null}
