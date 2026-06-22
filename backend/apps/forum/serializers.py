@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.conf import settings
 from urllib.parse import urlparse
-from .models import Event, MemoryPhoto, ArchiveItem
+from .models import Event, MemoryPhoto, ArchiveItem, ForumSession
 
 
 def _media_url_to_relative_path(value: str | None):
@@ -191,4 +191,10 @@ class ArchiveItemSerializer(serializers.ModelSerializer):
             "is_published",
             "order",
         ]
+
+
+class ForumSessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ForumSession
+        fields = ["id", "title_en", "title_ar", "youtube_url", "date", "is_published", "order"]
 

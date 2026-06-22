@@ -103,6 +103,16 @@ export type ArchiveItem = {
   order?: number;
 };
 
+export type ForumSession = {
+  id: number;
+  title_en: string;
+  title_ar: string;
+  youtube_url: string;
+  date?: string;
+  is_published?: boolean;
+  order?: number;
+};
+
 export type JobOpportunity = {
   id: number;
   title_en: string;
@@ -347,6 +357,11 @@ export async function fetchArchiveItems(): Promise<ArchiveItem[]> {
   return normalizeList(response);
 }
 
+export async function fetchForumSessions(): Promise<ForumSession[]> {
+  const response = await request<ForumSession[] | PaginatedResponse<ForumSession>>("/sessions/");
+  return normalizeList(response);
+}
+
 export async function fetchJobs(): Promise<JobOpportunity[]> {
   const response = await request<JobOpportunity[] | PaginatedResponse<JobOpportunity>>("/jobs/");
   return normalizeList(response);
@@ -471,6 +486,25 @@ export async function adminUpsertArchive(token: string, payload: Record<string, 
 
 export async function adminDeleteArchive(token: string, id: number) {
   return request<void>(`/admin/archive/${id}/`, { method: "DELETE", headers: authHeaders(token) });
+}
+
+export async function adminListSessions(token: string) {
+  const response = await request<ForumSession[] | PaginatedResponse<ForumSession>>(
+    "/admin/sessions/",
+    { headers: authHeaders(token) },
+  );
+  return normalizeList(response);
+}
+
+export async function adminUpsertSession(token: string, payload: Record<string, any>, id?: number) {
+  const method = id ? "PATCH" : "POST";
+  const path = id ? `/admin/sessions/${id}/` : "/admin/sessions/";
+  const body = toFormData(payload);
+  return request<ForumSession>(path, { method, headers: authHeaders(token), body });
+}
+
+export async function adminDeleteSession(token: string, id: number) {
+  return request<void>(`/admin/sessions/${id}/`, { method: "DELETE", headers: authHeaders(token) });
 }
 
 export async function adminListJobs(token: string) {

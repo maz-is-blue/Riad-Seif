@@ -28,6 +28,9 @@ import {
   adminListArchive,
   adminUpsertArchive,
   adminDeleteArchive,
+  adminListSessions,
+  adminUpsertSession,
+  adminDeleteSession,
 } from "../../utils/api";
 import { type SiteContent } from "../../utils/contentStore";
 
@@ -66,7 +69,8 @@ type ResourceKey =
   | "publications"
   | "events"
   | "memory"
-  | "archive";
+  | "archive"
+  | "sessions";
 
 const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
   news: {
@@ -301,6 +305,29 @@ const resourceConfigs: Record<ResourceKey, ResourceConfig> = {
       description_ar: "",
       date: "",
       external_link: "",
+      order: 0,
+      is_published: true,
+    },
+  },
+  sessions: {
+    title: { en: "Forum Sessions (Videos)", ar: "جلسات المنتدى (فيديو)" },
+    fields: [
+      { name: "title_en", label: { en: "Title (EN)", ar: "العنوان (EN)" } },
+      { name: "title_ar", label: { en: "Title (AR)", ar: "العنوان (AR)" } },
+      { name: "youtube_url", label: { en: "YouTube URL", ar: "رابط يوتيوب" } },
+      { name: "date", label: { en: "Date", ar: "التاريخ" }, type: "date" },
+      { name: "order", label: { en: "Order", ar: "الترتيب" }, type: "number" },
+      { name: "is_published", label: { en: "Published", ar: "منشور" }, type: "checkbox" },
+    ],
+    list: adminListSessions,
+    upsert: adminUpsertSession,
+    remove: adminDeleteSession,
+    summary: (item, lang) => (lang === "ar" ? item.title_ar : item.title_en),
+    initial: {
+      title_en: "",
+      title_ar: "",
+      youtube_url: "",
+      date: "",
       order: 0,
       is_published: true,
     },

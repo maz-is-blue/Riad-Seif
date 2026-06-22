@@ -5,8 +5,8 @@ from rest_framework.permissions import IsAdminUser
 from apps.content.permissions import AdminSectionPermission
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.utils import timezone
-from .models import Event, MemoryPhoto, ArchiveItem
-from .serializers import EventSerializer, EventListSerializer, MemoryPhotoSerializer, ArchiveItemSerializer
+from .models import Event, MemoryPhoto, ArchiveItem, ForumSession
+from .serializers import EventSerializer, EventListSerializer, MemoryPhotoSerializer, ArchiveItemSerializer, ForumSessionSerializer
 
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
@@ -86,5 +86,18 @@ class AdminArchiveItemViewSet(viewsets.ModelViewSet):
     queryset = ArchiveItem.objects.all()
     serializer_class = ArchiveItemSerializer
     permission_classes = [AdminSectionPermission.for_resource("archive")]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+class ForumSessionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ForumSession.objects.filter(is_published=True)
+    serializer_class = ForumSessionSerializer
+    pagination_class = None
+
+
+class AdminForumSessionViewSet(viewsets.ModelViewSet):
+    queryset = ForumSession.objects.all()
+    serializer_class = ForumSessionSerializer
+    permission_classes = [AdminSectionPermission.for_resource("sessions")]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 

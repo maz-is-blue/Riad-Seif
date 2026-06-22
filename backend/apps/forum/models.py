@@ -98,3 +98,22 @@ class ArchiveItem(models.Model):
     def __str__(self):
         return self.title_en
 
+
+class ForumSession(models.Model):
+    """Video sessions for the forum sessions tab."""
+
+    title_en = models.CharField(max_length=255)
+    title_ar = models.CharField(max_length=255)
+    youtube_url = models.URLField()
+    date = models.CharField(max_length=50, blank=True)
+    is_published = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'Forum Session'
+        verbose_name_plural = 'Forum Sessions'
+
+    def __str__(self):
+        return self.title_en
+

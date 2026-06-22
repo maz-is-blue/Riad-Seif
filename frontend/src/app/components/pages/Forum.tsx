@@ -7,10 +7,26 @@ import {
   fetchMemoryPhotos,
   fetchArchiveItems,
   fetchForumEvents,
+  fetchForumSessions,
   type MemoryPhoto,
   type ArchiveItem,
   type ForumEvent,
+  type ForumSession,
 } from '../../utils/api';
+
+function extractYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const patterns = [
+    /[?&]v=([^&]+)/,
+    /youtu\.be\/([^?&]+)/,
+    /\/embed\/([^?&]+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
 
 export default function Forum({ lang, content }) {
   const t = content[lang];
@@ -23,6 +39,8 @@ export default function Forum({ lang, content }) {
   const [apiMemory, setApiMemory] = useState<MemoryPhoto[]>([]);
   const [apiArchive, setApiArchive] = useState<ArchiveItem[]>([]);
   const [apiEvents, setApiEvents] = useState<ForumEvent[]>([]);
+  const [apiSessions, setApiSessions] = useState<ForumSession[]>([]);
+  const [activeSession, setActiveSession] = useState<ForumSession | null>(null);
 
   useEffect(() => {
     fetchMemoryPhotos()
@@ -34,6 +52,12 @@ export default function Forum({ lang, content }) {
     fetchForumEvents()
       .then((items) => setApiEvents(items ?? []))
       .catch(() => setApiEvents([]));
+    fetchForumSessions()
+      .then((items) => {
+        setApiSessions(items ?? []);
+        if (items && items.length > 0) setActiveSession(items[0]);
+      })
+      .catch(() => setApiSessions([]));
   }, []);
 
   const formatDate = (value?: string | null) => {
@@ -247,28 +271,97 @@ export default function Forum({ lang, content }) {
 
              {activeTab === 1 && (
                <div>
-                   <h3 className={`text-2xl text-[#1c3944] mb-6 ${t.serif}`}>{t.forum.activities.title}</h3>
-                   <RichText as="p" value={t.forum.activities.text} className="text-slate-600 text-lg leading-relaxed mb-6" />
-                   <div className="grid md:grid-cols-3 gap-6">
-                       {[1, 2, 3].map((i) => (
-                           <motion.div
-                             key={i}
-                             className="p-6 bg-slate-50 rounded-xl border-2 border-slate-200 hover:border-[#f7c20e] transition-all"
-                             initial={{ opacity: 0, y: 30 }}
-                             animate={{ opacity: 1, y: 0 }}
-                             transition={{ delay: i * 0.1 }}
-                             whileHover={{ y: -5, scale: 1.02 }}
-                           >
-                               <MessageSquare className="text-[#2c1d5f] mb-4" size={32} />
-                               <h4 className={`text-lg ${t.serif} font-bold text-[#1c3944] mb-2`}>
-                                 {lang === 'ar' ? `نشاط ${i}` : `Activity ${i}`}
-                               </h4>
-                               <p className="text-slate-700">
-                                   {lang === 'ar' ? 'جلسة حوار شهرية حول موضوعات الانتقال' : 'Monthly dialogue session on transition themes'}
-                               </p>
-                           </motion.div>
-                       ))}
+                 <h3 className={`text-2xl text-[#1c3944] mb-2 ${t.serif}`}>{t.forum.activities.title}</h3>
+                 <RichText as="p" value={t.forum.activities.text} className="text-slate-600 text-lg leading-relaxed mb-8" />
+
+                 {apiSessions.length === 0 ? (
+                   <div className="text-slate-500 text-sm py-10 text-center">
+                     {lang === 'ar' ? 'لا توجد جلسات متاحة حالياً.' : 'No sessions available yet.'}
                    </div>
+                 ) : (
+                   <div className="grid lg:grid-cols-3 gap-6">
+                     {/* Main Player */}
+                     <div className="lg:col-span-2">
+                       {activeSession && (() => {
+                         const videoId = extractYouTubeId(activeSession.youtube_url);
+                         return videoId ? (
+                           <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg bg-black">
+                             <iframe
+                               key={videoId}
+                               src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`}
+                               title={lang === 'ar' ? activeSession.title_ar : activeSession.title_en}
+                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                               allowFullScreen
+                               className="w-full h-full"
+                             />
+                           </div>
+                         ) : null;
+                       })()}
+                       {activeSession && (
+                         <div className="mt-4">
+                           <h4 className={`text-lg font-bold text-[#1c3944] ${t.serif}`}>
+                             {lang === 'ar' ? activeSession.title_ar : activeSession.title_en}
+                           </h4>
+                           {activeSession.date && (
+                             <p className="text-sm text-[#f7c20e] font-semibold mt-1">{activeSession.date}</p>
+                           )}
+                         </div>
+                       )}
+                     </div>
+
+                     {/* Playlist */}
+                     <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                       {apiSessions.map((session, idx) => {
+                         const videoId = extractYouTubeId(session.youtube_url);
+                         const isActive = activeSession?.id === session.id;
+                         return (
+                           <motion.button
+                             key={session.id}
+                             type="button"
+                             className={`w-full flex items-center gap-3 p-2 rounded-xl transition-all text-start ${
+                               isActive
+                                 ? 'bg-[#f7c20e] text-[#1c3944]'
+                                 : 'bg-slate-50 hover:bg-slate-100 text-slate-800'
+                             }`}
+                             initial={{ opacity: 0, x: 20 }}
+                             animate={{ opacity: 1, x: 0 }}
+                             transition={{ delay: idx * 0.05 }}
+                             onClick={() => setActiveSession(session)}
+                           >
+                             <div className="relative shrink-0 w-24 h-16 rounded-lg overflow-hidden bg-slate-200">
+                               {videoId ? (
+                                 <img
+                                   src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
+                                   alt=""
+                                   className="w-full h-full object-cover"
+                                 />
+                               ) : (
+                                 <div className="w-full h-full flex items-center justify-center">
+                                   <Video size={20} className="text-slate-400" />
+                                 </div>
+                               )}
+                               <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                 <div className="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center">
+                                   <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[8px] border-l-[#1c3944] ml-0.5" />
+                                 </div>
+                               </div>
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <p className={`text-xs font-bold leading-snug line-clamp-2 ${isActive ? 'text-[#1c3944]' : 'text-slate-800'}`}>
+                                 {lang === 'ar' ? session.title_ar : session.title_en}
+                               </p>
+                               {session.date && (
+                                 <p className={`text-xs mt-1 ${isActive ? 'text-[#1c3944]/70' : 'text-slate-500'}`}>
+                                   {session.date}
+                                 </p>
+                               )}
+                             </div>
+                           </motion.button>
+                         );
+                       })}
+                     </div>
+                   </div>
+                 )}
                </div>
              )}
 
