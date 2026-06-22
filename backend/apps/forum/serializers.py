@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.conf import settings
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from .models import Event, MemoryPhoto, ArchiveItem, ForumSession
 
 
@@ -18,16 +18,16 @@ def _media_url_to_relative_path(value: str | None):
         media_prefix = f"{media_prefix}/"
 
     if path.startswith(media_prefix):
-        rel = path[len(media_prefix) :]
+        rel = path[len(media_prefix):]
         if "/" not in rel:
-            return f"uploads/{rel}"
-        return rel
+            return unquote(f"uploads/{rel}")
+        return unquote(rel)
     if path.startswith("media/"):
-        return path[len("media/") :]
+        return unquote(path[len("media/"):])
     if not path.startswith("/"):
         if "/" not in path:
-            return f"uploads/{path}"
-        return path
+            return unquote(f"uploads/{path}")
+        return unquote(path)
     return None
 
 
